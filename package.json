@@ -1,0 +1,9 @@
+{
+  "name": "react-boilerplate",
+  "version": "0.0.1",
+  "description": "React Boilerplate. Including Webpack 4, Redux, Redux Saga, etc.",
+  "main": "index.js",
+  "repository": "git@github.com:unreadableusername/react-boilerplate.git",
+  "author": "Oleksandr Pidlisnyi <oleksandr.pidlisnyi@gmail.com>",
+  "license": "MIT"
+}
