@@ -3,10 +3,13 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const { resolve } = require('./webpack.resolve');
+const dirs = require('./dirs');
+
 module.exports = {
-  entry: path.resolve(__dirname, './src/index.jsx'),//'src/index.js',
+  entry: path.resolve(dirs.src, './index.jsx'),
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: dirs.dist,
     filename: 'app.js',
     publicPath: '/',
   },
@@ -34,9 +37,7 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
+  resolve,
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',

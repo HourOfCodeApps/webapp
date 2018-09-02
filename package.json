@@ -7,10 +7,10 @@
   "author": "Oleksandr Pidlisnyi <oleksandr.pidlisnyi@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --config ./internals/webpack.config.js --mode production",
     "lint": "eslint --ext .jsx,.js src",
     "prebuild": "rimraf ./dist",
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development"
+    "start": "webpack-dev-server --config ./internals/webpack.config.js --mode development"
   },
   "dependencies": {
     "eslint": "^5.5.0",
@@ -29,6 +29,7 @@
     "babel-loader": "^8.0.1",
     "css-loader": "^1.0.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",

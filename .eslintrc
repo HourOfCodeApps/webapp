@@ -15,6 +15,13 @@
   "globals": {
     "window": true
   },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./internals/webpack.resolve.js"
+      }
+    }
+  },
   "env": {
     "browser": true,
     "mocha": true

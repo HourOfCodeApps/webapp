@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './main.css';
 
-import Button from './shared/components/Button';
+import Button from 'shared/components/Button';
 
 ReactDOM.render(
   <div>
