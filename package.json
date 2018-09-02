@@ -7,13 +7,15 @@
   "author": "Oleksandr Pidlisnyi <oleksandr.pidlisnyi@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "prebuild": "rimraf ./dist",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development"
   },
   "dependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.4.2",
+    "rimraf": "^2.6.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
