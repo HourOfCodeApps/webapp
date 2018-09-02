@@ -1,8 +1,12 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:jest/recommended"
+  ],
   "plugins": [
     "react",
-    "import"
+    "import",
+    "jest"
   ],
   "parser": "babel-eslint",
   "parserOptions": {

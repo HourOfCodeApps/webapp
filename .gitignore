@@ -2,6 +2,7 @@
 node_modules
 
 # generated files
+coverage
 dist
 
 # misc
