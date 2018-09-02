@@ -13,6 +13,11 @@ module.exports = {
     filename: 'app.js',
     publicPath: '/',
   },
+  devServer: {
+    historyApiFallback: {
+      index: '/',
+    },
+  },
   module: {
     rules: [
       {

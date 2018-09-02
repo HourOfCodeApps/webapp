@@ -4,16 +4,12 @@ import { Provider } from 'react-redux';
 
 import './main.css';
 
-import Button from 'shared/components/Button';
-
+import App from './App';
 import store from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <div>Hello World</div>
-      <Button>Press me</Button>
-    </div>
+    <App />
   </Provider>,
   document.getElementById('app'),
 );
