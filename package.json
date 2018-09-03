@@ -24,7 +24,10 @@
     "setupTestFrameworkScriptFile": "<rootDir>/src/jest/setupTests.js"
   },
   "dependencies": {
+    "@material-ui/core": "^3.0.1",
+    "@material-ui/icons": "^3.0.1",
     "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
     "eslint": "^5.5.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
@@ -41,6 +44,7 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
