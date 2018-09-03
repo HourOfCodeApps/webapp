@@ -7,10 +7,13 @@ const { resolve } = require('./webpack.resolve');
 const dirs = require('./dirs');
 
 module.exports = {
-  entry: path.resolve(dirs.src, './index.jsx'),
+  entry: {
+    polyfills: path.resolve(dirs.src, './polyfills.js'),
+    index: path.resolve(dirs.src, './index.jsx'),
+  },
   output: {
     path: dirs.dist,
-    filename: 'app.js',
+    filename: '[name].bundle.js',
     publicPath: '/',
   },
   devServer: {

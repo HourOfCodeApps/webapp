@@ -24,6 +24,7 @@
     "setupTestFrameworkScriptFile": "<rootDir>/src/jest/setupTests.js"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "eslint": "^5.5.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
@@ -34,7 +35,8 @@
     "redux-form": "^7.4.2",
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
