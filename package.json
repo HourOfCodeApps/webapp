@@ -1,9 +1,9 @@
 {
-  "name": "react-boilerplate",
+  "name": "webapp",
   "version": "0.0.1",
-  "description": "React Boilerplate. Including Webpack 4, Redux, Redux Saga, etc.",
+  "description": "HOC Organizer WebApp",
   "main": "index.js",
-  "repository": "git@github.com:unreadableusername/react-boilerplate.git",
+  "repository": "git@github.com:HourOfCodeLviv/webapp.git",
   "author": "Oleksandr Pidlisnyi <oleksandr.pidlisnyi@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -29,6 +29,8 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "eslint": "^5.5.0",
+    "firebase": "^5.4.2",
+    "lodash": "^4.17.10",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

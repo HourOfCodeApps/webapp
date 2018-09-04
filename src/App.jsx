@@ -6,16 +6,18 @@ import {
 } from 'react-router-dom';
 
 import Page404 from 'modules/ErrorPage/Page404';
-import Home from 'modules/Home';
 import Dashboard from 'modules/Dashboard';
+import AppWrapper from 'modules/App';
 
 const App = () => (
-  <Router>
-    <Switch>
-      <Route path="/" exact component={Dashboard} />
-      <Route component={Page404} />
-    </Switch>
-  </Router>
+  <AppWrapper>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Dashboard} />
+        <Route component={Page404} />
+      </Switch>
+    </Router>
+  </AppWrapper>
 );
 
 export default App;

@@ -8,8 +8,13 @@ import createSagaMiddleware from 'redux-saga';
 
 import { reducer as formReducer } from 'redux-form';
 
+import {
+  reducer as authReducer,
+  sagas as authSagas,
+} from 'modules/Auth';
+
 const reducer = combineReducers({
-  // auth: authReducer,
+  auth: authReducer,
   form: formReducer,
 });
 
@@ -25,9 +30,8 @@ const store = createStore(
   ),
 );
 
-
 [
-  // ...authSagas,
+  ...authSagas,
 ].map(sagaMiddleware.run);
 
 export default store;

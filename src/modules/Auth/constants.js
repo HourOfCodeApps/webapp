@@ -1,0 +1,9 @@
+export const LOGIN = 'app/Auth/LOGIN';
+export const LOGIN_FAILURE = 'app/Auth/LOGIN_FAILURE';
+export const LOGIN_SUCCESS = 'app/Auth/LOGIN_SUCCESS';
+export const LOGOUT = 'app/Auth/LOGOUT';
+export const LOGOUT_FAILURE = 'app/Auth/LOGOUT_FAILURE';
+export const LOGOUT_SUCCESS = 'app/Auth/LOGOUT_SUCCESS';
+export const STATE_CHANGED = 'app/Auth/STATE_CHANGED';
+export const STATE_INIT = 'app/Auth/STATE_INIT';
+export const STATE_INIT_SUCCESS = 'app/Auth/STATE_INIT_SUCCESS';

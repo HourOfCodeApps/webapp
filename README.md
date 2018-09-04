@@ -1,1 +1,1 @@
-# react-boilerplate
+# HoC Organizer WebApp
