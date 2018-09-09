@@ -1,25 +1,31 @@
 import container from './container';
+import Signup from './containers/Signup';
 
-/**
- * Redux
- */
 import sagas from './sagas';
 import reducer from './reducer';
 
 import { authStateInit, logout } from './actions';
-import { selectUser, selectStateInitLoaded } from './selectors';
+import {
+  selectAuth,
+  selectUser,
+  selectUserLoading,
+  selectStateInitLoaded,
+} from './selectors';
 
 import withAuth from './HoCs/withAuth';
-// import PrivateRoute from './containers/PrivateRoute';
+import withUser from './HoCs/withUser';
 
 export default container;
 export {
-  // PrivateRoute,
   authStateInit,
   logout,
-  sagas,
   reducer,
+  sagas,
+  selectAuth,
   selectStateInitLoaded,
   selectUser,
+  selectUserLoading,
+  Signup,
   withAuth,
+  withUser,
 };

@@ -21,7 +21,9 @@ const styles = {
 let id = 0;
 function createData(name, calories, fat, carbs, protein) {
   id += 1;
-  return { id, name, calories, fat, carbs, protein };
+  return {
+    id, name, calories, fat, carbs, protein,
+  };
 }
 
 const data = [
@@ -48,19 +50,17 @@ function SimpleTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(n => {
-            return (
-              <TableRow key={n.id}>
-                <TableCell component="th" scope="row">
-                  {n.name}
-                </TableCell>
-                <TableCell numeric>{n.calories}</TableCell>
-                <TableCell numeric>{n.fat}</TableCell>
-                <TableCell numeric>{n.carbs}</TableCell>
-                <TableCell numeric>{n.protein}</TableCell>
-              </TableRow>
-            );
-          })}
+          {data.map(n => (
+            <TableRow key={n.id}>
+              <TableCell component="th" scope="row">
+                {n.name}
+              </TableCell>
+              <TableCell numeric>{n.calories}</TableCell>
+              <TableCell numeric>{n.fat}</TableCell>
+              <TableCell numeric>{n.carbs}</TableCell>
+              <TableCell numeric>{n.protein}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </Paper>
@@ -68,7 +68,7 @@ function SimpleTable(props) {
 }
 
 SimpleTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape(PropTypes.object).isRequired,
 };
 
 export default withStyles(styles)(SimpleTable);

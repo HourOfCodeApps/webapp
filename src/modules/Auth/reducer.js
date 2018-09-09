@@ -1,4 +1,7 @@
 import {
+  LOAD_USER,
+  LOAD_USER_FAILURE,
+  LOAD_USER_SUCCESS,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -8,7 +11,10 @@ import {
 } from './constants';
 
 const initialState = {
+  auth: null,
   user: null,
+  userLoading: false,
+  userError: false,
   error: null,
   loginInProgress: false,
   stateInitLoaded: false,
@@ -16,19 +22,42 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_USER:
+      return {
+        ...state,
+        user: null,
+        userLoading: true,
+      };
+
+    case LOAD_USER_FAILURE:
+      return {
+        ...state,
+        user: null,
+        userError: action.payload.error,
+        userLoading: false,
+      };
+
+    case LOAD_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload.user,
+        userLoading: false,
+      };
+
     case LOGIN:
       return {
         ...state,
+        auth: null,
         user: null,
         error: null,
         loginInProgress: true,
       };
 
     case LOGIN_SUCCESS: {
-      const user = action.payload;
+      const auth = action.payload;
       return {
         ...state,
-        user,
+        auth,
         loginInProgress: false,
       };
       // return Object.assign({}, state, { user, loginInProgress: false });
@@ -52,7 +81,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         stateInitLoaded: true,
-        user: action.payload,
+        auth: action.payload.auth,
       };
 
     default:

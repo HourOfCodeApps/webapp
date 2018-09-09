@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,10 +10,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import config from 'config';
 
 import Auth, {
+  selectAuth,
   selectStateInitLoaded,
   selectUser,
+  selectUserLoading,
   authStateInit,
   logout,
+  Signup,
 } from 'modules/Auth';
 
 import Header from './components/Header';
@@ -58,11 +62,14 @@ const styles = theme => ({
 
 class App extends React.Component {
   static propTypes = {
+    auth: PropTypes.shape(PropTypes.object).isRequired,
+    authStateLoaded: PropTypes.bool.isRequired,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
     classes: PropTypes.shape(PropTypes.object).isRequired,
     onAuthStateInit: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     user: PropTypes.shape(PropTypes.object),
+    userLoading: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -72,28 +79,42 @@ class App extends React.Component {
   componentDidMount() {
     const { onAuthStateInit } = this.props;
     firebase.initializeApp(config.firebase);
+    const firestore = firebase.firestore();
+    firestore.settings({ timestampsInSnapshots: true });
     onAuthStateInit();
   }
 
   render() {
     const {
       props: {
+        auth,
         children,
         classes,
         onLogout,
         user,
+        userLoading,
+        authStateLoaded,
       },
     } = this;
 
-    if (!user) {
+    if (!authStateLoaded || userLoading) {
+      return <div>Loading</div>;
+    }
+
+    if (!auth) {
       return <Auth />;
+    }
+
+    if (!user) {
+      // user signup process
+      return <Signup auth={auth} />;
     }
 
     return (
       <React.Fragment>
         <CssBaseline />
         <div className={classes.root}>
-          <Header onLogout={onLogout} />
+          <Header onLogout={onLogout} user={user} />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {children}
@@ -105,9 +126,21 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createSelector(
+  selectAuth(),
   selectUser(),
+  selectUserLoading(),
   selectStateInitLoaded(),
-  (user, userStateLoaded) => ({ user, userStateLoaded }),
+  (
+    auth,
+    user,
+    userLoading,
+    authStateLoaded,
+  ) => ({
+    auth,
+    user,
+    userLoading,
+    authStateLoaded,
+  }),
 );
 
 const mapDispatchToProps = {
