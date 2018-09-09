@@ -21,7 +21,7 @@
     ],
     "verbose": true,
     "resetMocks": true,
-    "setupTestFrameworkScriptFile": "<rootDir>/src/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/internals/setupTests.js"
   },
   "dependencies": {
     "@material-ui/core": "^3.0.1",
