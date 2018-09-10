@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import AccountIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -27,6 +27,7 @@ class Header extends React.Component {
   static propTypes = {
     classes: PropTypes.shape(PropTypes.object).isRequired,
     onLogout: PropTypes.func.isRequired,
+    user: PropTypes.shape(PropTypes.object).isRequired,
   }
 
   state = {
@@ -54,7 +55,7 @@ class Header extends React.Component {
   render() {
     const {
       handleLogout,
-      props: { classes },
+      props: { classes, user },
       state: { anchorEl },
     } = this;
 
@@ -72,14 +73,21 @@ class Header extends React.Component {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
+          <Avatar
+            alt={user.displayName}
+            src={user.photoURL}
+            aria-owns={anchorEl ? 'simple-menu' : null}
+            aria-haspopup="true"
+            onClick={this.handleClick}
+          />
+          {/* <IconButton
             color="inherit"
             aria-owns={anchorEl ? 'simple-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
           >
             <AccountIcon />
-          </IconButton>
+          </IconButton> */}
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}

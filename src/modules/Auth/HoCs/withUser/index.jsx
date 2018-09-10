@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import {
-  selectAuth,
+  selectUser,
   selectStateInitLoaded,
 } from '../../selectors';
 
@@ -13,7 +13,7 @@ const withAuth = WrappedComponent => props => (
 );
 
 const mapStateToProps = createSelector(
-  selectAuth(),
+  selectUser(),
   selectStateInitLoaded(),
   (user, userStateLoaded) => ({ user, userStateLoaded }),
 );
