@@ -8,6 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import UsersTableRow from '../UsersTableRow';
+
 const styles = {
   root: {
     width: '100%',
@@ -23,20 +25,16 @@ const UsersTable = ({ classes, users }) => (
     <Table className={classes.table}>
       <TableHead>
         <TableRow>
+          <TableCell />
           <TableCell>Name</TableCell>
           <TableCell>Email</TableCell>
           <TableCell>Phone</TableCell>
+          <TableCell>Roles</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {users.map(user => (
-          <TableRow key={user.uid}>
-            <TableCell component="th" scope="row">
-              {user.fullName}
-            </TableCell>
-            <TableCell>{user.email}</TableCell>
-            <TableCell>{user.phone}</TableCell>
-          </TableRow>
+          <UsersTableRow key={user.uid} user={user} />
         ))}
       </TableBody>
     </Table>
