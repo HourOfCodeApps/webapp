@@ -9,12 +9,12 @@ function isUserCreateValid(user) {
 service cloud.firestore {
   match /databases/{database}/documents {
     function getUserRoles(userId) {
-      return get(/database/$(database)/documents/users/$(userId)).data.roles;
+      return get(/databases/$(database)/documents/users/$(userId)).data.roles;
     }
 
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
-      allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin;
+      allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin == true;
       allow update: if false;
       allow delete: if false;
       allow list: if getUserRoles(request.auth.uid).admin == true;
