@@ -6,7 +6,7 @@ import {
 
 /**
  * Fetch users action
- * @returns {Object}
+ * @returns {{ type: String }}
  */
 const fetchUsers = () => ({
   type: FETCH_USERS,
@@ -25,7 +25,7 @@ const fetchUsersFailure = error => ({
 /**
  * Fetch users success action
  * @param {Array} users
-* @returns {{ type: String, payload: { users } }}
+ * @returns {{ type: String, payload: { users } }}
  */
 const fetchUsersSuccess = users => ({
   type: FETCH_USERS_SUCCESS,
