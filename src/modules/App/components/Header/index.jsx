@@ -22,6 +22,7 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1,
+    textDecoration: 'none',
   },
   toolbarButton: {
     color: 'white',
@@ -70,7 +71,7 @@ class Header extends React.Component {
         className={classes.appBar}
       >
         <Toolbar className={classes.toolbar}>
-          <Typography variant="title" color="inherit" className={classes.title}>
+          <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
             HOC Organizer
           </Typography>
           {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)}
