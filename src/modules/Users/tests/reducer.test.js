@@ -12,11 +12,7 @@ import {
   fetchUsersSuccess,
 } from '../actions';
 
-const users = [
-  { username: 'username1' },
-  { username: 'username2' },
-  { username: 'username3' },
-];
+import { users } from './mocks';
 
 describe('Users - `reducer`', () => {
   it('returns the initial state when no state exists yet', () => {

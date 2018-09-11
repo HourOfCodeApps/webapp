@@ -14,6 +14,8 @@ import {
   FETCH_USERS_SUCCESS,
 } from '../constants';
 
+import { users } from './mocks';
+
 describe('Users - `actions`', () => {
   it('fetchUsers', () => {
     expect(fetchUsers()).toEqual({ type: FETCH_USERS });
@@ -28,11 +30,6 @@ describe('Users - `actions`', () => {
   });
 
   it('fetchUsersSuccess', () => {
-    const users = [
-      { username: 'username1' },
-      { username: 'username2' },
-      { username: 'username3' },
-    ];
     expect(fetchUsersSuccess(users)).toEqual({
       type: FETCH_USERS_SUCCESS,
       payload: { users },
