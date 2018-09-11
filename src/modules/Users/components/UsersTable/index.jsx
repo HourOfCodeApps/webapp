@@ -18,7 +18,7 @@ const styles = {
   },
 };
 
-const SimpleTable = ({ classes, users }) => (
+const UsersTable = ({ classes, users }) => (
   <Paper className={classes.root}>
     <Table className={classes.table}>
       <TableHead>
@@ -43,9 +43,13 @@ const SimpleTable = ({ classes, users }) => (
   </Paper>
 );
 
-SimpleTable.propTypes = {
-  classes: PropTypes.shape(PropTypes.object).isRequired,
-  users: PropTypes.shape(PropTypes.array).isRequired,
+UsersTable.propTypes = {
+  classes: PropTypes.instanceOf(Object),
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default withStyles(styles)(SimpleTable);
+UsersTable.defaultProps = {
+  classes: {},
+};
+
+export default withStyles(styles)(UsersTable);
