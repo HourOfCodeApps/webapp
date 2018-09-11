@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +22,9 @@ const styles = theme => ({
   },
   title: {
     flexGrow: 1,
+  },
+  toolbarButton: {
+    color: 'white',
   },
 });
 
@@ -68,6 +73,16 @@ class Header extends React.Component {
           <Typography variant="title" color="inherit" className={classes.title}>
             HOC Organizer
           </Typography>
+          {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)}
+          {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)}
+          {user.roles.admin && (
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/users" {...props} />}
+            >
+              Users
+            </Button>
+          )}
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
