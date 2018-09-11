@@ -8,14 +8,13 @@ import createSagaMiddleware from 'redux-saga';
 
 import { reducer as formReducer } from 'redux-form';
 
-import {
-  reducer as authReducer,
-  sagas as authSagas,
-} from 'modules/Auth';
+import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
+import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
 
 const reducer = combineReducers({
   auth: authReducer,
   form: formReducer,
+  users: usersReducer,
 });
 
 // ToDo: skip if prod
@@ -32,6 +31,7 @@ const store = createStore(
 
 [
   ...authSagas,
+  ...usersSagas,
 ].map(sagaMiddleware.run);
 
 export default store;

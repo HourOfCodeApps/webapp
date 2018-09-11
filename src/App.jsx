@@ -8,16 +8,18 @@ import {
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
 import AppWrapper from 'modules/App';
+import Users from 'modules/Users';
 
 const App = () => (
-  <AppWrapper>
-    <Router>
+  <Router>
+    <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
+        <Route path="/users" exact component={Users} />
         <Route component={Page404} />
       </Switch>
-    </Router>
-  </AppWrapper>
+    </AppWrapper>
+  </Router>
 );
 
 export default App;

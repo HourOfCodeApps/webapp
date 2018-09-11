@@ -19,6 +19,7 @@
       "src/**/*.js",
       "src/**/*.jsx"
     ],
+    "modulePaths": ["src"],
     "verbose": true,
     "resetMocks": true,
     "setupTestFrameworkScriptFile": "<rootDir>/internals/setupTests.js"

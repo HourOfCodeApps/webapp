@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
@@ -148,5 +149,5 @@ const mapDispatchToProps = {
   onLogout: logout,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));
 export { App as AppComponent };
