@@ -12,6 +12,11 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(userId)).data.roles;
     }
 
+    match /schools/{schoolId} {
+      allow read: if request.auth.uid != null;
+      allow write: if false;
+    }
+
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
       allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin == true;
