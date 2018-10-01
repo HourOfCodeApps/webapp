@@ -20,21 +20,19 @@ const styles = theme => ({
     justifyContent: 'center',
     height: '100vh',
     width: '100%',
-    backgroundColor: 'rgb(30, 170, 185)',
-    color: 'white',
+    backgroundColor: theme.palette.background.default,
   },
   button: {
     margin: theme.spacing.unit,
-    backgroundColor: 'white',
     width: '200px',
   },
 });
 
 const Auth = ({ classes, onLogin }) => (
   <div className={classes.root}>
-    <Button className={classes.button} onClick={onLogin}>Login with Google</Button>
-    <Button className={classes.button} disabled>Login with Facebook</Button>
-    <Button className={classes.button} disabled>Login with Phone</Button>
+    <Button variant="contained" color="primary" className={classes.button} onClick={onLogin}>Login with Google</Button>
+    <Button variant="contained" color="primary" className={classes.button} disabled>Login with Facebook</Button>
+    <Button variant="contained" color="primary" className={classes.button} disabled>Login with Phone</Button>
   </div>
 );
 

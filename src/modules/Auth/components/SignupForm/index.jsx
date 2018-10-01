@@ -27,6 +27,7 @@ const SignupForm = (
         { value: 'mentor', label: 'Mentor' },
         { value: 'teacher', label: 'Teacher' },
       ]}
+      color="primary"
     />
     <Field
       component={TextField}
@@ -52,6 +53,7 @@ const SignupForm = (
         label="I was mentor before"
         name="wasMentorBefore"
         required
+        color="primary"
       />
     )}
     <div>
