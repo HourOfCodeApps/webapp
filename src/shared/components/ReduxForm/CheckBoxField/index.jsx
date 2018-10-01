@@ -8,7 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const CheckBoxField = ({
-  input, label, meta: { error, touched }, required,
+  color, input, label, meta: { error, touched }, required,
 }) => (
   <FormControl
     fullWidth
@@ -22,6 +22,7 @@ const CheckBoxField = ({
             checked={input.value === true}
             onChange={input.onChange}
             name={input.name}
+            color={color}
           />
         )}
         label={label}
@@ -33,6 +34,7 @@ const CheckBoxField = ({
 
 
 CheckBoxField.propTypes = {
+  color: PropTypes.string,
   input: PropTypes.shape(PropTypes.object).isRequired,
   label: PropTypes.string.isRequired,
   meta: PropTypes.shape({
@@ -43,6 +45,7 @@ CheckBoxField.propTypes = {
 };
 
 CheckBoxField.defaultProps = {
+  color: undefined,
   required: false,
 };
 

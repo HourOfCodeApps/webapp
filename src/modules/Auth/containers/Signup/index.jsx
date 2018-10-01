@@ -31,7 +31,7 @@ const styles = theme => ({
     justifyContent: 'center',
     height: '100vh',
     width: '100%',
-    backgroundColor: 'rgb(30, 170, 185)',
+    backgroundColor: theme.palette.background.default,
   },
 });
 
