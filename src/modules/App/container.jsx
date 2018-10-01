@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-import config from 'config';
 
 import Auth, {
   selectAuth,
@@ -79,9 +76,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const { onAuthStateInit } = this.props;
-    firebase.initializeApp(config.firebase);
-    const firestore = firebase.firestore();
-    firestore.settings({ timestampsInSnapshots: true });
     onAuthStateInit();
   }
 
