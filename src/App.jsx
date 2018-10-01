@@ -16,7 +16,7 @@ const theme = createMuiTheme({
   palette: {
     // type: 'dark',
     primary: {
-      main: 'rgb(22, 150, 160)', // '#2196f3',
+      main: 'rgb(22, 150, 160)',
     },
   },
 });
