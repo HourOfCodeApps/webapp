@@ -10,21 +10,23 @@ import {
 // Application
 import {
   LOAD_USER,
-  LOGIN,
-  LOGOUT,
+  SIGNIN,
+  SIGNOUT,
   SIGNUP,
   STATE_INIT,
   STATE_INIT_SUCCESS,
+  SIGNIN_EMAILPASSWORD_PROVIDER,
+  SIGNIN_GOOGLE_PROVIDER,
 } from './constants';
 
 import {
   loadUser as loadUserAction,
   loadUserFailure,
   loadUserSuccess,
-  loginFailure,
-  loginSuccess,
-  logoutFailure,
-  logoutSuccess,
+  signInFailure,
+  signInSuccess,
+  signOutFailure,
+  signOutSuccess,
   signupFailure,
   signupSuccess,
   stateChanged,
@@ -32,26 +34,37 @@ import {
 
 import { selectAuth } from './selectors';
 
-const provider = new firebase.auth.GoogleAuthProvider();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-function* login() {
+const signInProvider = async (providerEnum, data) => {
+  switch (providerEnum) {
+    case SIGNIN_GOOGLE_PROVIDER:
+      return firebase.auth().signInWithPopup(googleProvider);
+
+    case SIGNIN_EMAILPASSWORD_PROVIDER:
+      return firebase.auth().signInWithEmailAndPassword(data.email, data.password);
+
+    default:
+      throw new Error('No Auth Provider');
+  }
+};
+
+function* signIn({ payload: { provider, data } }) {
   try {
-    // const { user } = yield firebase.auth().signInWithPopup(provider);
-    const result = yield firebase.auth().signInWithPopup(provider);
-    const { user } = result;
+    const { user } = yield signInProvider(provider, data);
 
-    yield put(loginSuccess(user));
+    yield put(signInSuccess(user));
   } catch (error) {
-    yield put(loginFailure(error));
+    yield put(signInFailure(error));
   }
 }
 
-function* logout() {
+function* signOut() {
   try {
     yield firebase.auth().signOut();
-    yield put(logoutSuccess());
+    yield put(signOutSuccess());
   } catch (error) {
-    yield put(logoutFailure(error));
+    yield put(signOutFailure(error));
   }
 }
 
@@ -125,8 +138,8 @@ function* signup({ payload: { userData } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, LOGIN, login);
-  yield fork(takeLatest, LOGOUT, logout);
+  yield fork(takeLatest, SIGNIN, signIn);
+  yield fork(takeLatest, SIGNOUT, signOut);
   yield fork(takeLatest, STATE_INIT, stateInit);
   yield fork(takeLatest, LOAD_USER, loadUser);
   yield fork(takeLatest, SIGNUP, signup);
@@ -138,8 +151,8 @@ export default [
 ];
 // Exports for testing
 export {
-  login,
-  logout,
+  signIn,
+  signOut,
   rootSaga,
   stateInit,
 };

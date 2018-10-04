@@ -2,12 +2,12 @@ import {
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
-  LOGIN,
-  LOGIN_FAILURE,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  LOGOUT_FAILURE,
-  LOGOUT_SUCCESS,
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
+  SIGNOUT,
+  SIGNOUT_FAILURE,
+  SIGNOUT_SUCCESS,
   SIGNUP,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
@@ -47,27 +47,42 @@ const loadUserSuccess = user => ({
 
 
 /**
- * Dispatches an action to login
+ * Dispatches an action to sign in
  *
  * @return {{type: String}}
  */
-const login = () => ({ type: LOGIN });
+const signIn = (provider, data = {}) => ({
+  type: SIGNIN,
+  payload: {
+    provider,
+    data,
+  },
+});
 
 /**
  *
  * @param error
  * @return {{type: String, payload}}
  */
-const loginFailure = error => ({ type: LOGIN_FAILURE, payload: error });
+const signInFailure = error => ({
+  type: SIGNIN_FAILURE,
+  payload: { error },
+});
 
-const loginSuccess = auth => ({ type: LOGIN_SUCCESS, payload: auth });
+const signInSuccess = auth => ({
+  type: SIGNIN_SUCCESS,
+  payload: { auth },
+});
 
-const logout = () => ({ type: LOGOUT });
+const signOut = () => ({ type: SIGNOUT });
 
 
-const logoutFailure = error => ({ type: LOGOUT_FAILURE, payload: error });
+const signOutFailure = error => ({
+  type: SIGNOUT_FAILURE,
+  payload: { error },
+});
 
-const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
+const signOutSuccess = () => ({ type: SIGNOUT_SUCCESS });
 
 /**
  * Signup action
@@ -95,12 +110,12 @@ export {
   loadUser,
   loadUserSuccess,
   loadUserFailure,
-  login,
-  loginFailure,
-  loginSuccess,
-  logout,
-  logoutFailure,
-  logoutSuccess,
+  signIn,
+  signInFailure,
+  signInSuccess,
+  signOut,
+  signOutFailure,
+  signOutSuccess,
   signup,
   signupFailure,
   signupSuccess,

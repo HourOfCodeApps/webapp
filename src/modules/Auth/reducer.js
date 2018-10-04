@@ -2,10 +2,10 @@ import {
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
-  LOGIN,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT_SUCCESS,
+  SIGNIN,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAILURE,
+  SIGNOUT_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
 } from './constants';
@@ -44,31 +44,30 @@ const reducer = (state = initialState, action) => {
         userLoading: false,
       };
 
-    case LOGIN:
+    case SIGNIN:
       return {
         ...state,
         auth: null,
         user: null,
-        error: null,
-        loginInProgress: true,
+        signingIn: true,
+        signingInError: null,
       };
 
-    case LOGIN_SUCCESS: {
-      const auth = action.payload;
+    case SIGNIN_FAILURE:
       return {
         ...state,
-        auth,
-        loginInProgress: false,
+        signingIn: false,
+        signingInError: action.payload.error,
       };
-      // return Object.assign({}, state, { user, loginInProgress: false });
-    }
 
-    case LOGIN_FAILURE: {
-      const auth = action.payload;
-      return Object.assign({}, state, auth);
-    }
+    case SIGNIN_SUCCESS:
+      return {
+        ...state,
+        signingIn: false,
+        auth: action.payload.auth,
+      };
 
-    case LOGOUT_SUCCESS:
+    case SIGNOUT_SUCCESS:
       return Object.assign({}, state, { user: null });
 
     case STATE_INIT:
