@@ -11,6 +11,8 @@ import {
   signup,
 } from '../../actions';
 
+import withAuth from '../../HoCs/withAuth';
+
 const styles = theme => ({
   paper: {
     width: '500px',
@@ -86,4 +88,4 @@ const mapDispatchToProps = {
   onSignup: signup,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Signup));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(withAuth(Signup)));

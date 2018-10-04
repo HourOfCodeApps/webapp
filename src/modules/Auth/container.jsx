@@ -22,6 +22,15 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: theme.palette.background.default,
   },
+  root1: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    // height: '100vh',
+    // width: '100%',
+    // backgroundColor: theme.palette.background.default,
+  },
   button: {
     margin: theme.spacing.unit,
     width: '200px',
@@ -29,10 +38,9 @@ const styles = theme => ({
 });
 
 const Auth = ({ classes, onLogin }) => (
-  <div className={classes.root}>
+  // <div className={classes.root}>
+  <div className={classes.root1}>
     <Button variant="contained" color="primary" className={classes.button} onClick={onLogin}>Login with Google</Button>
-    <Button variant="contained" color="primary" className={classes.button} disabled>Login with Facebook</Button>
-    <Button variant="contained" color="primary" className={classes.button} disabled>Login with Phone</Button>
   </div>
 );
 
