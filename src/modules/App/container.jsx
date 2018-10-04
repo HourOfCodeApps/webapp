@@ -25,7 +25,8 @@ import Auth, {
   Signup,
 } from 'modules/Auth';
 
-import WelcomePage from './container/WelcomePage';
+import WelcomePage from './containers/WelcomePage';
+import AppWrapper from './containers/AppWrapper';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,12 +50,12 @@ const Public = () => (
 
 const Private = () => (
   <Router>
-    {/* <AppWrapper> */}
+    <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
         <Route component={Page404} />
       </Switch>
-    {/* </AppWrapper> */}
+    </AppWrapper>
   </Router>
 );
 
