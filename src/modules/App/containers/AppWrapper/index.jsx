@@ -27,40 +27,32 @@ const styles = theme => ({
   },
 });
 
-class AppWrapper extends React.Component {
-  static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
-    classes: PropTypes.shape(PropTypes.object).isRequired,
-    onLogout: PropTypes.func.isRequired,
-    user: PropTypes.shape(PropTypes.object).isRequired,
-  }
+const AppWrapper = ({
+  children,
+  classes,
+  onLogout,
+  user,
+}) => (
+  <React.Fragment>
+    <div className={classes.root}>
+      <Header
+        onLogout={onLogout}
+        user={user}
+      />
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        {children}
+      </main>
+    </div>
+  </React.Fragment>
+);
 
-  render() {
-    const {
-      props: {
-        children,
-        classes,
-        onLogout,
-        user,
-      },
-    } = this;
-
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Header
-            onLogout={onLogout}
-            user={user}
-          />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            {children}
-          </main>
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+AppWrapper.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
+  classes: PropTypes.shape(PropTypes.object).isRequired,
+  onLogout: PropTypes.func.isRequired,
+  user: PropTypes.shape(PropTypes.object).isRequired,
+};
 
 const mapDispatchToProps = {
   onLogout: logout,
