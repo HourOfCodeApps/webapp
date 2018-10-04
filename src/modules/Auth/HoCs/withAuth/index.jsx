@@ -15,7 +15,7 @@ const withAuth = WrappedComponent => props => (
 const mapStateToProps = createSelector(
   selectAuth(),
   selectStateInitLoaded(),
-  (user, userStateLoaded) => ({ user, userStateLoaded }),
+  (auth, userStateLoaded) => ({ auth, userStateLoaded }),
 );
 
 export default compose(
