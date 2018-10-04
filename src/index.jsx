@@ -7,7 +7,8 @@ import 'firebase/firestore';
 import config from 'config';
 
 import './main.css';
-import App from './App';
+// import App from './App';
+import App from 'modules/App';
 import store from './store';
 
 firebase.initializeApp(config.firebase);

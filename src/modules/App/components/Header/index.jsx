@@ -74,45 +74,40 @@ class Header extends React.Component {
           <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
             HOC Organizer
           </Typography>
-          {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)}
-          {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)}
-          {user.roles.admin && (
-            <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/users" {...props} />}
-            >
-              Users
-            </Button>
-          )}
+
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Avatar
-            alt={user.displayName}
-            src={user.photoURL}
-            aria-owns={anchorEl ? 'simple-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-          />
-          {/* <IconButton
-            color="inherit"
-            aria-owns={anchorEl ? 'simple-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
+          {/* {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
+          {/* {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
+          {/* {user.roles.admin && (
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/users" {...props} />}
+            >
+              Користувачі
+            </Button>
+          )} */}
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/schedule" {...props} />}
           >
-            <AccountIcon />
-          </IconButton> */}
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={this.handleClose}
+            Розклад
+          </Button>
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/me" {...props} />}
           >
-            {/* <MenuItem onClick={this.handleClose}>Profile</MenuItem> */}
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
+            Мої дані
+          </Button>
+          <Button
+            className={classes.toolbarButton}
+            onClick={handleLogout}
+          >
+            Вихід
+          </Button>
         </Toolbar>
       </AppBar>
     );
