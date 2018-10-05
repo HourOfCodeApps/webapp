@@ -3,6 +3,14 @@ import isEmail from 'shared/utils/validations/isEmail';
 const validate = (values) => {
   const errors = {};
 
+  if (!values.role) {
+    errors.role = 'Required';
+  }
+
+  if (!values.fullName) {
+    errors.fullName = 'Required';
+  }
+
   if (!values.email) {
     errors.email = 'Required';
   }
@@ -11,8 +19,8 @@ const validate = (values) => {
     errors.email = 'Invalid email address';
   }
 
-  if (!values.password) {
-    errors.password = 'Required';
+  if (!values.phone) {
+    errors.phone = 'Required';
   }
 
   return errors;

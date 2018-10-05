@@ -21,43 +21,47 @@ const SignupForm = (
   <form onSubmit={handleSubmit}>
     <Field
       component={RadioGroupField}
-      label="I am"
+      label="Я хочу бути:"
       name="role"
       options={[
-        { value: 'mentor', label: 'Mentor' },
-        { value: 'teacher', label: 'Teacher' },
+        { value: 'mentor', label: 'Ментором' },
+        { value: 'teacher', label: 'Представником школи' },
       ]}
+      horizontal
       color="primary"
-    />
-    <Field
-      component={TextField}
-      label="Name"
-      name="fullName"
-      required
-    />
-    <Field
-      component={TextField}
-      label="Email"
-      name="email"
-      required
-    />
-    <Field
-      component={TextField}
-      label="Phone number"
-      name="phone"
-      required
     />
     {role === 'mentor' && (
       <Field
         component={CheckBoxField}
-        label="I was mentor before"
+        label="Я вже був ментором раніше"
         name="wasMentorBefore"
         required
         color="primary"
       />
     )}
-    <div>
-      <Button fullWidth type="submit" disabled={pristine}>Signup</Button>
+    <Field
+      component={TextField}
+      label="Поштова скринька"
+      name="email"
+      required
+    />
+    <Field
+      component={TextField}
+      label="Пароль"
+      name="password"
+      required
+      type="password"
+    />
+    <div style={{ marginTop: 20 }}>
+      <Button
+        fullWidth
+        type="submit"
+        disabled={pristine}
+        variant="contained"
+        color="primary"
+      >
+        Signup
+      </Button>
     </div>
   </form>
 );

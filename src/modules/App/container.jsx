@@ -16,14 +16,17 @@ import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
 // import AppWrapper from 'modules/App';
 // import Users from 'modules/Users';
-import Auth, {
+import {
   selectAuth,
   selectStateInitLoaded,
   selectUser,
   selectUserLoading,
   authStateInit,
-  Signup,
+  // Signup,
+  CompleteSignUp,
 } from 'modules/Auth';
+
+import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
@@ -99,8 +102,8 @@ class App extends React.Component {
     }
 
     // some special cases when user isn't completely registeted
-    if (auth && !user) {
-      return <Signup />;
+    if (auth && (!user || !isEnoughUserData(user))) {
+      return <CompleteSignUp user={user || {}} />;
     }
 
     if (auth && user) {

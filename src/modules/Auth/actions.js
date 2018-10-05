@@ -13,6 +13,9 @@ import {
   SIGNUP_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
+  UPDATE_USER,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_SUCCESS,
 } from './constants';
 
 
@@ -89,18 +92,43 @@ const signOutSuccess = () => ({ type: SIGNOUT_SUCCESS });
  * @param {Object} userData user data
  * @returns {Object}
  */
-const signup = userData => ({
+const signUp = userData => ({
   type: SIGNUP,
   payload: { userData },
 });
 
-const signupFailure = error => ({
+const signUpFailure = error => ({
   type: SIGNUP_FAILURE,
   payload: { error },
 });
 
-const signupSuccess = user => ({
+const signUpSuccess = user => ({
   type: SIGNUP_SUCCESS,
+  payload: { user },
+});
+
+const updateUser = userData => ({
+  type: UPDATE_USER,
+  payload: { userData },
+});
+
+/**
+ * Dispatch when loading user caused error
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const updateUserFailure = error => ({
+  type: UPDATE_USER_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Dispatch when user data loaded successfully
+ * @param {Object} user
+ * @returns {{ type: String, payload: { user } }}
+ */
+const updateUserSuccess = user => ({
+  type: UPDATE_USER_SUCCESS,
   payload: { user },
 });
 
@@ -116,8 +144,11 @@ export {
   signOut,
   signOutFailure,
   signOutSuccess,
-  signup,
-  signupFailure,
-  signupSuccess,
+  signUp,
+  signUpFailure,
+  signUpSuccess,
   stateChanged,
+  updateUser,
+  updateUserFailure,
+  updateUserSuccess,
 };

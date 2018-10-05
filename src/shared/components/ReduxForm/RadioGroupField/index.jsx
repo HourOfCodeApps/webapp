@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
 const RadioGroupField = ({
-  color, input, label, labelKey, options, valueKey, meta: { error, touched },
+  color, input, label, labelKey, options, valueKey, meta: { error, touched }, horizontal,
 }) => (
   <FormControl fullWidth>
     <FormLabel component="legend">{label}</FormLabel>
@@ -17,6 +17,7 @@ const RadioGroupField = ({
       name={input.name}
       value={input.value}
       onChange={input.onChange}
+      row={horizontal}
     >
       {options.map(option => (
         <FormControlLabel
@@ -43,12 +44,14 @@ RadioGroupField.propTypes = {
     touched: PropTypes.bool.isRequired,
     error: PropTypes.string,
   }).isRequired,
+  horizontal: PropTypes.bool,
 };
 
 RadioGroupField.defaultProps = {
   color: undefined,
   labelKey: 'label',
   valueKey: 'value',
+  horizontal: false,
 };
 
 export default RadioGroupField;

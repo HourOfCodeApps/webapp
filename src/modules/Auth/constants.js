@@ -14,8 +14,13 @@ export const STATE_CHANGED = 'app/Auth/STATE_CHANGED';
 export const STATE_INIT = 'app/Auth/STATE_INIT';
 export const STATE_INIT_SUCCESS = 'app/Auth/STATE_INIT_SUCCESS';
 
+export const UPDATE_USER = 'app/Auth/UPDATE_USER';
+export const UPDATE_USER_FAILURE = 'app/Auth/UPDATE_USER_FAILURE';
+export const UPDATE_USER_SUCCESS = 'app/Auth/UPDATE_USER_SUCCESS';
+
 export const SIGNIN_FORM_ID = 'app/Auth/SIGNIN_FORM_ID';
 export const SIGNUP_FORM_ID = 'app/Auth/SIGNUP_FORM_ID';
+export const COMPLETE_SIGNUP_FORM_ID = 'app/Auth/COMPLETE_SIGNUP_FORM_ID';
 
 export const SIGNIN_EMAILPASSWORD_PROVIDER = 'app/Auth/SIGNIN_EMAILPASSWORD_PROVIDER';
 export const SIGNIN_GOOGLE_PROVIDER = 'app/Auth/SIGNIN_GOOGLE_PROVIDER';

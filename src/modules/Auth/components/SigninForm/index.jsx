@@ -13,6 +13,7 @@ import validate from './validate';
 const SigninForm = ({
   handleSubmit,
   pristine,
+  submitLabel,
 }) => (
   <form onSubmit={handleSubmit}>
     <Field
@@ -28,37 +29,27 @@ const SigninForm = ({
       type="password"
       required
     />
-    {/* <div> */}
-    <FormControl>
+    <FormControl fullWidth style={{ marginTop: 20 }}>
       <Button
-        // fullWidth
         type="submit"
         disabled={pristine}
         variant="contained"
         color="primary"
       >
-        Sign In
-      </Button>
-      <Button
-        // fullWidth
-        type="submit"
-        disabled={pristine}
-        variant="contained"
-        color="primary"
-      >
-        Sign Up
+        {submitLabel}
       </Button>
     </FormControl>
-    {/* </div> */}
   </form>
 );
 
 SigninForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  submitLabel: PropTypes.string,
 };
 
 SigninForm.defaultProps = {
+  submitLabel: 'Увійти',
 };
 
 export default reduxForm({

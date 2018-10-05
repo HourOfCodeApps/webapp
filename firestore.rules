@@ -1,9 +1,16 @@
 function isUserCreateValid(user) {
   return user.roles.size() == 1
       && (user.roles.mentor || user.roles.teacher)
-      && user.fullName is string
-      && user.email is string
-      && user.phone is string;
+      && user.email is string;
+}
+
+function isAbleToUpdateUser(oldData, newData) {
+  return (oldData.email == null || oldData.email == newData.email)
+      && (oldData.wasMentorBefore == null || oldData.wasMentorBefore == newData.wasMentorBefore)
+      && oldData.roles == newData.roles
+      && oldData.roles.admin == newData.roles.admin
+      && oldData.roles.teacher == newData.roles.teacher
+      && oldData.roles.mentor == newData.roles.mentor;
 }
 
 service cloud.firestore {
@@ -12,17 +19,27 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(userId)).data.roles;
     }
 
-    match /schools/{schoolId} {
+		match /schools/{schoolId} {
       allow read: if request.auth.uid != null;
       allow write: if false;
+    }
+
+    match /schoolTeachers/{id} {
+    	allow create: if true; //getUserRoles(request.auth.uid).teacher == true;
+    	allow read: if request.auth.uid != null;
+      allow update: if false;
+      allow delete: if false;
+      allow list: if false;
     }
 
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
       allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin == true;
-      allow update: if false;
+      allow update: if getUserRoles(request.auth.uid).admin == true
+                    || (request.auth.uid == userId && isAbleToUpdateUser(resource.data, request.resource.data));
       allow delete: if false;
       allow list: if getUserRoles(request.auth.uid).admin == true;
     }
   }
 }
+

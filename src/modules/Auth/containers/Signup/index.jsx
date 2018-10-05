@@ -3,89 +3,58 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 
-import SignupForm from '../../components/SignupForm';
+import SignUpForm from '../../components/SignUpForm';
 
 import {
-  signup,
+  signUp,
 } from '../../actions';
 
-import withAuth from '../../HoCs/withAuth';
-
 const styles = theme => ({
-  paper: {
-    width: '500px',
-    maxWidth: '80%',
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
-    padding: theme.spacing.unit * 2,
-    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 6,
-      marginBottom: theme.spacing.unit * 6,
-      padding: theme.spacing.unit * 3,
-    },
-  },
   root: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '100vh',
-    width: '100%',
-    backgroundColor: theme.palette.background.default,
+    // height: '100vh',
+    // width: '100%',
+    // backgroundColor: theme.palette.background.default,
   },
 });
 
-class Signup extends React.Component {
+class SignUp extends React.Component {
   static propTypes = {
-    auth: PropTypes.shape(PropTypes.object).isRequired,
     classes: PropTypes.shape(PropTypes.object).isRequired,
-    onSignup: PropTypes.func.isRequired,
+    onSignUp: PropTypes.func.isRequired,
   };
 
-  handleSubmit = (formData) => {
-    const { auth, onSignup } = this.props;
-    const user = {
-      phone: formData.phone,
-      fullName: formData.fullName,
-      email: formData.email,
-      roles: {
-        [formData.role]: true,
-      },
-      wasMentorBefore: Boolean(formData.wasMentorBefore),
-      photoURL: auth.photoURL,
-    };
-    onSignup(user);
+  handleSubmit = ({
+    email, password, role, wasMentorBefore,
+  }) => {
+    const { onSignUp } = this.props;
+    onSignUp({
+      email, password, role, wasMentorBefore,
+    });
   }
 
   render() {
     const {
       handleSubmit,
-      props: {
-        auth,
-        classes,
-      },
+      props: { classes },
     } = this;
 
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <SignupForm
-            initialValues={{
-              fullName: auth.displayName,
-              email: auth.email,
-            }}
-            onSubmit={handleSubmit}
-          />
-        </Paper>
+        <SignUpForm
+          onSubmit={handleSubmit}
+        />
       </div>
     );
   }
 }
 
 const mapDispatchToProps = {
-  onSignup: signup,
+  onSignUp: signUp,
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(withAuth(Signup)));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(SignUp));
