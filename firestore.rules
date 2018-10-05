@@ -5,12 +5,22 @@ function isUserCreateValid(user) {
 }
 
 function isAbleToUpdateUser(oldData, newData) {
-  return (oldData.email == null || oldData.email == newData.email)
-      && (oldData.wasMentorBefore == null || oldData.wasMentorBefore == newData.wasMentorBefore)
-      && oldData.roles == newData.roles
-      && oldData.roles.admin == newData.roles.admin
-      && oldData.roles.teacher == newData.roles.teacher
-      && oldData.roles.mentor == newData.roles.mentor;
+  return (
+            ('email' in oldData && oldData.email == newData.email)
+        || !('email' in oldData)
+      )
+      && (
+            ('wasMentorBefore' in oldData && oldData.wasMentorBefore == newData.wasMentorBefore)
+        || !('wasMentorBefore' in oldData)
+      )
+      && (
+            ('schoolId' in oldData && oldData.schoolId == newData.schoolId)
+        || !('schoolId' in oldData)
+      );
+      // && oldData.roles.keys() == newData.roles.keys()
+      // && oldData.roles.admin == newData.roles.admin
+      // && oldData.roles.teacher == newData.roles.teacher
+      // && oldData.roles.mentor == newData.roles.mentor;
 }
 
 service cloud.firestore {
@@ -19,14 +29,14 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(userId)).data.roles;
     }
 
-		match /schools/{schoolId} {
+    match /schools/{schoolId} {
       allow read: if request.auth.uid != null;
       allow write: if false;
     }
 
     match /schoolTeachers/{id} {
-    	allow create: if true; //getUserRoles(request.auth.uid).teacher == true;
-    	allow read: if request.auth.uid != null;
+      allow create: if true; //getUserRoles(request.auth.uid).teacher == true;
+      allow read: if request.auth.uid != null;
       allow update: if false;
       allow delete: if false;
       allow list: if false;
@@ -35,8 +45,9 @@ service cloud.firestore {
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
       allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin == true;
-      allow update: if getUserRoles(request.auth.uid).admin == true
-                    || (request.auth.uid == userId && isAbleToUpdateUser(resource.data, request.resource.data));
+      allow update: if //getUserRoles(request.auth.uid).admin == true
+                    // ||
+                    (request.auth.uid == userId && isAbleToUpdateUser(resource.data, request.resource.data));
       allow delete: if false;
       allow list: if getUserRoles(request.auth.uid).admin == true;
     }
