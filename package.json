@@ -19,7 +19,9 @@
       "src/**/*.js",
       "src/**/*.jsx"
     ],
-    "modulePaths": ["src"],
+    "modulePaths": [
+      "src"
+    ],
     "verbose": true,
     "resetMocks": true,
     "setupTestFrameworkScriptFile": "<rootDir>/internals/setupTests.js"
@@ -37,6 +39,7 @@
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-select": "^2.1.0",
     "redux": "^4.0.0",
     "redux-form": "^7.4.2",
     "redux-saga": "^0.16.0",

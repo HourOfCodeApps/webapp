@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import { logout, withUser } from 'modules/Auth';
+import { signOut, withUser } from 'modules/Auth';
 
 // import Drawer from '../../components/Drawer';
 import Header from '../../components/Header';
@@ -30,13 +30,13 @@ const styles = theme => ({
 const AppWrapper = ({
   children,
   classes,
-  onLogout,
+  onSignOut,
   user,
 }) => (
   <React.Fragment>
     <div className={classes.root}>
       <Header
-        onLogout={onLogout}
+        onSignOut={onSignOut}
         user={user}
       />
       <main className={classes.content}>
@@ -50,12 +50,12 @@ const AppWrapper = ({
 AppWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
   classes: PropTypes.shape(PropTypes.object).isRequired,
-  onLogout: PropTypes.func.isRequired,
+  onSignOut: PropTypes.func.isRequired,
   user: PropTypes.shape(PropTypes.object).isRequired,
 };
 
 const mapDispatchToProps = {
-  onLogout: logout,
+  onSignOut: signOut,
 };
 
 export default compose(

@@ -12,6 +12,7 @@ const TextField = ({
   label,
   input,
   meta: { touched, error },
+  type,
 }) => (
   <FormControl
     fullWidth
@@ -27,6 +28,7 @@ const TextField = ({
       value={input.value}
       onChange={input.onChange}
       name={input.name}
+      type={type}
     />
     {touched && error && <FormHelperText>{error}</FormHelperText>}
   </FormControl>
@@ -41,11 +43,13 @@ TextField.propTypes = {
     error: PropTypes.string,
   }).isRequired,
   required: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 TextField.defaultProps = {
   disabled: false,
   required: false,
+  type: 'text',
 };
 
 export default TextField;

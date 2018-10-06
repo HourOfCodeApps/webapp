@@ -7,6 +7,16 @@ const selectAuth = () => createSelector(
   substate => substate.auth,
 );
 
+const selectSigningIn = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.signingIn,
+);
+
+const selectSigningInError = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.signingInError,
+);
+
 const selectUser = () => createSelector(
   selectAuthDomain(),
   substate => substate.user,
@@ -22,9 +32,23 @@ const selectStateInitLoaded = () => createSelector(
   substate => substate.stateInitLoaded,
 );
 
+const selectSigningUp = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.signingUp,
+);
+
+const selectSigningUpError = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.signingUpError,
+);
+
 export {
   selectAuth,
   selectAuthDomain,
+  selectSigningIn,
+  selectSigningInError,
+  selectSigningUp,
+  selectSigningUpError,
   selectStateInitLoaded,
   selectUser,
   selectUserLoading,

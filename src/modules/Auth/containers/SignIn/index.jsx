@@ -8,20 +8,20 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {
   signIn,
-} from './actions';
+} from '../../actions';
 
 import {
   selectUser,
   selectSigningIn,
   selectSigningInError,
-} from './selectors';
+} from '../../selectors';
 
 import {
   SIGNIN_EMAILPASSWORD_PROVIDER,
   SIGNIN_GOOGLE_PROVIDER,
-} from './constants';
+} from '../../constants';
 
-import SigninForm from './components/SigninForm';
+import SigninForm from '../../components/SignInForm';
 
 const styles = theme => ({
   root: {
@@ -38,7 +38,18 @@ const styles = theme => ({
   },
 });
 
-class Auth extends React.Component {
+class SignIn extends React.Component {
+  static propTypes = {
+    classes: PropTypes.shape(PropTypes.object).isRequired,
+    onSignIn: PropTypes.func.isRequired,
+    signingIn: PropTypes.bool.isRequired,
+    signingInError: PropTypes.instanceOf(Object),
+  };
+
+  static defaultProps = {
+    signingInError: null,
+  };
+
   handleGoogleLogin = () => {
     const { onSignIn } = this.props;
     onSignIn(SIGNIN_GOOGLE_PROVIDER);
@@ -76,6 +87,7 @@ class Auth extends React.Component {
           onSubmit={handleEmailPasswordLogin}
         />
         <Button
+          fullWidth
           variant="contained"
           color="primary"
           className={classes.button}
@@ -87,17 +99,6 @@ class Auth extends React.Component {
     );
   }
 }
-
-Auth.propTypes = {
-  classes: PropTypes.shape(PropTypes.object).isRequired,
-  onSignIn: PropTypes.func.isRequired,
-  signingIn: PropTypes.bool.isRequired,
-  signingInError: PropTypes.instanceOf(Object),
-};
-
-Auth.defaultProps = {
-  signingInError: null,
-};
 
 const mapStateToProps = createSelector(
   selectSigningIn(),
@@ -115,4 +116,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Auth));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignIn));
