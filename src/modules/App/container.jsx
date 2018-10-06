@@ -97,12 +97,13 @@ class App extends React.Component {
         user,
         userLoading,
         authStateLoaded,
+        signingUp,
       },
     } = this;
 
     // return auth.toString();
 
-    if (!authStateLoaded || userLoading) {
+    if (!authStateLoaded || userLoading || signingUp) {
       return <AppLoading />;
     }
 

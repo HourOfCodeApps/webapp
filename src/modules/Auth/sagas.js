@@ -183,36 +183,6 @@ function* updateUser({ payload: { userData } }) {
   }
 }
 
-// function* signup({ payload: { userData } }) {
-//   const auth = yield select(selectAuth());
-
-//   if (!auth || !auth.uid) {
-//     yield put(signupFailure(new Error('no auth')));
-//     return;
-//   }
-
-//   const { uid } = auth;
-
-//   try {
-//     const doc = yield firebase.firestore().collection('users').doc(uid).get();
-
-//     if (doc.exists) {
-//       throw new Error('already exists');
-//     }
-//     yield firebase.firestore().collection('users').doc(uid).set(userData);
-
-//     const createdDoc = yield firebase.firestore().collection('users').doc(uid).get();
-//     if (!createdDoc.exists) {
-//       throw new Error('oops');
-//     }
-//     const user = { uid, ...createdDoc.data() };
-//     yield put(signupSuccess(user));
-//     yield put(loadUserSuccess(user));
-//   } catch (error) {
-//     yield put(signupFailure(error));
-//   }
-// }
-
 /**
  * Root saga manages watcher lifecycle
  */
