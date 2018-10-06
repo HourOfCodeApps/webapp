@@ -6,6 +6,8 @@ import { eventChannel } from 'redux-saga';
 import {
   call, takeEvery, takeLatest, fork, put, select, take,
 } from 'redux-saga/effects';
+import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
 
 // Application
 import {
@@ -146,8 +148,13 @@ function* loadUser() {
   }
 }
 
-function* updateUser({ payload: { userData } }) {
+function* updateUser({ payload }) {
   try {
+    const {
+      userData: {
+        role, school, wasMentorBefore, ...userData
+      },
+    } = payload;
     const auth = yield select(selectAuth());
 
     if (!auth || !auth.uid) {
@@ -157,17 +164,28 @@ function* updateUser({ payload: { userData } }) {
     const { uid } = auth;
     const userDocRef = firebase.firestore().collection('users').doc(uid);
 
-    yield userDocRef.set({
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      email: userData.email,
-      phone: userData.phone,
-      roles: {
+    const data = pickBy(
+      pick(userData, [
+        'firstName', 'lastName', 'email', 'phone', 'wasMentorBefore',
+      ]),
+      value => value !== undefined,
+    );
+
+    if (data.wasMentorBefore !== undefined) {
+      data.wasMentorBefore = Boolean(data.wasMentorBefore);
+    }
+
+    if (role) {
+      data.roles = {
         [userData.role]: true,
-      },
-      wasMentorBefore: Boolean(userData.wasMentorBefore),
-      schoolId: userData.school ? userData.school.id : null,
-    }, { merge: true });
+      };
+    }
+
+    if (school) {
+      data.schoolId = school.id;
+    }
+
+    yield userDocRef.set(data, { merge: true });
 
     const updatedDoc = yield userDocRef.get();
 

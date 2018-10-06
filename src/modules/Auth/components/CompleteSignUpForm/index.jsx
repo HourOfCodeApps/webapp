@@ -84,7 +84,7 @@ const SignupForm = (
         required
       />
     )}
-    {!initialValues.school && role === 'teacher' && (
+    {!initialValues.school && (initialValues.role === 'teacher' || role === 'teacher') && (
       <Field
         component={SelectField}
         label="Школа"

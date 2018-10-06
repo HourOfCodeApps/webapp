@@ -23,6 +23,10 @@ const validate = (values) => {
     errors.phone = 'Required';
   }
 
+  if (!values.school) {
+    errors.school = 'Required';
+  }
+
   return errors;
 };
 
