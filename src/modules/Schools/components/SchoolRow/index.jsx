@@ -11,43 +11,58 @@ import ViewIcon from '@material-ui/icons/Visibility';
 // import EditIcon from 'material-ui-icons/Edit';
 
 
-const School = ({ school }) => (
-  <TableRow>
-    <TableCell component="th" scope="row">
-      {school.name}
-    </TableCell>
-    {/* <TableCell numeric>{n.calories}</TableCell>
-    <TableCell numeric>{n.fat}</TableCell>
-    <TableCell numeric>{n.carbs}</TableCell>
-    <TableCell numeric>{n.protein}</TableCell> */}
-    <TableCell>
-      <IconButton
-        component={Link}
-        to={`/school/${school.id}`}
-        aria-label="View"
-      >
-        <ViewIcon />
-      </IconButton>
-      <IconButton
-        component={Link}
-        to={`/speakers/${school.id}/edit`}
-        aria-label="Edit"
-      >
-        <EditIcon />
-      </IconButton>
-      <IconButton
-        // onClick={handleDelete(item.id)}
-        aria-label="Delete"
-      >
-        <DeleteIcon />
-      </IconButton>
+class School extends React.Component {
+  handleDelete = () => {
+    const { school, onDelete } = this.props;
+    onDelete(school.id);
+  }
 
-    </TableCell>
-  </TableRow>
-);
+  render() {
+    const {
+      handleDelete,
+      props: { school },
+    } = this;
+
+    return (
+      <TableRow>
+        <TableCell component="th" scope="row">
+          {school.name}
+        </TableCell>
+        {/* <TableCell numeric>{n.calories}</TableCell>
+        <TableCell numeric>{n.fat}</TableCell>
+        <TableCell numeric>{n.carbs}</TableCell>
+        <TableCell numeric>{n.protein}</TableCell> */}
+        <TableCell>
+          <IconButton
+            component={Link}
+            to={`/school/${school.id}`}
+            aria-label="View"
+          >
+            <ViewIcon />
+          </IconButton>
+          <IconButton
+            component={Link}
+            to={`/school/${school.id}/edit`}
+            aria-label="Edit"
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            onClick={handleDelete}
+            aria-label="Delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+
+        </TableCell>
+      </TableRow>
+    );
+  }
+}
 
 School.propTypes = {
   school: PropTypes.shape(PropTypes.object).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default School;

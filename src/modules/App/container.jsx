@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   BrowserRouter as Router,
@@ -130,6 +132,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        <ToastContainer />
         {renderContent()}
       </MuiThemeProvider>
     );

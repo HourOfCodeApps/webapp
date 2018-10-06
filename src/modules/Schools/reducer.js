@@ -1,4 +1,7 @@
 import {
+  DELETE_SCHOOL,
+  DELETE_SCHOOL_FAILURE,
+  DELETE_SCHOOL_SUCCESS,
   FETCH_SCHOOL,
   FETCH_SCHOOL_FAILURE,
   FETCH_SCHOOL_SUCCESS,
@@ -9,6 +12,8 @@ import {
 
 const initialState = {
   school: null,
+  schoolDeleting: false,
+  schoolDeletingError: null,
   schoolFetching: false,
   schoolFetchingError: null,
   schools: [],
@@ -18,6 +23,26 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case DELETE_SCHOOL:
+      return {
+        ...state,
+        schoolDeleting: true,
+        schoolDeletingError: null,
+      };
+
+    case DELETE_SCHOOL_FAILURE:
+      return {
+        ...state,
+        schoolDeleting: false,
+        schoolDeletingError: action.payload.error,
+      };
+
+    case DELETE_SCHOOL_SUCCESS:
+      return {
+        ...state,
+        schoolDeleting: false,
+      };
+
     case FETCH_SCHOOL:
       return {
         ...state,
