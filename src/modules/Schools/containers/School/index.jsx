@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import Map, { Marker } from 'shared/components/Map';
 
@@ -66,7 +67,11 @@ class School extends React.Component {
     return (
       <Paper>
         <Grid container spacing={40}>
-          <Grid item xs={12} md={6} />
+          <Grid item xs={12} md={6}>
+            <Typography variant="title" gutterBottom>
+              {school.name}
+            </Typography>
+          </Grid>
           <Grid item xs={12} md={6}>
             Map
             <div style={{ height: 700 }}>
