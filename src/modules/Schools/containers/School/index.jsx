@@ -56,12 +56,12 @@ class School extends React.Component {
       },
     } = this;
 
-    if (!school || schoolFetching) {
-      return <div>Loading</div>;
-    }
-
     if (schoolFetchingError) {
       return <div>{schoolFetchingError.message}</div>;
+    }
+
+    if (!school || schoolFetching) {
+      return <div>Loading</div>;
     }
 
     return (
@@ -71,10 +71,29 @@ class School extends React.Component {
             <Typography variant="title" gutterBottom>
               {school.name}
             </Typography>
+
+            <Typography variant="body1" gutterBottom>
+              {school.city}
+            </Typography>
+
+            <Typography variant="body1" gutterBottom>
+              {school.addressStreet}
+              &nbsp;
+              {school.addressBuilding}
+            </Typography>
+
+            <Typography variant="body1" gutterBottom>
+              {school.website}
+            </Typography>
+
+            {school.phones.map(phone => (
+              <Typography variant="body1" key={phone}>
+                {phone}
+              </Typography>
+            ))}
           </Grid>
           <Grid item xs={12} md={6}>
-            Map
-            <div style={{ height: 700 }}>
+            <div style={{ height: 300 }}>
               <Map
                 defaultCenter={{
                   lat: school.latitude,

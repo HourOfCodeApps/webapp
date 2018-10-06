@@ -46,6 +46,22 @@ function* deleteSchool({ payload: { id } }) {
   }
 }
 
+function* fetchSchool({ payload: { id } }) {
+  try {
+    const snapshot = yield firebase.firestore().collection('schools').doc(id).get();
+
+    if (!snapshot.exists) {
+      throw new Error('Not Found');
+    }
+
+    const school = { ...snapshot.data(), id: snapshot.id };
+
+    yield put(fetchSchoolSuccess(school));
+  } catch (error) {
+    yield put(fetchSchoolFailure(error));
+  }
+}
+
 function* fetchSchools() {
   try {
     const snapshots = yield firebase.firestore().collection('schools').get();
@@ -58,26 +74,14 @@ function* fetchSchools() {
   }
 }
 
-function* fetchSchool({ payload: { id } }) {
-  try {
-    const snapshot = yield firebase.firestore().collection('schools').doc(id).get();
-
-    const school = { ...snapshot.data(), id: snapshot.id };
-
-    yield put(fetchSchoolSuccess(school));
-  } catch (error) {
-    yield put(fetchSchoolFailure(error));
-  }
-}
-
 /**
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
   yield fork(takeEvery, CREATE_SCHOOL, createSchool);
   yield fork(takeEvery, DELETE_SCHOOL, deleteSchool);
-  yield fork(takeLatest, FETCH_SCHOOLS, fetchSchools);
   yield fork(takeLatest, FETCH_SCHOOL, fetchSchool);
+  yield fork(takeLatest, FETCH_SCHOOLS, fetchSchools);
 }
 
 export default [
