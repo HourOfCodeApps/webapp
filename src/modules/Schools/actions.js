@@ -1,8 +1,106 @@
 import {
+  CREATE_SCHOOL,
+  CREATE_SCHOOL_FAILURE,
+  CREATE_SCHOOL_SUCCESS,
+  DELETE_SCHOOL,
+  DELETE_SCHOOL_FAILURE,
+  DELETE_SCHOOL_SUCCESS,
+  FETCH_SCHOOL,
+  FETCH_SCHOOL_FAILURE,
+  FETCH_SCHOOL_SUCCESS,
   FETCH_SCHOOLS,
   FETCH_SCHOOLS_FAILURE,
   FETCH_SCHOOLS_SUCCESS,
+  UPDATE_SCHOOL,
+  UPDATE_SCHOOL_FAILURE,
+  UPDATE_SCHOOL_SUCCESS,
 } from './constants';
+
+/**
+ * Create school action
+ * @param {Object} data
+ * @returns {{ type: String }}
+ */
+const createSchool = data => ({
+  type: CREATE_SCHOOL,
+  payload: { data },
+});
+
+/**
+ * Create school failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const createSchoolFailure = error => ({
+  type: CREATE_SCHOOL_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Create school success action
+ * @returns {{ type: String, payload: { school } }}
+ */
+const createSchoolSuccess = () => ({
+  type: CREATE_SCHOOL_SUCCESS,
+});
+
+/**
+ * Delete school action
+ * @param {String} id
+ * @returns {{ type: String }}
+ */
+const deleteSchool = id => ({
+  type: DELETE_SCHOOL,
+  payload: { id },
+});
+
+/**
+ * Delete school failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const deleteSchoolFailure = error => ({
+  type: DELETE_SCHOOL_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Delete school success action
+ * @returns {{ type: String, payload: { school } }}
+ */
+const deleteSchoolSuccess = () => ({
+  type: DELETE_SCHOOL_SUCCESS,
+});
+
+/**
+ * Fetch school action
+ * @param {String} id
+ * @returns {{ type: String }}
+ */
+const fetchSchool = id => ({
+  type: FETCH_SCHOOL,
+  payload: { id },
+});
+
+/**
+ * Fetch school failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const fetchSchoolFailure = error => ({
+  type: FETCH_SCHOOL_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Fetch school success action
+ * @param {Object} school
+ * @returns {{ type: String, payload: { school } }}
+ */
+const fetchSchoolSuccess = school => ({
+  type: FETCH_SCHOOL_SUCCESS,
+  payload: { school },
+});
 
 /**
  * Fetch schools action
@@ -32,8 +130,51 @@ const fetchSchoolsSuccess = schools => ({
   payload: { schools },
 });
 
+/**
+ * Update school action
+ * @param {String} id
+ * @param {Object} data
+ * @returns {{ type: String }}
+ */
+const updateSchool = (id, data) => ({
+  type: UPDATE_SCHOOL,
+  payload: { id, data },
+});
+
+/**
+ * Update school failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const updateSchoolFailure = error => ({
+  type: UPDATE_SCHOOL_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Update school success action
+ * @param {Object} school
+ * @returns {{ type: String, payload: { school } }}
+ */
+const updateSchoolSuccess = school => ({
+  type: UPDATE_SCHOOL_SUCCESS,
+  payload: { school },
+});
+
 export {
+  createSchool,
+  createSchoolFailure,
+  createSchoolSuccess,
+  deleteSchool,
+  deleteSchoolFailure,
+  deleteSchoolSuccess,
+  fetchSchool,
+  fetchSchoolFailure,
+  fetchSchoolSuccess,
   fetchSchools,
   fetchSchoolsFailure,
   fetchSchoolsSuccess,
+  updateSchool,
+  updateSchoolFailure,
+  updateSchoolSuccess,
 };

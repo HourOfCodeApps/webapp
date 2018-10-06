@@ -14,6 +14,7 @@ import {
 
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
+import Schools, { School } from 'modules/Schools';
 
 import {
   selectAuth,
@@ -21,7 +22,6 @@ import {
   selectUser,
   selectUserLoading,
   authStateInit,
-  // Signup,
   CompleteSignUp,
   selectSigningIn,
   selectSigningInError,
@@ -59,6 +59,8 @@ const Private = () => (
     <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
+        <Route path="/schools" exact component={Schools} />
+        <Route path="/school/:id" component={School} />
         <Route component={Page404} />
       </Switch>
     </AppWrapper>
@@ -113,7 +115,7 @@ class App extends React.Component {
 
     // some special cases when user isn't completely registeted
     if (auth && (!user || !isEnoughUserData(user))) {
-      return <CompleteSignUp user={user || {}} />;
+      return <CompleteSignUp user={user || { email: auth.email }} />;
     }
 
     if (auth && user) {
