@@ -14,16 +14,22 @@ import {
 
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
-// import AppWrapper from 'modules/App';
-// import Users from 'modules/Users';
-import Auth, {
+
+import {
   selectAuth,
   selectStateInitLoaded,
   selectUser,
   selectUserLoading,
   authStateInit,
-  Signup,
+  // Signup,
+  CompleteSignUp,
+  selectSigningIn,
+  selectSigningInError,
+  selectSigningUp,
+  selectSigningUpError,
 } from 'modules/Auth';
+
+import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
@@ -66,11 +72,17 @@ class App extends React.Component {
     onAuthStateInit: PropTypes.func.isRequired,
     user: PropTypes.instanceOf(Object),
     userLoading: PropTypes.bool.isRequired,
+    signingIn: PropTypes.bool.isRequired,
+    signingInError: PropTypes.instanceOf(Object),
+    signingUp: PropTypes.bool.isRequired,
+    signingUpError: PropTypes.instanceOf(Object),
   }
 
   static defaultProps = {
     auth: null,
     user: null,
+    signingInError: null,
+    signingUpError: null,
   }
 
   componentDidMount() {
@@ -85,12 +97,13 @@ class App extends React.Component {
         user,
         userLoading,
         authStateLoaded,
+        signingUp,
       },
     } = this;
 
     // return auth.toString();
 
-    if (!authStateLoaded || userLoading) {
+    if (!authStateLoaded || userLoading || signingUp) {
       return <AppLoading />;
     }
 
@@ -99,8 +112,8 @@ class App extends React.Component {
     }
 
     // some special cases when user isn't completely registeted
-    if (auth && !user) {
-      return <Signup />;
+    if (auth && (!user || !isEnoughUserData(user))) {
+      return <CompleteSignUp user={user || {}} />;
     }
 
     if (auth && user) {
@@ -127,16 +140,28 @@ const mapStateToProps = createSelector(
   selectUser(),
   selectUserLoading(),
   selectStateInitLoaded(),
+  selectSigningIn(),
+  selectSigningInError(),
+  selectSigningUp(),
+  selectSigningUpError(),
   (
     auth,
     user,
     userLoading,
     authStateLoaded,
+    signingIn,
+    signingInError,
+    signingUp,
+    signingUpError,
   ) => ({
     auth,
     user,
     userLoading,
     authStateLoaded,
+    signingIn,
+    signingInError,
+    signingUp,
+    signingUpError,
   }),
 );
 

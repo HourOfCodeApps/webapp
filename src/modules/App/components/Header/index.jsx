@@ -29,89 +29,57 @@ const styles = theme => ({
   },
 });
 
-class Header extends React.Component {
-  static propTypes = {
-    classes: PropTypes.shape(PropTypes.object).isRequired,
-    onLogout: PropTypes.func.isRequired,
-    user: PropTypes.shape(PropTypes.object).isRequired,
-  }
+const Header = ({ classes, onSignOut }) => (
+  <AppBar
+    position="absolute"
+    className={classes.appBar}
+  >
+    <Toolbar className={classes.toolbar}>
+      <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
+        HOC Organizer
+      </Typography>
 
-  state = {
-    anchorEl: null,
-  };
-
-  handleClick = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleLogout = () => {
-    const {
-      handleClose,
-      props: { onLogout },
-    } = this;
-
-    onLogout();
-    handleClose();
-  }
-
-  render() {
-    const {
-      handleLogout,
-      props: { classes, user },
-      state: { anchorEl },
-    } = this;
-
-    return (
-      <AppBar
-        position="absolute"
-        className={classes.appBar}
+      <IconButton color="inherit">
+        <Badge badgeContent={4} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+      {/* {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
+      {/* {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
+      {/* {user.roles.admin && (
+        <Button
+          className={classes.toolbarButton}
+          component={props => <Link to="/users" {...props} />}
+        >
+          Користувачі
+        </Button>
+      )} */}
+      <Button
+        className={classes.toolbarButton}
+        component={props => <Link to="/schedule" {...props} />}
       >
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
-            HOC Organizer
-          </Typography>
+        Розклад
+      </Button>
+      <Button
+        className={classes.toolbarButton}
+        component={props => <Link to="/me" {...props} />}
+      >
+        Мої дані
+      </Button>
+      <Button
+        className={classes.toolbarButton}
+        onClick={onSignOut}
+      >
+        Вихід
+      </Button>
+    </Toolbar>
+  </AppBar>
+);
 
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          {/* {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
-          {/* {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
-          {/* {user.roles.admin && (
-            <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/users" {...props} />}
-            >
-              Користувачі
-            </Button>
-          )} */}
-          <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/schedule" {...props} />}
-          >
-            Розклад
-          </Button>
-          <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/me" {...props} />}
-          >
-            Мої дані
-          </Button>
-          <Button
-            className={classes.toolbarButton}
-            onClick={handleLogout}
-          >
-            Вихід
-          </Button>
-        </Toolbar>
-      </AppBar>
-    );
-  }
-}
+Header.propTypes = {
+  classes: PropTypes.shape(PropTypes.object).isRequired,
+  onSignOut: PropTypes.func.isRequired,
+  user: PropTypes.shape(PropTypes.object).isRequired,
+};
 
 export default withStyles(styles)(Header);

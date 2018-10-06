@@ -2,10 +2,13 @@ import {
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
-  LOGIN,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT_SUCCESS,
+  SIGNIN,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAILURE,
+  SIGNUP,
+  SIGNUP_FAILURE,
+  SIGNUP_SUCCESS,
+  SIGNOUT_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
 } from './constants';
@@ -18,6 +21,10 @@ const initialState = {
   error: null,
   loginInProgress: false,
   stateInitLoaded: false,
+  signingIn: false,
+  signingInError: null,
+  signingUp: false,
+  signingUpError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,13 +34,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: null,
         userLoading: true,
+        userLoadingError: null,
       };
 
     case LOAD_USER_FAILURE:
       return {
         ...state,
         user: null,
-        userError: action.payload.error,
+        userLoadingError: action.payload.error,
         userLoading: false,
       };
 
@@ -44,31 +52,50 @@ const reducer = (state = initialState, action) => {
         userLoading: false,
       };
 
-    case LOGIN:
+    case SIGNIN:
       return {
         ...state,
         auth: null,
         user: null,
-        error: null,
-        loginInProgress: true,
+        signingIn: true,
+        signingInError: null,
       };
 
-    case LOGIN_SUCCESS: {
-      const auth = action.payload;
+    case SIGNIN_FAILURE:
       return {
         ...state,
-        auth,
-        loginInProgress: false,
+        signingIn: false,
+        signingInError: action.payload.error,
       };
-      // return Object.assign({}, state, { user, loginInProgress: false });
-    }
 
-    case LOGIN_FAILURE: {
-      const auth = action.payload;
-      return Object.assign({}, state, auth);
-    }
+    case SIGNIN_SUCCESS:
+      return {
+        ...state,
+        signingIn: false,
+        auth: action.payload.auth,
+      };
 
-    case LOGOUT_SUCCESS:
+    case SIGNUP:
+      return {
+        ...state,
+        signingUp: true,
+        signingUpError: null,
+      };
+
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        signingUp: false,
+        signingUpError: action.payload.error,
+      };
+
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        signingUp: false,
+      };
+
+    case SIGNOUT_SUCCESS:
       return Object.assign({}, state, { user: null });
 
     case STATE_INIT:

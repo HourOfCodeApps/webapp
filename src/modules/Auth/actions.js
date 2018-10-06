@@ -2,17 +2,20 @@ import {
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
-  LOGIN,
-  LOGIN_FAILURE,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  LOGOUT_FAILURE,
-  LOGOUT_SUCCESS,
+  SIGNIN,
+  SIGNIN_FAILURE,
+  SIGNIN_SUCCESS,
+  SIGNOUT,
+  SIGNOUT_FAILURE,
+  SIGNOUT_SUCCESS,
   SIGNUP,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
+  UPDATE_USER,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_SUCCESS,
 } from './constants';
 
 
@@ -47,45 +50,85 @@ const loadUserSuccess = user => ({
 
 
 /**
- * Dispatches an action to login
+ * Dispatches an action to sign in
  *
  * @return {{type: String}}
  */
-const login = () => ({ type: LOGIN });
+const signIn = (provider, data = {}) => ({
+  type: SIGNIN,
+  payload: {
+    provider,
+    data,
+  },
+});
 
 /**
  *
  * @param error
  * @return {{type: String, payload}}
  */
-const loginFailure = error => ({ type: LOGIN_FAILURE, payload: error });
+const signInFailure = error => ({
+  type: SIGNIN_FAILURE,
+  payload: { error },
+});
 
-const loginSuccess = auth => ({ type: LOGIN_SUCCESS, payload: auth });
+const signInSuccess = auth => ({
+  type: SIGNIN_SUCCESS,
+  payload: { auth },
+});
 
-const logout = () => ({ type: LOGOUT });
+const signOut = () => ({ type: SIGNOUT });
 
 
-const logoutFailure = error => ({ type: LOGOUT_FAILURE, payload: error });
+const signOutFailure = error => ({
+  type: SIGNOUT_FAILURE,
+  payload: { error },
+});
 
-const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
+const signOutSuccess = () => ({ type: SIGNOUT_SUCCESS });
 
 /**
  * Signup action
  * @param {Object} userData user data
  * @returns {Object}
  */
-const signup = userData => ({
+const signUp = userData => ({
   type: SIGNUP,
   payload: { userData },
 });
 
-const signupFailure = error => ({
+const signUpFailure = error => ({
   type: SIGNUP_FAILURE,
   payload: { error },
 });
 
-const signupSuccess = user => ({
+const signUpSuccess = user => ({
   type: SIGNUP_SUCCESS,
+  payload: { user },
+});
+
+const updateUser = userData => ({
+  type: UPDATE_USER,
+  payload: { userData },
+});
+
+/**
+ * Dispatch when loading user caused error
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const updateUserFailure = error => ({
+  type: UPDATE_USER_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Dispatch when user data loaded successfully
+ * @param {Object} user
+ * @returns {{ type: String, payload: { user } }}
+ */
+const updateUserSuccess = user => ({
+  type: UPDATE_USER_SUCCESS,
   payload: { user },
 });
 
@@ -95,14 +138,17 @@ export {
   loadUser,
   loadUserSuccess,
   loadUserFailure,
-  login,
-  loginFailure,
-  loginSuccess,
-  logout,
-  logoutFailure,
-  logoutSuccess,
-  signup,
-  signupFailure,
-  signupSuccess,
+  signIn,
+  signInFailure,
+  signInSuccess,
+  signOut,
+  signOutFailure,
+  signOutSuccess,
+  signUp,
+  signUpFailure,
+  signUpSuccess,
   stateChanged,
+  updateUser,
+  updateUserFailure,
+  updateUserSuccess,
 };
