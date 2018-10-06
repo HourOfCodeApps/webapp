@@ -131,6 +131,8 @@ class Schools extends React.Component {
             <TableHead>
               <TableRow>
                 <TableCell>Назва</TableCell>
+                <TableCell>Адреса</TableCell>
+                <TableCell>Телефон</TableCell>
                 <TableCell />
               </TableRow>
             </TableHead>

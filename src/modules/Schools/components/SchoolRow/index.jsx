@@ -28,10 +28,12 @@ class School extends React.Component {
         <TableCell component="th" scope="row">
           {school.name}
         </TableCell>
-        {/* <TableCell numeric>{n.calories}</TableCell>
-        <TableCell numeric>{n.fat}</TableCell>
-        <TableCell numeric>{n.carbs}</TableCell>
-        <TableCell numeric>{n.protein}</TableCell> */}
+        <TableCell>
+          {school.addressStreet}
+          &nbsp;
+          {school.addressBuilding}
+        </TableCell>
+        <TableCell>{school.phones.join(', ')}</TableCell>
         <TableCell>
           <IconButton
             component={Link}
