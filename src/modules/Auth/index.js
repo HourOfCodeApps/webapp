@@ -11,6 +11,10 @@ import {
   selectUser,
   selectUserLoading,
   selectStateInitLoaded,
+  selectSigningIn,
+  selectSigningInError,
+  selectSigningUp,
+  selectSigningUpError,
 } from './selectors';
 
 import withAuth from './HoCs/withAuth';
@@ -27,6 +31,10 @@ export {
   selectStateInitLoaded,
   selectUser,
   selectUserLoading,
+  selectSigningIn,
+  selectSigningInError,
+  selectSigningUp,
+  selectSigningUpError,
   SignIn,
   SignUp,
   withAuth,

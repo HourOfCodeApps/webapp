@@ -5,6 +5,9 @@ import {
   SIGNIN,
   SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
+  SIGNUP,
+  SIGNUP_FAILURE,
+  SIGNUP_SUCCESS,
   SIGNOUT_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
@@ -18,6 +21,10 @@ const initialState = {
   error: null,
   loginInProgress: false,
   stateInitLoaded: false,
+  signingIn: false,
+  signingInError: null,
+  signingUp: false,
+  signingUpError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,13 +34,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: null,
         userLoading: true,
+        userLoadingError: null,
       };
 
     case LOAD_USER_FAILURE:
       return {
         ...state,
         user: null,
-        userError: action.payload.error,
+        userLoadingError: action.payload.error,
         userLoading: false,
       };
 
@@ -65,6 +73,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         signingIn: false,
         auth: action.payload.auth,
+      };
+
+    case SIGNUP:
+      return {
+        ...state,
+        signingUp: true,
+        signingUpError: null,
+      };
+
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        signingUp: false,
+        signingUpError: action.payload.error,
+      };
+
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        signingUp: false,
       };
 
     case SIGNOUT_SUCCESS:

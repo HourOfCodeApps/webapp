@@ -16,6 +16,7 @@ const SignupForm = (
     handleSubmit,
     pristine,
     role,
+    formError,
   },
 ) => (
   <form onSubmit={handleSubmit}>
@@ -52,6 +53,11 @@ const SignupForm = (
       required
       type="password"
     />
+    {formError && (
+      <div style={{ marginTop: 20 }}>
+        {formError.message}
+      </div>
+    )}
     <div style={{ marginTop: 20 }}>
       <Button
         fullWidth

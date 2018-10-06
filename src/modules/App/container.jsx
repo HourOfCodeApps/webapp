@@ -14,8 +14,7 @@ import {
 
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
-// import AppWrapper from 'modules/App';
-// import Users from 'modules/Users';
+
 import {
   selectAuth,
   selectStateInitLoaded,
@@ -24,6 +23,10 @@ import {
   authStateInit,
   // Signup,
   CompleteSignUp,
+  selectSigningIn,
+  selectSigningInError,
+  selectSigningUp,
+  selectSigningUpError,
 } from 'modules/Auth';
 
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
@@ -69,11 +72,17 @@ class App extends React.Component {
     onAuthStateInit: PropTypes.func.isRequired,
     user: PropTypes.instanceOf(Object),
     userLoading: PropTypes.bool.isRequired,
+    signingIn: PropTypes.bool.isRequired,
+    signingInError: PropTypes.instanceOf(Object),
+    signingUp: PropTypes.bool.isRequired,
+    signingUpError: PropTypes.instanceOf(Object),
   }
 
   static defaultProps = {
     auth: null,
     user: null,
+    signingInError: null,
+    signingUpError: null,
   }
 
   componentDidMount() {
@@ -130,16 +139,28 @@ const mapStateToProps = createSelector(
   selectUser(),
   selectUserLoading(),
   selectStateInitLoaded(),
+  selectSigningIn(),
+  selectSigningInError(),
+  selectSigningUp(),
+  selectSigningUpError(),
   (
     auth,
     user,
     userLoading,
     authStateLoaded,
+    signingIn,
+    signingInError,
+    signingUp,
+    signingUpError,
   ) => ({
     auth,
     user,
     userLoading,
     authStateLoaded,
+    signingIn,
+    signingInError,
+    signingUp,
+    signingUpError,
   }),
 );
 
