@@ -35,6 +35,7 @@ import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
+import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 
 const theme = createMuiTheme({
   palette: {
@@ -107,14 +108,16 @@ class App extends React.Component {
       },
     } = this;
 
-    // return auth.toString();
-
     if (!authStateLoaded || userLoading || signingUp) {
       return <AppLoading />;
     }
 
     if (!auth) {
       return <Public />;
+    }
+
+    if (!auth.emailVerified) {
+      return <ConfirmEmailFirst />;
     }
 
     // some special cases when user isn't completely registeted

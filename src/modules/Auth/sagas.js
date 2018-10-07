@@ -84,7 +84,11 @@ function* signUp({ payload: { userData } }) {
     }
     const user = { uid, ...createdDoc.data() };
 
-    yield firebase.auth().currentUser.sendEmailVerification();
+    const actionCodeSettings = {
+      url: `${window.location.protocol}//${window.location.host}`,
+    };
+
+    yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
 
     yield put(signUpSuccess(user));
     yield put(loadUserSuccess(user));
