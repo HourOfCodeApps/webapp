@@ -1,4 +1,7 @@
 import {
+  CREATE_SCHOOL,
+  CREATE_SCHOOL_FAILURE,
+  CREATE_SCHOOL_SUCCESS,
   DELETE_SCHOOL,
   DELETE_SCHOOL_FAILURE,
   DELETE_SCHOOL_SUCCESS,
@@ -26,6 +29,27 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case CREATE_SCHOOL:
+      return {
+        ...state,
+        schoolCreating: true,
+        schoolCreatingError: null,
+      };
+
+    case CREATE_SCHOOL_FAILURE:
+      return {
+        ...state,
+        schoolCreating: false,
+        schoolCreatingError: action.payload.error,
+      };
+
+    case CREATE_SCHOOL_SUCCESS:
+      return {
+        ...state,
+        school: action.payload.school,
+        schoolCreating: false,
+      };
+
     case DELETE_SCHOOL:
       return {
         ...state,

@@ -40,8 +40,9 @@ const createSchoolFailure = error => ({
  * Create school success action
  * @returns {{ type: String, payload: { school } }}
  */
-const createSchoolSuccess = () => ({
+const createSchoolSuccess = school => ({
   type: CREATE_SCHOOL_SUCCESS,
+  payload: { school },
 });
 
 /**

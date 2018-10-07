@@ -1,7 +1,6 @@
-import isEmail from 'shared/utils/validations/isEmail';
-import isPhoneNumber from 'shared/utils/validations/isPhoneNumber';
 
-const namePattern = /^[a-zA-Zа-яА-ЯЇїґҐєЄіІ' ]+$/;
+
+const isNumber = /^\d+(\.\d*|)$/;
 
 const validate = (values) => {
   const errors = {};
@@ -38,8 +37,16 @@ const validate = (values) => {
     errors.subjectOfManagement = 'Required';
   }
 
-  if (!values.website) {
-    errors.website = 'Required';
+  if (!values.latitude) {
+    errors.latitude = 'Required';
+  } else if (!isNumber.test(values.latitude)) {
+    errors.latitude = 'Має бути числом';
+  }
+
+  if (!values.longitude) {
+    errors.longitude = 'Required';
+  } else if (!isNumber.test(values.longitude)) {
+    errors.longitude = 'Має бути числом';
   }
 
   errors.phones = (values.phones || [])

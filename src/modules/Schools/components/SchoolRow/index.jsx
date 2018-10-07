@@ -33,7 +33,7 @@ class School extends React.Component {
           &nbsp;
           {school.addressBuilding}
         </TableCell>
-        <TableCell>{school.phones.join(', ')}</TableCell>
+        <TableCell>{(school.phones || []).join(', ')}</TableCell>
         <TableCell>
           <IconButton
             component={Link}

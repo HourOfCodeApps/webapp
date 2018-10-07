@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import { toast } from 'react-toastify';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
@@ -29,18 +32,19 @@ import {
 
 import SchoolRow from './components/SchoolRow';
 
-const styles = {
-  root: {
-    width: '100%',
-    overflowX: 'auto',
+const styles = theme => ({
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
   },
-  table: {
-    minWidth: 700,
-  },
-};
+});
 
 class Schools extends React.Component {
   static propTypes = {
+    classes: PropTypes.shape({
+      fab: PropTypes.string.isRequired,
+    }).isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
@@ -100,7 +104,6 @@ class Schools extends React.Component {
     this.props.onDeleteSchool(schoolId);
   }
 
-
   render() {
     const {
       handleDeleteClick,
@@ -110,6 +113,7 @@ class Schools extends React.Component {
         deleteConfirmationDialogShown,
       },
       props: {
+        classes,
         schools,
         schoolsFetching,
         schoolsFetchingError,
@@ -147,6 +151,16 @@ class Schools extends React.Component {
             </TableBody>
           </Table>
         </Paper>
+        <Button
+          variant="fab"
+          className={classes.fab}
+          color="primary"
+          component={Link}
+          to="school/new"
+          aria-label="Add"
+        >
+          <AddIcon />
+        </Button>
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}

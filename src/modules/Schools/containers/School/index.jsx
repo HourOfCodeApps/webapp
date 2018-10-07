@@ -78,7 +78,7 @@ class School extends React.Component {
     }
   }
 
-  handleDeleteClick = schoolId => this.setState({
+  handleDeleteClick = () => this.setState({
     deleteConfirmationDialogShown: true,
   });
 
@@ -121,13 +121,6 @@ class School extends React.Component {
             <Grid item xs={12} md={6}>
               <IconButton
                 component={Link}
-                to={`/school/${school.id}`}
-                aria-label="View"
-              >
-                <ViewIcon />
-              </IconButton>
-              <IconButton
-                component={Link}
                 to={`/school/${school.id}/edit`}
                 aria-label="Edit"
               >
@@ -157,7 +150,7 @@ class School extends React.Component {
                 {school.website}
               </Typography>
 
-              {school.phones.map(phone => (
+              {(school.phones || []).map(phone => (
                 <Typography variant="body1" key={phone}>
                   {phone}
                 </Typography>

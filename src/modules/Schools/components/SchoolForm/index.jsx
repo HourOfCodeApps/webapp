@@ -86,10 +86,26 @@ const SchoolForm = (
       label="Веб сторінка"
       name="website"
     />
-    <FieldArray name="phones" component={renderPhones} />
-    <div>
-      <Button fullWidth type="submit" disabled={pristine}>Зберегти</Button>
-    </div>
+    <Field
+      component={TextField}
+      label="Широта"
+      name="latitude"
+      required
+      // normalize={parseFloat}
+    />
+    <Field
+      component={TextField}
+      label="Довгота"
+      name="longitude"
+      required
+      // normalize={parseFloat}
+    />
+    <FieldArray
+      name="phones"
+      component={renderPhones}
+      required
+    />
+    <Button fullWidth type="submit" disabled={pristine}>Зберегти</Button>
   </form>
 );
 

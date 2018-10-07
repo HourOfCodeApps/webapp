@@ -7,6 +7,16 @@ const selectSchool = () => createSelector(
   substate => substate.school,
 );
 
+const selectSchoolCreating = () => createSelector(
+  selectSchoolsDomain(),
+  substate => substate.schoolCreating,
+);
+
+const selectSchoolCreatingError = () => createSelector(
+  selectSchoolsDomain(),
+  substate => substate.schoolCreatingError,
+);
+
 const selectSchoolDeleting = () => createSelector(
   selectSchoolsDomain(),
   substate => substate.schoolDeleting,
@@ -54,6 +64,8 @@ const selectSchoolUpdatingError = () => createSelector(
 
 export {
   selectSchool,
+  selectSchoolCreating,
+  selectSchoolCreatingError,
   selectSchoolDeleting,
   selectSchoolDeletingError,
   selectSchoolFetching,

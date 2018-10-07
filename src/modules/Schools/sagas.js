@@ -29,7 +29,7 @@ import {
 
 function* createSchool({ payload: { data } }) {
   try {
-    const docRef = yield firebase.firestore().collection('schools').add({ data });
+    const docRef = yield firebase.firestore().collection('schools').add(data);
 
     const createdSnapshot = yield docRef.get();
 

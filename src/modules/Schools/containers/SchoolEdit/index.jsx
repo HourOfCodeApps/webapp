@@ -8,11 +8,9 @@ import isEqual from 'lodash/isEqual';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ViewIcon from '@material-ui/icons/Visibility';
 import { toast } from 'react-toastify';
@@ -47,7 +45,9 @@ class School extends React.Component {
       search: PropTypes.string.isRequired,
     }).isRequired,
     match: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      params: {
+        id: PropTypes.string.isRequired,
+      },
     }).isRequired,
     onDeleteSchool: PropTypes.func.isRequired,
     onFetchSchool: PropTypes.func.isRequired,
@@ -112,8 +112,15 @@ class School extends React.Component {
 
   handleSubmit = (formData) => {
     const { onUpdateSchool, school } = this.props;
+
+    const normalizedFormData = {
+      ...formData,
+      latitude: parseFloat(formData.latitude),
+      longitude: parseFloat(formData.longitude),
+    };
+
     const data = pickBy(
-      pick(formData, [
+      pick(normalizedFormData, [
         'addressBuilding', 'addressStreet', 'city', 'cityDistrict', 'latitude', 'longitude', 'name', 'phones', 'subjectOfManagement', 'website',
       ]),
       (value, key) => !isEqual(school[key], value),
