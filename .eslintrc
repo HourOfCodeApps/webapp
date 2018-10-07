@@ -16,6 +16,9 @@
       "jsx": true
     }
   },
+  "rules": {
+    "react/destructuring-assignment": 0
+  },
   "globals": {
     "window": true
   },
