@@ -17,3 +17,5 @@ export const FETCH_SCHOOLS_SUCCESS = 'app/Schools/FETCH_SCHOOLS_SUCCESS';
 export const UPDATE_SCHOOL = 'app/Schools/UPDATE_SCHOOL';
 export const UPDATE_SCHOOL_FAILURE = 'app/Schools/UPDATE_SCHOOL_FAILURE';
 export const UPDATE_SCHOOL_SUCCESS = 'app/Schools/UPDATE_SCHOOL_SUCCESS';
+
+export const SCHOOL_FORM_ID = 'app/Schools/SCHOOL_FORM_ID';

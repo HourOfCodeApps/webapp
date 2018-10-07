@@ -16,7 +16,7 @@ import {
 
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
-import Schools, { School } from 'modules/Schools';
+import Schools, { School, SchoolEdit } from 'modules/Schools';
 
 import {
   selectAuth,
@@ -62,7 +62,8 @@ const Private = () => (
       <Switch>
         <Route path="/" exact component={Dashboard} />
         <Route path="/schools" exact component={Schools} />
-        <Route path="/school/:id" component={School} />
+        <Route path="/school/:id" exact component={School} />
+        <Route path="/school/:id/edit" exact component={SchoolEdit} />
         <Route component={Page404} />
       </Switch>
     </AppWrapper>

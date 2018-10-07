@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import pick from 'lodash/pick';
+import pickBy from 'lodash/pickBy';
+import isEqual from 'lodash/isEqual';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +23,7 @@ import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import {
   deleteSchool,
   fetchSchool,
+  updateSchool,
 } from '../../actions';
 
 import {
@@ -28,7 +32,10 @@ import {
   selectSchoolDeletingError,
   selectSchoolFetching,
   selectSchoolFetchingError,
+  selectSchoolUpdating,
+  selectSchoolUpdatingError,
 } from '../../selectors';
+import SchoolForm from '../../components/SchoolForm';
 
 class School extends React.Component {
   static propTypes = {
@@ -44,17 +51,21 @@ class School extends React.Component {
     }).isRequired,
     onDeleteSchool: PropTypes.func.isRequired,
     onFetchSchool: PropTypes.func.isRequired,
+    onUpdateSchool: PropTypes.func.isRequired,
     school: PropTypes.instanceOf(Array),
     schoolDeleting: PropTypes.bool.isRequired,
     schoolDeletingError: PropTypes.instanceOf(Object),
     schoolFetching: PropTypes.bool.isRequired,
     schoolFetchingError: PropTypes.instanceOf(Object),
+    schoolUpdating: PropTypes.bool.isRequired,
+    schoolUpdatingError: PropTypes.instanceOf(Object),
   }
 
   static defaultProps = {
     school: null,
     schoolDeletingError: null,
     schoolFetchingError: null,
+    schoolUpdatingError: null,
   }
 
   state = {
@@ -76,9 +87,17 @@ class School extends React.Component {
       }
       this.handleDeleteCancel();
     }
+
+    if (prevProps.schoolUpdating && !this.props.schoolUpdating) {
+      if (this.props.schoolUpdatingError) {
+        toast.error(this.props.schoolUpdatingError.message);
+      } else {
+        toast.success('Школу успішно оновлено');
+      }
+    }
   }
 
-  handleDeleteClick = schoolId => this.setState({
+  handleDeleteClick = () => this.setState({
     deleteConfirmationDialogShown: true,
   });
 
@@ -91,11 +110,24 @@ class School extends React.Component {
     onDeleteSchool(id);
   }
 
+  handleSubmit = (formData) => {
+    const { onUpdateSchool, school } = this.props;
+    const data = pickBy(
+      pick(formData, [
+        'addressBuilding', 'addressStreet', 'city', 'cityDistrict', 'latitude', 'longitude', 'name', 'phones', 'subjectOfManagement', 'website',
+      ]),
+      (value, key) => !isEqual(school[key], value),
+    );
+
+    onUpdateSchool(school.id, data);
+  }
+
   render() {
     const {
       handleDeleteClick,
       handleDeleteCancel,
       handleDeleteSchoolConfirm,
+      handleSubmit,
       state: {
         deleteConfirmationDialogShown,
       },
@@ -103,6 +135,7 @@ class School extends React.Component {
         school,
         schoolFetching,
         schoolFetchingError,
+        schoolUpdating,
       },
     } = this;
 
@@ -127,41 +160,16 @@ class School extends React.Component {
                 <ViewIcon />
               </IconButton>
               <IconButton
-                component={Link}
-                to={`/school/${school.id}/edit`}
-                aria-label="Edit"
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
                 onClick={handleDeleteClick}
                 aria-label="Delete"
               >
                 <DeleteIcon />
               </IconButton>
-              <Typography variant="title" gutterBottom>
-                {school.name}
-              </Typography>
-
-              <Typography variant="body1" gutterBottom>
-                {school.city}
-              </Typography>
-
-              <Typography variant="body1" gutterBottom>
-                {school.addressStreet}
-                &nbsp;
-                {school.addressBuilding}
-              </Typography>
-
-              <Typography variant="body1" gutterBottom>
-                {school.website}
-              </Typography>
-
-              {school.phones.map(phone => (
-                <Typography variant="body1" key={phone}>
-                  {phone}
-                </Typography>
-              ))}
+              <SchoolForm
+                initialValues={school}
+                onSubmit={handleSubmit}
+                disabled={schoolUpdating}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <div style={{ height: 300 }}>
@@ -202,16 +210,26 @@ const mapStateToProps = createSelector(
   selectSchoolDeletingError(),
   selectSchoolFetching(),
   selectSchoolFetchingError(),
+  selectSchoolUpdating(),
+  selectSchoolUpdatingError(),
   (
-    school, schoolDeleting, schoolDeletingError, schoolFetching, schoolFetchingError,
+    school, schoolDeleting, schoolDeletingError,
+    schoolFetching, schoolFetchingError, schoolUpdating, schoolUpdatingError,
   ) => ({
-    school, schoolDeleting, schoolDeletingError, schoolFetching, schoolFetchingError,
+    school,
+    schoolDeleting,
+    schoolDeletingError,
+    schoolFetching,
+    schoolFetchingError,
+    schoolUpdating,
+    schoolUpdatingError,
   }),
 );
 
 const mapDispatchToProps = {
   onDeleteSchool: deleteSchool,
   onFetchSchool: fetchSchool,
+  onUpdateSchool: updateSchool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(School);

@@ -1,7 +1,9 @@
 // Vendor
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import { takeEvery, takeLatest, fork, put } from 'redux-saga/effects';
+import {
+  takeEvery, takeLatest, fork, put,
+} from 'redux-saga/effects';
 
 // Application
 import {
@@ -9,6 +11,7 @@ import {
   DELETE_SCHOOL,
   FETCH_SCHOOL,
   FETCH_SCHOOLS,
+  UPDATE_SCHOOL,
 } from './constants';
 
 import {
@@ -20,6 +23,8 @@ import {
   fetchSchoolSuccess,
   fetchSchoolsFailure,
   fetchSchoolsSuccess,
+  updateSchoolSuccess,
+  updateSchoolFailure,
 } from './actions';
 
 function* createSchool({ payload: { data } }) {
@@ -74,6 +79,22 @@ function* fetchSchools() {
   }
 }
 
+function* updateSchool({ payload: { id, data } }) {
+  try {
+    const docRef = firebase.firestore().collection('schools').doc(id);
+
+    yield docRef.set(data, { merge: true });
+
+    const updatedSnapshot = yield docRef.get();
+
+    const updatedSchool = { ...updatedSnapshot.data(), id: updatedSnapshot.id };
+
+    yield put(updateSchoolSuccess(updatedSchool));
+  } catch (error) {
+    yield put(updateSchoolFailure(error));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -82,6 +103,7 @@ function* rootSaga() {
   yield fork(takeEvery, DELETE_SCHOOL, deleteSchool);
   yield fork(takeLatest, FETCH_SCHOOL, fetchSchool);
   yield fork(takeLatest, FETCH_SCHOOLS, fetchSchools);
+  yield fork(takeEvery, UPDATE_SCHOOL, updateSchool);
 }
 
 export default [

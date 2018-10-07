@@ -1,5 +1,6 @@
 import container from './container';
 import School from './containers/School';
+import SchoolEdit from './containers/SchoolEdit';
 
 import withSchools from './HoCs/withSchools';
 
@@ -12,4 +13,5 @@ export {
   sagas,
   withSchools,
   School,
+  SchoolEdit,
 };

@@ -8,6 +8,9 @@ import {
   FETCH_SCHOOLS,
   FETCH_SCHOOLS_FAILURE,
   FETCH_SCHOOLS_SUCCESS,
+  UPDATE_SCHOOL,
+  UPDATE_SCHOOL_FAILURE,
+  UPDATE_SCHOOL_SUCCESS,
 } from './constants';
 
 const initialState = {
@@ -85,6 +88,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         schools: action.payload.schools.slice(),
         schoolsFetching: false,
+      };
+
+    case UPDATE_SCHOOL:
+      return {
+        ...state,
+        schoolUpdating: true,
+        schoolUpdatingError: null,
+      };
+
+    case UPDATE_SCHOOL_FAILURE:
+      return {
+        ...state,
+        schoolUpdating: false,
+        schoolUpdatingError: action.payload.error,
+      };
+
+    case UPDATE_SCHOOL_SUCCESS:
+      return {
+        ...state,
+        school: action.payload.school,
+        schoolUpdating: false,
       };
 
     default:
