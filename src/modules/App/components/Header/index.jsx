@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 });
 
-const Header = ({ classes, onSignOut }) => (
+const Header = ({ classes, onSignOut, user }) => (
   <AppBar
     position="absolute"
     className={classes.appBar}
@@ -54,6 +54,14 @@ const Header = ({ classes, onSignOut }) => (
           Користувачі
         </Button>
       )} */}
+      {user.roles.admin && (
+        <Button
+          className={classes.toolbarButton}
+          component={props => <Link to="/schools" {...props} />}
+        >
+          Школи
+        </Button>
+      )}
       <Button
         className={classes.toolbarButton}
         component={props => <Link to="/schedule" {...props} />}
