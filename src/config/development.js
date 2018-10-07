@@ -10,6 +10,9 @@ const config = {
     storageBucket: 'hoc-org-dev.appspot.com',
     messagingSenderId: '281059038812',
   },
+  map: {
+    key: 'AIzaSyCR472mBTvr5hvtF99xZHaEgLXw34x-DmM',
+  },
 };
 
 export default Object.freeze(defaultsDeep(config, base));
