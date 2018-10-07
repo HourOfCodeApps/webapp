@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   paper: {
-    // width: '500px',
     maxWidth: '80%',
     marginTop: theme.spacing.unit * 3,
     marginBottom: theme.spacing.unit * 3,
