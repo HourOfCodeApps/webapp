@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   BrowserRouter as Router,
@@ -14,6 +16,7 @@ import {
 
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
+import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
 
 import {
   selectAuth,
@@ -21,7 +24,6 @@ import {
   selectUser,
   selectUserLoading,
   authStateInit,
-  // Signup,
   CompleteSignUp,
   selectSigningIn,
   selectSigningInError,
@@ -59,6 +61,10 @@ const Private = () => (
     <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
+        <Route path="/schools" exact component={Schools} />
+        <Route path="/school/new" exact component={SchoolCreate} />
+        <Route path="/school/:id" exact component={School} />
+        <Route path="/school/:id/edit" exact component={SchoolEdit} />
         <Route component={Page404} />
       </Switch>
     </AppWrapper>
@@ -113,7 +119,7 @@ class App extends React.Component {
 
     // some special cases when user isn't completely registeted
     if (auth && (!user || !isEnoughUserData(user))) {
-      return <CompleteSignUp user={user || {}} />;
+      return <CompleteSignUp user={user || { email: auth.email }} />;
     }
 
     if (auth && user) {
@@ -128,6 +134,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        <ToastContainer />
         {renderContent()}
       </MuiThemeProvider>
     );
