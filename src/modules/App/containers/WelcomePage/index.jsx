@@ -9,11 +9,12 @@ class WelcomePage extends React.Component {
     isSignInShown: false,
   };
 
-  handleToggleMode = () => this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));
 
+  handleToggleMode = () => this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));
   render() {
     const {
       handleToggleMode,
+      props: { classes },
       state: { isSignInShown },
     } = this;
 
@@ -70,4 +71,5 @@ class WelcomePage extends React.Component {
   }
 }
 
-export default WelcomePage;
+export default withStyles(styles)(WelcomePage);
+
