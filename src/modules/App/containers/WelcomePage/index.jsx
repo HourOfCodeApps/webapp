@@ -1,27 +1,8 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
 import Auth, { SignUp } from 'modules/Auth';
-import { colors } from 'theme';
-import { Container, Column } from 'styled/LayoutStyled';
-
-const styles = {
-  root: {
-    maxWidth: 940, 
-    margin: '0 auto',
-    height: '100vh'
-  },
-  title: {
-    color: colors.dark,
-    fontWeight: 600,
-  },
-  link: {
-    textDecoration: 'underline',
-    cursor: 'pointer',
-  },
-};
+import { Container, Column, FlexBox } from 'styled/LayoutStyled';
+import { Heading, HeadingSm } from 'styled/TypographyStyled';
+import WelcomeHero from './components/WelcomeHero';
 
 class WelcomePage extends React.Component {
   state = {
@@ -39,46 +20,41 @@ class WelcomePage extends React.Component {
 
     return (
       <React.Fragment>
-        <Container container alignItems="center" justify="space-between" spacing={40} className={classes.root}>
+        <WelcomeHero />
+        <Container container alignItems="center" marginCenter justify="space-between">
           <Column item xs={12} md={5}>
             {isSignInShown && (
               <React.Fragment>
                 <Auth />
-                <Typography variant="subheading">
+                <HeadingSm variant="subheading">
                   Ще не реєструвався? —
-                  <span onClick={handleToggleMode} className={classes.link}>Реєструйся</span>
-                </Typography>
+                  <span onClick={handleToggleMode}>Реєструйся</span>
+                </HeadingSm>
               </React.Fragment>
             )}
             {!isSignInShown && (
               <React.Fragment>
                 <SignUp />
-                <Typography variant="subheading">
+                <HeadingSm variant="subheading">
                   Вже реєструвався? —
-                  <span onClick={handleToggleMode} className={classes.link}>Увійди</span>
-                </Typography>
+                  <span onClick={handleToggleMode}>Увійди</span>
+                </HeadingSm>
               </React.Fragment>
             )}
           </Column>
           <Column item xs={12} md={5} withBar>
-            <Typography variant="headline" className={classes.title}>
-              Ментор
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Милий проактивний задрот, що мріє допомогти дітям войті в ІТ.
-            </Typography>
-            <Typography variant="headline" className={classes.title}>
-              Представник школи
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Вчитель або інший працівник школи, що мріє про вільну годину серед робочого дня.
-            </Typography>
-            <Typography variant="headline" className={classes.title}>
-              Є питання?
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Пиши на hoflviv@gmail.com
-            </Typography>
+            <FlexBox column margin="0 0 20px 0">
+              <Heading bolder>Ментор</Heading>
+              <HeadingSm>Милий проактивний задрот, що мріє допомогти дітям войті в ІТ.</HeadingSm>
+            </FlexBox>
+            <FlexBox column margin="0 0 20px 0">
+              <Heading bolder>Представник школи</Heading>
+              <HeadingSm>Вчитель або інший працівник школи, що мріє про вільну годину серед робочого дня.</HeadingSm>
+            </FlexBox>
+            <FlexBox column>
+              <Heading bolder>Є питання?</Heading>
+              <HeadingSm link>Пиши на <span>hoflviv@gmail.com</span></HeadingSm>
+            </FlexBox>
           </Column>
         </Container>
       </React.Fragment>
@@ -86,5 +62,5 @@ class WelcomePage extends React.Component {
   }
 };
 
-export default withStyles(styles)(WelcomePage);
+export default WelcomePage;
 
