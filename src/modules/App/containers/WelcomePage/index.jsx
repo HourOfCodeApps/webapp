@@ -71,5 +71,5 @@ class WelcomePage extends React.Component {
   }
 }
 
-export default withStyles(styles)(WelcomePage);
+export default WelcomePage;
 
