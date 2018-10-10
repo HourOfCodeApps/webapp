@@ -55,12 +55,20 @@ const Header = ({ classes, onSignOut, user }) => (
         </Button>
       )} */}
       {user.roles.admin && (
-        <Button
-          className={classes.toolbarButton}
-          component={props => <Link to="/schools" {...props} />}
-        >
-          Школи
-        </Button>
+        <React.Fragment>
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/schools" {...props} />}
+          >
+            Школи
+          </Button>
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/teachers" {...props} />}
+          >
+            Вчителі
+          </Button>
+        </React.Fragment>
       )}
       <Button
         className={classes.toolbarButton}
