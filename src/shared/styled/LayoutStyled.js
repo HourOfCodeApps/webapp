@@ -33,5 +33,6 @@ export const FlexBox = styled.div`
   flex-wrap: ${props => props.nowrap ? 'nowrap' : 'wrap'};
   justify-content: ${props => props.justify};
   align-items: ${props => props.align};
+  width: ${props => props.width};
   margin: ${props => props.margin && props.margin};
 `;
