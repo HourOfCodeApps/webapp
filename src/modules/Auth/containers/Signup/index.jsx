@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { withStyles } from '@material-ui/core/styles';
-
 import SignUpForm from '../../components/SignUpForm';
+import { FlexBox } from '../../../../shared/styled/LayoutStyled';
 
 import {
   signUp,
@@ -15,18 +14,6 @@ import {
   selectSigningUp,
   selectSigningUpError,
 } from '../../selectors';
-
-const styles = theme => ({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    // height: '100vh',
-    // width: '100%',
-    // backgroundColor: theme.palette.background.default,
-  },
-});
 
 class SignUp extends React.Component {
   static propTypes = {
@@ -52,17 +39,17 @@ class SignUp extends React.Component {
   render() {
     const {
       handleSubmit,
-      props: { classes, signingUp, signingUpError },
+      props: { signingUp, signingUpError },
     } = this;
 
     return (
-      <div className={classes.root}>
+      <FlexBox column align="center" justify="center">
         <SignUpForm
           disabled={signingUp}
           onSubmit={handleSubmit}
           formError={signingUpError}
         />
-      </div>
+      </FlexBox>
     );
   }
 }
@@ -83,4 +70,4 @@ const mapDispatchToProps = {
   onSignUp: signUp,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignUp));
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
