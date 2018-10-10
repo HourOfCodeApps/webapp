@@ -12,10 +12,37 @@ export const Heading = styled.div`
     color: ${props => getColor(props.color)};
     line-height: ${props => props.lineHeight};
 
+    ${props => props.halfLine && `
+        padding-bottom: 3px;
+        position: relative;
+        display: table;
+
+        &:before {
+            content: "";
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            height: 3px;
+            width: 35%;
+            background: #333;
+        }
+    `}
+
     ${props => props.link && `
         span {
-            text-decoration: underline;
             cursor: pointer;
+            position: relative;
+            padding-bottom: 2px;
+
+            &:before {
+                content: "";
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                background: #333;
+            }
         }
     `}
 
