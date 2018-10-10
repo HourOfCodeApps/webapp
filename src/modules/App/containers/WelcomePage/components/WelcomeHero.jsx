@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, FlexBox } from 'styled/LayoutStyled';
-import { Heading } from 'styled/TypographyStyled';
+import { Container, FlexBox } from 'shared/styled/LayoutStyled';
+import { Heading } from 'shared/styled/TypographyStyled';
 
 import { 
   WelcomeHeroWrapper, 
   WelcomeHeroHeading,
   Logo,
-} from 'styled/pages/WelcomePageStyled';
+} from 'shared/styled/pages/WelcomePageStyled';
 
 const WelcomeHero = () => {
 
@@ -18,7 +18,7 @@ const WelcomeHero = () => {
           Година Коду є глобальним заходом, який залучає 
           десятки мільйонів учнів<br /> у більш, як 180 країнах світу.
         </Heading>
-        <Heading fontSize="18px">
+        <Heading fontSize="18px" link>
           Більше інформації на <span>https://hourofcode.com/ua</span>
         </Heading>
       </Container>
