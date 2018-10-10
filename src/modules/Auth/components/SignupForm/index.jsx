@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
 import TextField from 'shared/components/ReduxForm/TextField';
+import { Heading } from '../../../../shared/styled/TypographyStyled';
+import { FlexBox } from '../../../../shared/styled/LayoutStyled';
 
 import { SIGNUP_FORM_ID } from '../../constants';
 import validate from './validate';
@@ -20,6 +22,7 @@ const SignupForm = (
   },
 ) => (
   <form onSubmit={handleSubmit}>
+    <Heading fontSize="24px" bolder halfLine margin="0 0 15px 0">Реєстрація</Heading>
     <Field
       component={RadioGroupField}
       label="Я хочу бути:"
@@ -54,11 +57,11 @@ const SignupForm = (
       type="password"
     />
     {formError && (
-      <div style={{ marginTop: 20 }}>
+      <FlexBox margin="10px 0 10px 0">
         {formError.message}
-      </div>
+      </FlexBox>
     )}
-    <div style={{ marginTop: 20 }}>
+    <FlexBox margin="10px 0 20px 0">
       <Button
         fullWidth
         type="submit"
@@ -66,9 +69,9 @@ const SignupForm = (
         variant="contained"
         color="primary"
       >
-        Signup
+        Створити аккаунт
       </Button>
-    </div>
+    </FlexBox>
   </form>
 );
 

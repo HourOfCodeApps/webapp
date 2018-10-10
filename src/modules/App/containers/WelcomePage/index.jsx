@@ -1,74 +1,66 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-
-
 import Auth, { SignUp } from 'modules/Auth';
+import { Container, Column, FlexBox } from 'shared/styled/LayoutStyled';
+import { Heading, HeadingSm } from 'shared/styled/TypographyStyled';
+import WelcomeHero from './components/WelcomeHero';
 
 class WelcomePage extends React.Component {
   state = {
     isSignInShown: false,
   };
+  
 
   handleToggleMode = () => this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));
-
   render() {
     const {
       handleToggleMode,
+      props: { classes },
       state: { isSignInShown },
     } = this;
 
     return (
       <React.Fragment>
-        <div>Welcome</div>
-        <Grid container spacing={40} style={{ maxWidth: 940, margin: '0 auto' }}>
-          <Grid item xs={12} md={6}>
+        <WelcomeHero />
+        <Container container alignItems="center" marginCenter justify="space-between">
+          <Column item xs={12} md={5}>
             {isSignInShown && (
-              <React.Fragment>
+              <FlexBox margin="0 0 50px 0" align="center" justify="center">
                 <Auth />
-                <Typography variant="subheading">
-                  Ще не реєструвався? —
-                  <span onClick={handleToggleMode} style={{ textDecoration: 'underline', cursor: 'pointer' }}>Реєструйся</span>
-                </Typography>
-              </React.Fragment>
-
+                <HeadingSm variant="subheading" link>
+                  Ще не реєструвався? — 
+                  <span onClick={handleToggleMode}>Реєструйся</span>
+                </HeadingSm>
+              </FlexBox>
             )}
             {!isSignInShown && (
-              <React.Fragment>
+              <FlexBox margin="0 0 50px 0" align="center" justify="center">
                 <SignUp />
-                <Typography variant="subheading">
-                  Вже реєструвався? —
-                  <span onClick={handleToggleMode} style={{ textDecoration: 'underline', cursor: 'pointer' }}>Увійди</span>
-                </Typography>
-              </React.Fragment>
+                <HeadingSm variant="subheading" link>
+                  Вже реєструвався? — 
+                  <span onClick={handleToggleMode}>Увійди</span>
+                </HeadingSm>
+              </FlexBox>
             )}
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="display1">
-              Ментор
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Милий проактивний задрот, що мріє допомогти дітям войті в ІТ.
-            </Typography>
-
-            <Typography variant="display1">
-              Представник школи
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Вчитель або інший працівник школи, що мріє про вільну годину серед робочого дня.
-            </Typography>
-
-            <Typography variant="display1">
-              Є питання?
-            </Typography>
-            <Typography variant="subheading" gutterBottom>
-              Пиши на hoflviv@gmail.com
-            </Typography>
-          </Grid>
-        </Grid>
+          </Column>
+          <Column item xs={12} md={5} withBar>
+            <FlexBox column margin="0 0 20px 0">
+              <Heading bolder margin="0 0 5px 0">Ментор</Heading>
+              <HeadingSm>Милий проактивний задрот, що мріє допомогти дітям войті в ІТ.</HeadingSm>
+            </FlexBox>
+            <FlexBox column margin="0 0 20px 0">
+              <Heading bolder margin="0 0 5px 0">Представник школи</Heading>
+              <HeadingSm>Вчитель або інший працівник школи, що мріє про вільну годину серед робочого дня.</HeadingSm>
+            </FlexBox>
+            <FlexBox column>
+              <Heading bolder margin="0 0 5px 0">Є питання?</Heading>
+              <HeadingSm link>Пиши на <span>hoflviv@gmail.com</span></HeadingSm>
+            </FlexBox>
+          </Column>
+        </Container>
       </React.Fragment>
     );
   }
 };
 
 export default WelcomePage;
+
