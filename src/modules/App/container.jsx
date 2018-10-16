@@ -17,6 +17,7 @@ import {
 import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
 import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
+import { Teachers } from 'modules/Users';
 
 import {
   selectAuth,
@@ -36,6 +37,7 @@ import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
+import WaitingForApproval from './components/WaitingForApproval';
 
 const theme = createMuiTheme({
   palette: {
@@ -57,15 +59,20 @@ const Public = () => (
   </Router>
 );
 
-const Private = () => (
+const Private = ({ user }) => (
   <Router>
     <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
-        <Route path="/schools" exact component={Schools} />
-        <Route path="/school/new" exact component={SchoolCreate} />
-        <Route path="/school/:id" exact component={School} />
-        <Route path="/school/:id/edit" exact component={SchoolEdit} />
+        {user.admin && (
+          <React.Fragment>
+            <Route path="/schools" exact component={Schools} />
+            <Route path="/school/new" exact component={SchoolCreate} />
+            <Route path="/school/:id" exact component={School} />
+            <Route path="/school/:id/edit" exact component={SchoolEdit} />
+            <Route path="/teachers" exact component={Teachers} />
+          </React.Fragment>
+        )}
         <Route component={Page404} />
       </Switch>
     </AppWrapper>
@@ -125,8 +132,12 @@ class App extends React.Component {
       return <CompleteSignUp user={user || { email: auth.email }} />;
     }
 
+    if (auth && user && user.teacher && !user.teacher.isApproved) {
+      return <WaitingForApproval />;
+    }
+
     if (auth && user) {
-      return <Private />;
+      return <Private user={user} />;
     }
 
     // return <AuthAdmin />;
