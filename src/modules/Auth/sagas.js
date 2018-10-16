@@ -7,7 +7,8 @@ import {
   call, takeEvery, takeLatest, fork, put, select, take,
 } from 'redux-saga/effects';
 import get from 'lodash/get';
-import pickBy from 'lodash/pickBy';
+
+import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
 
 // Application
 import {
@@ -40,40 +41,6 @@ import {
 import { selectAuth } from './selectors';
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-const loadUserSection = async (section, uid) => {
-  const doc = await firebase.firestore().collection(section).doc(uid).get();
-
-  return doc.exists ? doc.data() : null;
-};
-
-const loadUserInfo = async (uid) => {
-  const profile = await loadUserSection('users', uid);
-
-  if (!profile) {
-    return null;
-  }
-
-  const admin = await loadUserSection('admins', uid);
-  const mentor = await loadUserSection('mentors', uid);
-  const teacher = await loadUserSection('teachers', uid);
-
-  const user = { uid, profile };
-
-  if (admin) {
-    user.admin = admin;
-  }
-
-  if (mentor) {
-    user.mentor = mentor;
-  }
-
-  if (teacher) {
-    user.teacher = teacher;
-  }
-
-  return user;
-};
 
 const updateUserInfo = (section, uid, info) => firebase.firestore()
   .collection(section).doc(uid).set(info, { merge: true });
