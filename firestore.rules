@@ -29,27 +29,39 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(userId)).data.roles;
     }
 
-    match /schools/{schoolId} {
-      allow read: if request.auth.uid != null;
-      allow write: if getUserRoles(request.auth.uid).admin == true;
+    function isAdmin(userId) {
+      return get(/databases/$(database)/documents/admins/$(userId)) != null;
     }
 
-    match /schoolTeachers/{id} {
-      allow create: if true; //getUserRoles(request.auth.uid).teacher == true;
+    match /schools/{schoolId} {
       allow read: if request.auth.uid != null;
-      allow update: if false;
-      allow delete: if false;
-      allow list: if false;
+      allow write: if isAdmin(request.auth.uid);
+    }
+
+    match /mentors/{userId} {
+      allow create: if request.auth.uid == userId;
+      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      allow update, delete, list: if isAdmin(request.auth.uid);
+    }
+
+    match /teachers/{userId} {
+      allow create: if request.auth.uid == userId;
+      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      allow update, delete, list: if isAdmin(request.auth.uid);
+    }
+
+    match /admins/{userId} {
+      allow create: if isAdmin(request.auth.uid); // only other admin can add user as admin
+      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      allow update, delete, list: if isAdmin(request.auth.uid);
     }
 
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
-      allow read: if request.auth.uid == userId || getUserRoles(request.auth.uid).admin == true;
-      allow update: if //getUserRoles(request.auth.uid).admin == true
-                    // ||
-                    (request.auth.uid == userId && isAbleToUpdateUser(resource.data, request.resource.data));
+      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      allow update: if isAdmin(request.auth.uid) || request.auth.uid == userId; // && isAbleToUpdateUser(resource.data, request.resource.data));
       allow delete: if false;
-      allow list: if getUserRoles(request.auth.uid).admin == true;
+      allow list: if isAdmin(request.auth.uid);
     }
   }
 }

@@ -43,52 +43,52 @@ const SignupForm = (
         color="primary"
       />
     )}
-    {!initialValues.wasMentorBefore && role === 'mentor' && (
+    {!initialValues.mentor.wasMentorBefore && role === 'mentor' && (
       <Field
         component={CheckBoxField}
         label="Я вже був ментором раніше"
-        name="wasMentorBefore"
+        name="mentor.wasMentorBefore"
         required
         color="primary"
       />
     )}
-    {!initialValues.firstName && (
+    {!initialValues.profile.firstName && (
       <Field
         component={TextField}
         label="Ім'я"
-        name="firstName"
+        name="profile.firstName"
         required
       />
     )}
-    {!initialValues.lastName && (
+    {!initialValues.profile.lastName && (
       <Field
         component={TextField}
         label="Прізвище"
-        name="lastName"
+        name="profile.lastName"
         required
       />
     )}
-    {!initialValues.email && (
+    {!initialValues.profile.email && (
       <Field
         component={TextField}
         label="Поштова скринька"
-        name="email"
+        name="profile.email"
         required
       />
     )}
-    {!initialValues.phone && (
+    {!initialValues.profile.phone && (
       <Field
         component={TextField}
         label="Телефон"
-        name="phone"
+        name="profile.phone"
         required
       />
     )}
-    {!initialValues.school && (initialValues.role === 'teacher' || role === 'teacher') && (
+    {!initialValues.teacher.school && (initialValues.role === 'teacher' || role === 'teacher') && (
       <Field
         component={SelectField}
         label="Школа"
-        name="school"
+        name="teacher.school"
         required
         searchable
         loading={schoolsLoading}

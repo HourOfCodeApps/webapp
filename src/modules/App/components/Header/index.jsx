@@ -44,9 +44,9 @@ const Header = ({ classes, onSignOut, user }) => (
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      {/* {user.roles.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
-      {/* {user.roles.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
-      {/* {user.roles.admin && (
+      {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
+      {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
+      {/* {user.admin && (
         <Button
           className={classes.toolbarButton}
           component={props => <Link to="/users" {...props} />}
@@ -54,7 +54,7 @@ const Header = ({ classes, onSignOut, user }) => (
           Користувачі
         </Button>
       )} */}
-      {user.roles.admin && (
+      {user.admin && (
         <React.Fragment>
           <Button
             className={classes.toolbarButton}

@@ -1,45 +1,47 @@
+import get from 'lodash/get';
+
 import isEmail from 'shared/utils/validations/isEmail';
 import isPhoneNumber from 'shared/utils/validations/isPhoneNumber';
 
 const namePattern = /^[a-zA-Zа-яА-ЯЇїґҐєЄіІ' ]+$/;
 
 const validate = (values) => {
-  const errors = {};
+  const errors = {
+    profile: {},
+    mentor: {},
+    teacher: {},
+  };
 
   if (!values.role) {
     errors.role = 'Required';
   }
 
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  } else if (!namePattern.test(values.firstName)) {
-    errors.firstName = 'Invalid first name';
+  if (!get(values, 'profile.firstName')) {
+    errors.profile.firstName = 'Required';
+  } else if (!namePattern.test(values.profile.firstName)) {
+    errors.profile.firstName = 'Invalid first name';
   }
 
-  if (!values.lastName) {
+  if (!get(values, 'profile.lastName')) {
     errors.lastName = 'Required';
   } else if (!namePattern.test(values.lastName)) {
     errors.lastName = 'Invalid last name';
   }
 
-  if (!values.email) {
-    errors.email = 'Required';
+  if (!get(values, 'profile.email')) {
+    errors.profile.email = 'Required';
+  } else if (!isEmail(values.profile.email)) {
+    errors.profile.email = 'Invalid email address';
   }
 
-  if (values.email && !isEmail(values.email)) {
-    errors.email = 'Invalid email address';
+  if (!get(values, 'profile.phone')) {
+    errors.profile.phone = 'Required';
+  } else if (!isPhoneNumber(values.profile.phone)) {
+    errors.profile.phone = 'Invalid phone number';
   }
 
-  if (!values.phone) {
-    errors.phone = 'Required';
-  }
-
-  if (values.phone && !isPhoneNumber(values.phone)) {
-    errors.phone = 'Invalid phone number';
-  }
-
-  if (!values.school) {
-    errors.school = 'Required';
+  if (!get(values, 'teacher.school')) {
+    errors.teacher.school = 'Required';
   }
 
   return errors;

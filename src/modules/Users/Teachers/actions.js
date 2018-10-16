@@ -39,8 +39,9 @@ const approveTeachersSuccess = () => ({
  * Fetch teachers action
  * @returns {{ type: String }}
  */
-const fetchTeachers = () => ({
+const fetchTeachers = (start = 0, limit = 10) => ({
   type: FETCH_TEACHERS,
+  payload: { start, limit },
 });
 
 /**

@@ -6,7 +6,7 @@ import { eventChannel } from 'redux-saga';
 import {
   call, takeEvery, takeLatest, fork, put, select, take,
 } from 'redux-saga/effects';
-import pick from 'lodash/pick';
+import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 
 // Application
@@ -41,6 +41,43 @@ import { selectAuth } from './selectors';
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
+const loadUserSection = async (section, uid) => {
+  const doc = await firebase.firestore().collection(section).doc(uid).get();
+
+  return doc.exists ? doc.data() : null;
+};
+
+const loadUserInfo = async (uid) => {
+  const profile = await loadUserSection('users', uid);
+
+  if (!profile) {
+    return null;
+  }
+
+  const admin = await loadUserSection('admins', uid);
+  const mentor = await loadUserSection('mentors', uid);
+  const teacher = await loadUserSection('teachers', uid);
+
+  const user = { uid, profile };
+
+  if (admin) {
+    user.admin = admin;
+  }
+
+  if (mentor) {
+    user.mentor = mentor;
+  }
+
+  if (teacher) {
+    user.teacher = teacher;
+  }
+
+  return user;
+};
+
+const updateUserInfo = (section, uid, info) => firebase.firestore()
+  .collection(section).doc(uid).set(info, { merge: true });
+
 const signInProvider = async (providerEnum, data) => {
   switch (providerEnum) {
     case SIGNIN_GOOGLE_PROVIDER:
@@ -72,11 +109,19 @@ function* signUp({ payload: { userData } }) {
 
     yield userDocRef.set({
       email,
-      roles: {
-        [role]: true,
-      },
-      wasMentorBefore: Boolean(wasMentorBefore),
     });
+
+    if (role === 'mentor') {
+      yield firebase.firestore().collection('mentors').doc(uid).set({
+        wasMentorBefore: Boolean(wasMentorBefore),
+      });
+    }
+
+    if (role === 'teacher') {
+      yield firebase.firestore().collection('teachers').doc(uid).set({
+        teacherApproved: false,
+      });
+    }
 
     const createdDoc = yield userDocRef.get();
     if (!createdDoc.exists) {
@@ -132,20 +177,17 @@ function* stateInit() {
 }
 
 function* loadUser() {
-  const auth = yield select(selectAuth());
-
-  if (!auth || !auth.uid) {
-    yield put(loadUserSuccess(null));
-    return;
-  }
-
-  const { uid } = auth;
-
   try {
-    const doc = yield firebase.firestore().collection('users')
-      .doc(uid).get();
+    const auth = yield select(selectAuth());
 
-    const user = doc.exists ? { uid, ...doc.data() } : null;
+    if (!auth || !auth.uid) {
+      yield put(loadUserSuccess(null));
+      return;
+    }
+
+    const { uid } = auth;
+    const user = yield loadUserInfo(uid);
+
     yield put(loadUserSuccess(user));
   } catch (error) {
     yield put(loadUserFailure(error));
@@ -156,7 +198,10 @@ function* updateUser({ payload }) {
   try {
     const {
       userData: {
-        role, school, wasMentorBefore, ...userData
+        profile,
+        mentor,
+        teacher,
+        // role, school, wasMentorBefore, ...userData
       },
     } = payload;
     const auth = yield select(selectAuth());
@@ -166,37 +211,22 @@ function* updateUser({ payload }) {
     }
 
     const { uid } = auth;
-    const userDocRef = firebase.firestore().collection('users').doc(uid);
 
-    const data = pickBy(
-      pick(userData, [
-        'firstName', 'lastName', 'email', 'phone', 'wasMentorBefore',
-      ]),
-      value => value !== undefined,
-    );
+    yield updateUserInfo('users', uid, profile);
 
-    if (data.wasMentorBefore !== undefined) {
-      data.wasMentorBefore = Boolean(data.wasMentorBefore);
+    if (mentor) {
+      yield updateUserInfo('mentors', uid, mentor);
     }
 
-    if (role) {
-      data.roles = {
-        [userData.role]: true,
-      };
+    if (teacher) {
+      yield updateUserInfo('teachers', uid, { schoolId: get(teacher, 'school.id') });
     }
 
-    if (school) {
-      data.schoolId = school.id;
-    }
+    const user = yield loadUserInfo(uid);
 
-    yield userDocRef.set(data, { merge: true });
-
-    const updatedDoc = yield userDocRef.get();
-
-    if (!updatedDoc.exists) {
+    if (!user) {
       throw new Error('oops');
     }
-    const user = { uid, ...updatedDoc.data() };
 
     yield put(updateUserSuccess(user));
     yield put(loadUserSuccess(user));

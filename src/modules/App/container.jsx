@@ -59,12 +59,12 @@ const Public = () => (
   </Router>
 );
 
-const Private = ({ roles }) => (
+const Private = ({ user }) => (
   <Router>
     <AppWrapper>
       <Switch>
         <Route path="/" exact component={Dashboard} />
-        {roles.admin && (
+        {user.admin && (
           <React.Fragment>
             <Route path="/schools" exact component={Schools} />
             <Route path="/school/new" exact component={SchoolCreate} />
@@ -132,12 +132,12 @@ class App extends React.Component {
       return <CompleteSignUp user={user || { email: auth.email }} />;
     }
 
-    if (auth && user && user.roles.teacher && !user.teacherApproved) {
+    if (auth && user && user.teacher && !user.teacher.isApproved) {
       return <WaitingForApproval />;
     }
 
     if (auth && user) {
-      return <Private roles={user.roles} />;
+      return <Private user={user} />;
     }
 
     // return <AuthAdmin />;

@@ -5,6 +5,8 @@ import {
   takeEvery, takeLatest, fork, put,
 } from 'redux-saga/effects';
 
+import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
+
 // Application
 import {
   APPROVE_TEACHERS,
@@ -20,15 +22,15 @@ import {
 
 function* approveTeachers({ payload: { teacherIds } }) {
   try {
-    const collection = firebase.firestore().collection('users');
+    const collection = firebase.firestore().collection('teachers');
     const teachers = yield Promise.all(
-      teacherIds.map(id => firebase.firestore().collection('users').doc(id).get()),
+      teacherIds.map(id => firebase.firestore().collection('teachers').doc(id).get()),
     );
 
     const existingTeachers = teachers.filter(t => t.exists);
 
     const batch = firebase.firestore().batch();
-    existingTeachers.forEach(t => batch.update(collection.doc(t.id), { teacherApproved: true }));
+    existingTeachers.forEach(t => batch.update(collection.doc(t.id), { isApproved: true }));
 
     yield batch.commit();
 
@@ -39,15 +41,17 @@ function* approveTeachers({ payload: { teacherIds } }) {
   }
 }
 
-function* fetchTeachers() {
+function* fetchTeachers({ payload: { start = 0, limit = 10 } }) {
   try {
-    const snapshots = yield firebase.firestore().collection('users')
-      .where('roles.teacher', '==', true)
-      .get();
+    const teachersSnaps = yield firebase.firestore().collection('teachers').get();
 
-    const users = snapshots.docs.map(doc => ({ ...doc.data(), uid: doc.id }));
+    const teachersIds = teachersSnaps.docs
+      .slice(start, start + limit)
+      .map(doc => doc.id);
 
-    yield put(fetchTeachersSuccess(users));
+    const teachers = yield Promise.all(teachersIds.map(uid => loadUserInfo(uid)));
+
+    yield put(fetchTeachersSuccess(teachers));
   } catch (error) {
     yield put(fetchTeachersFailure(error));
   }

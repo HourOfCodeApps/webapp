@@ -19,23 +19,24 @@ class Teacher extends React.Component {
     } = this;
 
     return (
-      <TableRow style={{ background: teacher.teacherApproved ? 'transparent' : 'yellow' }}>
+      <TableRow style={{ background: teacher.teacher.isApproved ? 'transparent' : 'yellow' }}>
         <TableCell component="th" scope="row">
-          {teacher.firstName}
+          {teacher.id}
+          {teacher.profile.firstName}
           &nbsp;
-          {teacher.lastName}
+          {teacher.profile.lastName}
         </TableCell>
         <TableCell>
-          {teacher.schoolId}
+          {teacher.teacher.schoolId}
         </TableCell>
         <TableCell>
-          {teacher.email}
+          {teacher.profile.email}
         </TableCell>
         <TableCell>
-          {teacher.phone}
+          {teacher.profile.phone}
         </TableCell>
         <TableCell number>
-          {!teacher.teacherApproved && (
+          {!teacher.teacher.isApproved && (
             <IconButton
               onClick={handleApprove}
               aria-label="Approve"
