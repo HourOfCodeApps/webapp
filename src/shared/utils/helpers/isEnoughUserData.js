@@ -3,14 +3,32 @@ export default (user) => {
     return false;
   }
 
+  const {
+    profile, admin, mentor, teacher,
+  } = user;
+
+  // no profile at all
   if (
-    !user.email
-    || !user.phone
-    || !user.firstName
-    || !user.lastName
-    || !user.roles
-    || (user.roles.teacher && !user.schoolId)
+    !profile
+    || !profile.email
+    || !profile.phone
+    || !profile.firstName
+    || !profile.lastName
   ) {
+    return false;
+  }
+
+  // no role
+  if (!admin && !mentor && !teacher) {
+    return false;
+  }
+
+  // if not valid mentor
+
+  // if not valid teacher
+  if (teacher && (
+    !teacher.schoolId
+  )) {
     return false;
   }
 

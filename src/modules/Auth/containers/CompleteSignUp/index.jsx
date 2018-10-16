@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import pick from 'lodash/pick';
+import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -50,20 +52,14 @@ class CompleteSignUp extends React.Component {
   };
 
 
-  // handleSubmit = (formData) => {
-  //   const { onCompleteSignUp } = this.props;
-  //   const userData = {
-  //     email: formData.email,
-  //     firstName: formData.firstName,
-  //     lastName: formData.lastName,
-  //     phone: formData.phone,
-  //     roles: {
-  //       [formData.role]: true,
-  //     },
-  //     wasMentorBefore: Boolean(formData.wasMentorBefore),
-  //   };
-  //   onCompleteSignUp(userData);
-  // }
+  handleSubmit = (formData) => {
+    const { onCompleteSignUp } = this.props;
+    const userData = {
+      profile: get(formData, 'profile', {}),
+      [formData.role]: get(formData, formData.role, {}),
+    };
+    onCompleteSignUp(userData);
+  }
 
   render() {
     const {
@@ -74,20 +70,26 @@ class CompleteSignUp extends React.Component {
         classes,
         schools,
         schoolsFetching,
+        user: {
+          uid,
+          profile,
+          mentor,
+        },
         user,
       },
     } = this;
 
+    const schoolId = get(user.teacher, 'schoolId');
+    const school = !schoolId ? null : schools.find(s => s.id === schoolId);
+
     const initialValues = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
-      wasMentorBefore: user.wasMentorBefore,
+      profile: pick(profile, ['firstName', 'lastName', 'email', 'phone']),
+      mentor: pick(mentor, ['wasMentorBefore']),
+      teacher: { school },
     };
 
-    if (user && user.roles) {
-      initialValues.role = user.roles.teacher ? 'teacher' : 'mentor';
+    if (user.mentor || user.teacher) {
+      initialValues.role = mentor ? 'mentor' : 'teacher';
     }
 
     return (
@@ -99,7 +101,8 @@ class CompleteSignUp extends React.Component {
           </div>
           <CompleteSignUpForm
             initialValues={initialValues}
-            onSubmit={onCompleteSignUp}
+            // onSubmit={onCompleteSignUp}
+            onSubmit={handleSubmit}
             schools={schools}
             schoolsLoading={schoolsFetching}
           />
