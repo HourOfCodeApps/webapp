@@ -2,6 +2,9 @@ import {
   CREATE_TIMESLOT,
   CREATE_TIMESLOT_FAILURE,
   CREATE_TIMESLOT_SUCCESS,
+  DELETE_TIMESLOT,
+  DELETE_TIMESLOT_FAILURE,
+  DELETE_TIMESLOT_SUCCESS,
   FETCH_TIMESLOTS,
   FETCH_TIMESLOTS_FAILURE,
   FETCH_TIMESLOTS_SUCCESS,
@@ -10,6 +13,8 @@ import {
 const initialState = {
   timeslotCreating: false,
   timeslotCreatingError: null,
+  timeslotDeleting: false,
+  timeslotDeletingError: null,
   timeslots: [],
   timeslotsFetching: false,
   timeslotsFetchingError: null,
@@ -36,6 +41,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         timeslot: action.payload.timeslot,
         timeslotCreating: false,
+      };
+
+    case DELETE_TIMESLOT:
+      return {
+        ...state,
+        timeslotDeleting: true,
+        timeslotDeletingError: null,
+      };
+
+    case DELETE_TIMESLOT_FAILURE:
+      return {
+        ...state,
+        timeslotDeleting: false,
+        timeslotDeletingError: action.payload.error,
+      };
+
+    case DELETE_TIMESLOT_SUCCESS:
+      return {
+        ...state,
+        timeslotDeleting: false,
       };
 
     case FETCH_TIMESLOTS:

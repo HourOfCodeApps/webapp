@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -10,12 +9,19 @@ import { toast } from 'react-toastify';
 
 import { withUser } from 'modules/Auth';
 
+import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+
 import {
   createTimeslot,
+  deleteTimeslot,
   fetchTimeslots,
 } from './actions';
 
 import {
+  selectTimeslotCreating,
+  selectTimeslotCreatingError,
+  selectTimeslotDeleting,
+  selectTimeslotDeletingError,
   selectTimeslots,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
@@ -25,26 +31,40 @@ import Timeslots from './components/Timeslots';
 import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 class Schedule extends React.Component {
+  state = {
+    deleteConfirmationDialogShown: false,
+    deleteTimeslotId: null,
+  };
+
   componentDidMount() {
     const { teacher } = this.props.user;
-    // console.log(this.props.user);
     this.props.onFetchTimeslots(teacher.schoolId);
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.teachersApproving && !this.props.teachersApproving) {
-  //     if (this.props.teachersApprovingError) {
-  //       toast.error(this.props.teachersApprovingError.message);
-  //     } else {
-  //       toast.success('Вчителя успішно підтверджено');
-  //       this.props.onFetchTeachers();
-  //     }
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.timeslotCreating && !this.props.timeslotCreating) {
+      if (this.props.timeslotCreatingError) {
+        toast.error(this.props.timeslotCreatingError.message);
+      } else {
+        toast.success('Урок успішно створено');
 
-  // handleApproveTeacherClick = (id) => {
-  //   this.props.onApproveTeachers(id);
-  // }
+        const { teacher } = this.props.user;
+        this.props.onFetchTimeslots(teacher.schoolId);
+      }
+    }
+
+    if (prevProps.timeslotDeleting && !this.props.timeslotDeleting) {
+      if (this.props.timeslotDeletingError) {
+        toast.error(this.props.timeslotDeletingError.message);
+      } else {
+        toast.success('Урок успішно виделано');
+
+        const { teacher } = this.props.user;
+        this.props.onFetchTimeslots(teacher.schoolId);
+      }
+      this.handleDeleteCancel();
+    }
+  }
 
   handleSubmit = (formData) => {
     this.props.onCreateTimeslot({
@@ -54,18 +74,30 @@ class Schedule extends React.Component {
     });
   }
 
-  render() {
-    // const { classes } = this.props;
+  handleDeleteClick = timeslotId => this.setState({
+    deleteConfirmationDialogShown: true,
+    deleteTimeslotId: timeslotId,
+  });
 
+  handleDeleteCancel = () => this.setState({
+    deleteConfirmationDialogShown: false,
+    deleteTimeslotId: null,
+  });
+
+  handleDeleteTimeslotConfirm = () => {
+    const { deleteTimeslotId: timeslotId } = this.state;
+    this.props.onDeleteTimeslot(timeslotId);
+  }
+
+  render() {
     const {
-      // handleApproveTeacherClick,
-      // handleDeleteClick,
-      // handleDeleteCancel,
-      // handleDeleteSchoolConfirm,
+      handleDeleteClick,
+      handleDeleteCancel,
+      handleDeleteTimeslotConfirm,
       handleSubmit,
-      // state: {
-      //   deleteConfirmationDialogShown,
-      // },
+      state: {
+        deleteConfirmationDialogShown,
+      },
       props: {
         timeslots,
         timeslotsFetching,
@@ -84,8 +116,20 @@ class Schedule extends React.Component {
     return (
       <React.Fragment>
         <div>{this.props.user.teacher.schoolId}</div>
-        <Timeslots timeslots={timeslots} />
+        <Timeslots
+          timeslots={timeslots}
+          onDeleteTimeslot={handleDeleteClick}
+        />
         <CreateTimeslotForm onSubmit={handleSubmit} />
+        {deleteConfirmationDialogShown && (
+          <ConfirmationDialog
+            onCancel={handleDeleteCancel}
+            onConfirm={handleDeleteTimeslotConfirm}
+            confirmLabel="Так"
+            cancelLabel="Ні"
+            title="Ви впевнені, що хочете видалити цей урок?"
+          />
+        )}
       </React.Fragment>
     );
   }
@@ -93,26 +137,55 @@ class Schedule extends React.Component {
 
 Schedule.propTypes = {
   onCreateTimeslot: PropTypes.func.isRequired,
+  onDeleteTimeslot: PropTypes.func.isRequired,
   onFetchTimeslots: PropTypes.func.isRequired,
   user: PropTypes.shape(PropTypes.object).isRequired,
+  timeslotCreating: PropTypes.bool.isRequired,
+  timeslotCreatingError: PropTypes.instanceOf(Object),
+  timeslotDeleting: PropTypes.bool.isRequired,
+  timeslotDeletingError: PropTypes.instanceOf(Object),
+  timeslots: PropTypes.instanceOf(Array),
+  timeslotsFetching: PropTypes.bool.isRequired,
+  timeslotsFetchingError: PropTypes.instanceOf(Object),
 };
 
-// export default withStyles(styles)(Teachers);
-
+Schedule.defaultProps = {
+  timeslotCreatingError: null,
+  timeslotDeletingError: null,
+  timeslots: [],
+  timeslotsFetchingError: null,
+};
 
 const mapStateToProps = createSelector(
+  selectTimeslotCreating(),
+  selectTimeslotCreatingError(),
+  selectTimeslotDeleting(),
+  selectTimeslotDeletingError(),
   selectTimeslots(),
   selectTimeslotsFetching(),
   selectTimeslotsFetchingError(),
   (
-    timeslots, timeslotsFetching, timeslotsFetchingError,
+    timeslotCreating,
+    timeslotCreatingError,
+    timeslotDeleting,
+    timeslotDeletingError,
+    timeslots,
+    timeslotsFetching,
+    timeslotsFetchingError,
   ) => ({
-    timeslots, timeslotsFetching, timeslotsFetchingError,
+    timeslotCreating,
+    timeslotCreatingError,
+    timeslotDeleting,
+    timeslotDeletingError,
+    timeslots,
+    timeslotsFetching,
+    timeslotsFetchingError,
   }),
 );
 
 const mapDispatchToProps = {
   onCreateTimeslot: createTimeslot,
+  onDeleteTimeslot: deleteTimeslot,
   onFetchTimeslots: fetchTimeslots,
 };
 

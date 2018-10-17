@@ -11,6 +11,7 @@ import { selectUser } from 'modules/Auth';
 
 import {
   CREATE_TIMESLOT,
+  DELETE_TIMESLOT,
   FETCH_TIMESLOTS,
 } from './constants';
 
@@ -19,6 +20,8 @@ import {
   createTimeslotSuccess,
   fetchTimeslotsFailure,
   fetchTimeslotsSuccess,
+  deleteTimeslotFailure,
+  deleteTimeslotSuccess,
 } from './actions';
 
 
@@ -49,6 +52,16 @@ function* createTimeslot({ payload: { data } }) {
   }
 }
 
+function* deleteTimeslot({ payload: { id } }) {
+  try {
+    yield firebase.firestore().collection('timeslots').doc(id).delete();
+
+    yield put(deleteTimeslotSuccess());
+  } catch (error) {
+    yield put(deleteTimeslotFailure(error));
+  }
+}
+
 function* fetchTimeslots({ payload: { schoolId } }) {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
@@ -74,6 +87,7 @@ function* fetchTimeslots({ payload: { schoolId } }) {
  */
 function* rootSaga() {
   yield fork(takeEvery, CREATE_TIMESLOT, createTimeslot);
+  yield fork(takeEvery, DELETE_TIMESLOT, deleteTimeslot);
   yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
 }
 
@@ -83,6 +97,7 @@ export default [
 // Exports for testing
 export {
   createTimeslot,
+  deleteTimeslot,
   fetchTimeslots,
   rootSaga,
 };

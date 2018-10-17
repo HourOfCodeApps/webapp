@@ -1,9 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { createSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,17 +9,7 @@ import Paper from '@material-ui/core/Paper';
 
 import TimeslotRow from '../TimeslotRow';
 
-const styles = {
-  root: {
-    width: '100%',
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
-};
-
-const Timeslots = ({ timeslots }) => (
+const Timeslots = ({ onDeleteTimeslot, timeslots }) => (
   <Paper>
     <Table>
       <TableHead>
@@ -41,8 +27,7 @@ const Timeslots = ({ timeslots }) => (
           <TimeslotRow
             key={t.id}
             timeslot={t}
-            // onApprove={handleApproveTeacherClick}
-            // onDelete={handleDeleteClick}
+            onDelete={onDeleteTimeslot}
           />
         ))}
       </TableBody>
@@ -52,13 +37,7 @@ const Timeslots = ({ timeslots }) => (
 
 Timeslots.propTypes = {
   timeslots: PropTypes.instanceOf(Array).isRequired,
+  onDeleteTimeslot: PropTypes.func.isRequired,
 };
-
-
-// export default compose(
-//   connect(mapStateToProps, mapDispatchToProps),
-//   withStyles(styles),
-//   withUser,
-// )(Timeslots);
 
 export default Timeslots;
