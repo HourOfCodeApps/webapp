@@ -15,12 +15,12 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
   toolbar: {
     paddingRight: 24,
+    justifyContent: 'space-between',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   title: {
-    flexGrow: 1,
     textDecoration: 'none',
   },
   toolbarButton: {
@@ -35,7 +35,10 @@ const Header = ({ classes, onSignOut, user }) => (
   >
     <Toolbar className={classes.toolbar}>
       <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
-        HOC Organizer
+        <FlexBox margin="10px 0px" align="center">
+          <Logo width="60px" height="60px" />
+          <Heading bolder>Lviv</Heading>
+        </FlexBox>
       </Typography>
 
       {/* <IconButton color="inherit">
@@ -48,9 +51,9 @@ const Header = ({ classes, onSignOut, user }) => (
       {/* {user.admin && (
         <Button
           className={classes.toolbarButton}
-          component={props => <Link to="/users" {...props} />}
+          component={props => <Link to="/me" {...props} />}
         >
-          Користувачі
+          Мої дані
         </Button>
       )} */}
       {user.admin && (

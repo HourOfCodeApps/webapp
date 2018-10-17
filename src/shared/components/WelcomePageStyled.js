@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { colors } from '../styles';
 
 export const WelcomeHeroWrapper = styled.div`
     padding: 40px 0 40px;
@@ -13,14 +12,14 @@ export const WelcomeHeroWrapper = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: ${colors.primary};
+        background-color: #1696a0;
         opacity: .2;
     }
 `;
 
 export const Logo = styled.div`
-    width: 100px;
-    height: 100px;
+    width: ${props => (props.width ? props.width : '100px')};
+    height: ${props => (props.height ? props.height : '100px')};
     background-image: url('../src/shared/assets/img/hoc-logo.png');
     background-size: contain;
     margin-right: 10px;

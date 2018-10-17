@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { FlexBox } from '../../../../shared/styled/LayoutStyled';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { FlexBox } from 'shared/components/LayoutStyled';
 import {
   signIn,
 } from '../../actions';
