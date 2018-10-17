@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import SignUpForm from '../../components/SignUpForm';
 import { FlexBox } from 'shared/components/LayoutStyled';
+import SignUpForm from '../../components/SignUpForm';
 
 import {
   signUp,

@@ -9,6 +9,7 @@ class WelcomePage extends React.Component {
     isSignInShown: false,
   };
 
+
   handleToggleMode = () => this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));
 
   render() {
@@ -71,3 +72,4 @@ class WelcomePage extends React.Component {
 }
 
 export default WelcomePage;
+
