@@ -11,10 +11,12 @@ import { reducer as formReducer } from 'redux-form';
 import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
 import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
 import { reducer as schoolsReducer, sagas as schoolsSagas } from 'modules/Schools';
+import { reducer as scheduleReducer, sagas as scheduleSagas } from 'modules/Schedule';
 
 const reducer = combineReducers({
   auth: authReducer,
   form: formReducer,
+  schedule: scheduleReducer,
   schools: schoolsReducer,
   users: usersReducer,
 });
@@ -33,6 +35,7 @@ const store = createStore(
 
 [
   ...authSagas,
+  ...scheduleSagas,
   ...schoolsSagas,
   ...usersSagas,
 ].map(sagaMiddleware.run);

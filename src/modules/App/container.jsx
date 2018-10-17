@@ -18,6 +18,7 @@ import Page404 from 'modules/ErrorPage/Page404';
 import Dashboard from 'modules/Dashboard';
 import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
 import { Teachers } from 'modules/Users';
+import Schedule from 'modules/Schedule';
 
 import {
   selectAuth,
@@ -71,6 +72,11 @@ const Private = ({ user }) => (
             <Route path="/school/:id" exact component={School} />
             <Route path="/school/:id/edit" exact component={SchoolEdit} />
             <Route path="/teachers" exact component={Teachers} />
+          </React.Fragment>
+        )}
+        {user.teacher && (
+          <React.Fragment>
+            <Route path="/schedule" exact component={Schedule} />
           </React.Fragment>
         )}
         <Route component={Page404} />
