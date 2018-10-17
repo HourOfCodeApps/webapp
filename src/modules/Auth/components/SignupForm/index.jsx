@@ -7,8 +7,8 @@ import Button from '@material-ui/core/Button';
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
 import TextField from 'shared/components/ReduxForm/TextField';
-import { Heading } from '../../../../shared/styled/TypographyStyled';
-import { FlexBox } from '../../../../shared/styled/LayoutStyled';
+import { Heading } from 'shared/components/TypographyStyled';
+import { FlexBox } from 'shared/components/LayoutStyled';
 
 import { SIGNUP_FORM_ID } from '../../constants';
 import validate from './validate';
