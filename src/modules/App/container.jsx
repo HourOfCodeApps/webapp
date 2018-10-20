@@ -20,6 +20,7 @@ import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
 import { Teachers } from 'modules/Users';
 import Schedule from 'modules/Schedule';
 import MentorSchedule, { MentorScheduleApply } from 'modules/MentorSchedule';
+import Profile from 'modules/Profile';
 
 import {
   selectAuth,
@@ -86,6 +87,7 @@ const Private = ({ user }) => (
             <Route path="/apply" exact component={MentorScheduleApply} />
           </React.Fragment>
         )}
+        <Route path="/me" exact component={Profile} />
         <Route component={Page404} />
       </Switch>
     </AppWrapper>

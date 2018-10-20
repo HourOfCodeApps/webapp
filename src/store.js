@@ -13,14 +13,16 @@ import { reducer as mentorScheduleReducer, sagas as mentorScheduleSagas } from '
 import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
 import { reducer as schoolsReducer, sagas as schoolsSagas } from 'modules/Schools';
 import { reducer as scheduleReducer, sagas as scheduleSagas } from 'modules/Schedule';
+import { reducer as profileReducer, sagas as profileSagas } from 'modules/Profile';
 
 const reducer = combineReducers({
   auth: authReducer,
   form: formReducer,
+  mentorSchedule: mentorScheduleReducer,
+  profile: profileReducer,
   schedule: scheduleReducer,
   schools: schoolsReducer,
   users: usersReducer,
-  mentorSchedule: mentorScheduleReducer,
 });
 
 // ToDo: skip if prod
@@ -41,6 +43,7 @@ const store = createStore(
   ...scheduleSagas,
   ...schoolsSagas,
   ...usersSagas,
+  ...profileSagas,
 ].map(sagaMiddleware.run);
 
 export default store;
