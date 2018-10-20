@@ -1,25 +1,6 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'shared/components/DateTimePicker';
-
-
-// export default () => (
-// <FormControl fullWidth margin="normal">
-//           <TimePicker />
-//         </FormControl>
-
-//   <MuiPickersUtilsProvider utils={LuxonUtils}>
-//     <TimePicker
-//       clearable
-//       ampm={false}
-//       label="24 hours"
-//       variant="outlined"
-//       // value={selectedDate}
-//       // onChange={this.handleDateChange}
-//     />
-//   </MuiPickersUtilsProvider>
-// );
 
 const DateTimePickerField = ({
   compact,
@@ -31,10 +12,6 @@ const DateTimePickerField = ({
   placeholder,
   ...props
 }) => (
-  // <FormControl
-  //   fullWidth
-  //   margin="normal"
-  // >
   <DateTimePicker
     disabled={disabled}
     label={label}
@@ -46,21 +23,6 @@ const DateTimePickerField = ({
     helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
     {...props}
   />
-  // <MuiTextField
-  //   // required={required}
-  //   fullWidth={!compact}
-  //   error={touched && error}
-  //   disabled={disabled}
-  //   label={label}
-  //   value={input.value}
-  //   onChange={input.onChange}
-  //   name={input.name}
-  //   margin="normal"
-  //   helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
-  //   variant="outlined"
-  //   type={type}
-  //   placeholder={placeholder}
-  // />
 );
 
 DateTimePickerField.propTypes = {

@@ -1,7 +1,13 @@
 function isUserCreateValid(user) {
-  return user.roles.size() == 1
-      && (user.roles.mentor || user.roles.teacher)
-      && user.email is string;
+  return user.email is string;
+}
+
+function isMentorUpdateAllowed(oldData, newData) {
+  return true;
+}
+
+function isTeacherUpdateAllowed(oldData, newData) {
+  return true;
 }
 
 function isAbleToUpdateUser(oldData, newData) {
@@ -31,6 +37,7 @@ service cloud.firestore {
 
     function isAdmin(userId) {
       return get(/databases/$(database)/documents/admins/$(userId)) != null;
+      // return getUserRoles(request.auth.uid).admin == true;
     }
 
     match /schools/{schoolId} {
@@ -40,14 +47,22 @@ service cloud.firestore {
 
     match /mentors/{userId} {
       allow create: if request.auth.uid == userId;
-      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
-      allow update, delete, list: if isAdmin(request.auth.uid);
+      allow read: if isAdmin(request.auth.uid) || request.auth.uid == userId;
+      allow update: if isAdmin(request.auth.uid)
+                    || (request.auth.uid == userId && isMentorUpdateAllowed(resource.data, request.resource.data));
+      allow delete, list: if isAdmin(request.auth.uid);
     }
 
     match /teachers/{userId} {
       allow create: if request.auth.uid == userId;
-      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
-      allow update, delete, list: if isAdmin(request.auth.uid);
+      allow read: if isAdmin(request.auth.uid) || request.auth.uid == userId;
+      allow update: if isAdmin(request.auth.uid)
+                    || (request.auth.uid == userId && isTeacherUpdateAllowed(resource.data, request.resource.data));
+      allow delete, list: if isAdmin(request.auth.uid);
+    }
+
+    match /timeslots/{slotId} {
+      allow read, write: if request.auth.uid != null;
     }
 
     match /admins/{userId} {

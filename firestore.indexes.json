@@ -10,5 +10,13 @@
   //     ]
   //   }
   // ]
-  "indexes": []
+  "indexes": [
+    {
+      "collectionId": "timeslots",
+      "fields": [
+        { "fieldPath": "mentorId", "mode": "ASCENDING" },
+        { "fieldPath": "schoolId", "mode": "ASCENDING" }
+      ]
+    }
+  ]
 }

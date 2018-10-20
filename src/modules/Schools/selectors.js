@@ -52,6 +52,11 @@ const selectSchoolsFetchingError = () => createSelector(
   substate => substate.schoolsFetchingError,
 );
 
+const selectSchoolsMap = () => createSelector(
+  selectSchoolsDomain(),
+  substate => substate.schoolsMap,
+);
+
 const selectSchoolUpdating = () => createSelector(
   selectSchoolsDomain(),
   substate => substate.schoolUpdating,
@@ -74,6 +79,7 @@ export {
   selectSchoolsDomain,
   selectSchoolsFetching,
   selectSchoolsFetchingError,
+  selectSchoolsMap,
   selectSchoolUpdating,
   selectSchoolUpdatingError,
 };

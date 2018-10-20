@@ -19,6 +19,7 @@ import Dashboard from 'modules/Dashboard';
 import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
 import { Teachers } from 'modules/Users';
 import Schedule from 'modules/Schedule';
+import MentorSchedule, { MentorScheduleApply } from 'modules/MentorSchedule';
 
 import {
   selectAuth,
@@ -64,9 +65,9 @@ const Private = ({ user }) => (
   <Router>
     <AppWrapper>
       <Switch>
-        <Route path="/" exact component={Dashboard} />
         {user.admin && (
           <React.Fragment>
+            <Route path="/" exact component={Dashboard} />
             <Route path="/schools" exact component={Schools} />
             <Route path="/school/new" exact component={SchoolCreate} />
             <Route path="/school/:id" exact component={School} />
@@ -76,7 +77,13 @@ const Private = ({ user }) => (
         )}
         {user.teacher && (
           <React.Fragment>
-            <Route path="/schedule" exact component={Schedule} />
+            <Route path="/" exact component={Schedule} />
+          </React.Fragment>
+        )}
+        {user.mentor && (
+          <React.Fragment>
+            <Route path="/" exact component={MentorSchedule} />
+            <Route path="/apply" exact component={MentorScheduleApply} />
           </React.Fragment>
         )}
         <Route component={Page404} />

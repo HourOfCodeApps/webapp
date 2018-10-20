@@ -6,18 +6,13 @@ import LuxonUtils from 'material-ui-pickers/utils/luxon-utils';
 import { DateTimePicker as Picker } from 'material-ui-pickers';
 
 
-const DateTimePicker = ({ label, value, onChange, ...props }) => (
+const DateTimePicker = ({ value, ...props }) => (
   <MuiPickersUtilsProvider utils={LuxonUtils}>
     <Picker
       clearable
       ampm={false}
-      label={label}
       variant="outlined"
       value={value || null}
-      onChange={onChange}
-      // helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
-      // error="FUCK"
-      // helperText="Hello"
       {...props}
     />
   </MuiPickersUtilsProvider>

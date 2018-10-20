@@ -70,12 +70,14 @@ const Header = ({ classes, onSignOut, user }) => (
           </Button>
         </React.Fragment>
       )}
-      <Button
-        className={classes.toolbarButton}
-        component={props => <Link to="/schedule" {...props} />}
-      >
-        Розклад
-      </Button>
+      {user.teacher && (
+        <Button
+          className={classes.toolbarButton}
+          component={props => <Link to="/" {...props} />}
+        >
+          Розклад
+        </Button>
+      )}
       <Button
         className={classes.toolbarButton}
         component={props => <Link to="/me" {...props} />}

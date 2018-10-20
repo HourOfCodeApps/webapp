@@ -9,6 +9,7 @@ import {
   selectSchools,
   selectSchoolsFetching,
   selectSchoolsFetchingError,
+  selectSchoolsMap,
 } from '../../selectors';
 
 const withSchools = WrappedComponent => class withSchoolsHoC extends React.Component {
@@ -30,10 +31,11 @@ const mapStateToProps = createSelector(
   selectSchools(),
   selectSchoolsFetching(),
   selectSchoolsFetchingError(),
+  selectSchoolsMap(),
   (
-    schools, schoolsFetching, schoolsFetchingError,
+    schools, schoolsFetching, schoolsFetchingError, schoolsMap,
   ) => ({
-    schools, schoolsFetching, schoolsFetchingError,
+    schools, schoolsFetching, schoolsFetchingError, schoolsMap,
   }),
 );
 
