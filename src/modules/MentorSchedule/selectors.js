@@ -2,24 +2,24 @@ import { createSelector } from 'reselect';
 
 const selectMentorScheduleDomain = () => state => state.mentorSchedule;
 
-const selectTimeslotCreating = () => createSelector(
+const selectTimeslotApplying = () => createSelector(
   selectMentorScheduleDomain(),
-  substate => substate.timeslotCreating,
+  substate => substate.timeslotApplying,
 );
 
-const selectTimeslotCreatingError = () => createSelector(
+const selectTimeslotApplyingError = () => createSelector(
   selectMentorScheduleDomain(),
-  substate => substate.timeslotCreatingError,
+  substate => substate.timeslotApplyingError,
 );
 
-const selectTimeslotDeleting = () => createSelector(
+const selectTimeslotCanceling = () => createSelector(
   selectMentorScheduleDomain(),
-  substate => substate.timeslotDeleting,
+  substate => substate.timeslotCanceling,
 );
 
-const selectTimeslotDeletingError = () => createSelector(
+const selectTimeslotCancelingError = () => createSelector(
   selectMentorScheduleDomain(),
-  substate => substate.timeslotDeletingError,
+  substate => substate.timeslotCancelingError,
 );
 
 const selectTimeslots = () => createSelector(
@@ -32,6 +32,11 @@ const selectTimeslotsByDays = () => createSelector(
   substate => substate.timeslotsByDays,
 );
 
+const selectTimeslotsBySchool = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.timeslotsBySchool,
+);
+
 const selectTimeslotsFetching = () => createSelector(
   selectMentorScheduleDomain(),
   substate => substate.timeslotsFetching,
@@ -42,14 +47,39 @@ const selectTimeslotsFetchingError = () => createSelector(
   substate => substate.timeslotsFetchingError,
 );
 
+const selectMyTimeslots = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.myTimeslots,
+);
+
+const selectMyTimeslotsBySchool = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.myTimeslotsBySchool,
+);
+
+const selectMyTimeslotsFetching = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.myTimeslotsFetching,
+);
+
+const selectMyTimeslotsFetchingError = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.myTimeslotsFetchingError,
+);
+
 export {
-  selectTimeslotCreating,
-  selectTimeslotCreatingError,
-  selectTimeslotDeleting,
-  selectTimeslotDeletingError,
+  selectTimeslotApplying,
+  selectTimeslotApplyingError,
+  selectTimeslotCanceling,
+  selectTimeslotCancelingError,
   selectTimeslots,
   selectTimeslotsByDays,
+  selectTimeslotsBySchool,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
   selectMentorScheduleDomain,
+  selectMyTimeslots,
+  selectMyTimeslotsBySchool,
+  selectMyTimeslotsFetching,
+  selectMyTimeslotsFetchingError,
 };

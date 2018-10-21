@@ -1,69 +1,78 @@
 import { DateTime } from 'luxon';
 
 import {
-  CREATE_TIMESLOT,
-  CREATE_TIMESLOT_FAILURE,
-  CREATE_TIMESLOT_SUCCESS,
-  DELETE_TIMESLOT,
-  DELETE_TIMESLOT_FAILURE,
-  DELETE_TIMESLOT_SUCCESS,
+  APPLY_TIMESLOT,
+  APPLY_TIMESLOT_FAILURE,
+  APPLY_TIMESLOT_SUCCESS,
+  CANCEL_TIMESLOT,
+  CANCEL_TIMESLOT_FAILURE,
+  CANCEL_TIMESLOT_SUCCESS,
   FETCH_TIMESLOTS,
   FETCH_TIMESLOTS_FAILURE,
   FETCH_TIMESLOTS_SUCCESS,
+  FETCH_MY_TIMESLOTS,
+  FETCH_MY_TIMESLOTS_FAILURE,
+  FETCH_MY_TIMESLOTS_SUCCESS,
 } from './constants';
 
 const initialState = {
-  timeslotCreating: false,
-  timeslotCreatingError: null,
-  timeslotDeleting: false,
-  timeslotDeletingError: null,
+  myTimeslots: [],
+  myTimeslotsByDays: {},
+  myTimeslotsBySchool: [],
+  myTimeslotsFetching: false,
+  myTimeslotsFetchingError: null,
+  timeslotApplying: false,
+  timeslotApplyingError: null,
+  timeslotCanceling: false,
+  timeslotCancelingError: null,
   timeslots: [],
   timeslotsByDays: {},
+  timeslotsBySchool: [],
   timeslotsFetching: false,
   timeslotsFetchingError: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_TIMESLOT:
+    case APPLY_TIMESLOT:
       return {
         ...state,
-        timeslotCreating: true,
-        timeslotCreatingError: null,
+        timeslotApplying: true,
+        timeslotApplyingError: null,
       };
 
-    case CREATE_TIMESLOT_FAILURE:
+    case APPLY_TIMESLOT_FAILURE:
       return {
         ...state,
-        timeslotCreating: false,
-        timeslotCreatingError: action.payload.error,
+        timeslotApplying: false,
+        timeslotApplyingError: action.payload.error,
       };
 
-    case CREATE_TIMESLOT_SUCCESS:
+    case APPLY_TIMESLOT_SUCCESS:
       return {
         ...state,
-        timeslot: action.payload.timeslot,
-        timeslotCreating: false,
+        // timeslot: action.payload.timeslot,
+        timeslotApplying: false,
       };
 
-    case DELETE_TIMESLOT:
+    case CANCEL_TIMESLOT:
       return {
         ...state,
-        timeslotDeleting: true,
-        timeslotDeletingError: null,
+        timeslotCanceling: true,
+        timeslotCancelingError: null,
       };
 
-    case DELETE_TIMESLOT_FAILURE:
+    case CANCEL_TIMESLOT_FAILURE:
       return {
         ...state,
-        timeslotDeleting: false,
-        timeslotDeletingError: action.payload.error,
+        timeslotCanceling: false,
+        timeslotCancelingError: action.payload.error,
       };
 
-    case DELETE_TIMESLOT_SUCCESS:
+    case CANCEL_TIMESLOT_SUCCESS:
       return {
         ...state,
-        timeslotDeleting: false,
+        timeslotCanceling: false,
       };
 
     case FETCH_TIMESLOTS:
@@ -81,18 +90,77 @@ const reducer = (state = initialState, action) => {
         timeslotsFetchingError: action.payload.error,
       };
 
-    case FETCH_TIMESLOTS_SUCCESS:
+    case FETCH_TIMESLOTS_SUCCESS: {
+      // const timeslotsByDays = action.payload.timeslots.slice()
+      //   .reduce((acc, curr) => {
+      //     const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
+
+      //     const daySchools = (acc[day] || {});
+      //     daySchools[curr.schoolId] = (daySchools[curr.schoolId] || []).concat(curr);
+
+      //     // const dayValues = (acc[day] || []).concat(curr);
+      //     return { ...acc, [day]: daySchools };
+      //   }, {});
+
+      const timeslotsBySchool = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const schoolTimeslots = (acc[curr.schoolId] || []).concat(curr);
+
+          // const dayValues = (acc[day] || []).concat(curr);
+          return { ...acc, [curr.schoolId]: schoolTimeslots };
+        }, {});
+
       return {
         ...state,
         timeslots: action.payload.timeslots.slice(),
-        timeslotsByDays: action.payload.timeslots.slice()
-          .reduce((acc, curr) => {
-            const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
-            const dayValues = (acc[day] || []).concat(curr);
-            return { ...acc, [day]: dayValues };
-          }, {}),
+        // timeslotsByDays,
+        timeslotsBySchool,
         timeslotsFetching: false,
       };
+    }
+
+    case FETCH_MY_TIMESLOTS:
+      return {
+        ...state,
+        myTimeslots: [],
+        myTimeslotsFetching: true,
+        myTimeslotsFetchingError: null,
+      };
+
+    case FETCH_MY_TIMESLOTS_FAILURE:
+      return {
+        ...state,
+        myTimeslotsFetching: false,
+        myTimeslotsFetchingError: action.payload.error,
+      };
+
+    case FETCH_MY_TIMESLOTS_SUCCESS: {
+      const myTimeslotsByDays = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
+
+          const daySchools = (acc[day] || {});
+          daySchools[curr.schoolId] = (daySchools[curr.schoolId] || []).concat(curr);
+
+          return { ...acc, [day]: daySchools };
+        }, {});
+
+      const myTimeslotsBySchool = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const schoolTimeslots = (acc[curr.schoolId] || []).concat(curr);
+
+          // const dayValues = (acc[day] || []).concat(curr);
+          return { ...acc, [curr.schoolId]: schoolTimeslots };
+        }, {});
+
+      return {
+        ...state,
+        myTimeslots: action.payload.timeslots.slice(),
+        myTimeslotsBySchool,
+        myTimeslotsByDays,
+        myTimeslotsFetching: false,
+      };
+    }
 
     default:
       return state;

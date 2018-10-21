@@ -1,52 +1,55 @@
 import {
-  CREATE_TIMESLOT,
-  CREATE_TIMESLOT_FAILURE,
-  CREATE_TIMESLOT_SUCCESS,
-  DELETE_TIMESLOT,
-  DELETE_TIMESLOT_FAILURE,
-  DELETE_TIMESLOT_SUCCESS,
+  APPLY_TIMESLOT,
+  APPLY_TIMESLOT_FAILURE,
+  APPLY_TIMESLOT_SUCCESS,
+  CANCEL_TIMESLOT,
+  CANCEL_TIMESLOT_FAILURE,
+  CANCEL_TIMESLOT_SUCCESS,
   FETCH_TIMESLOTS,
   FETCH_TIMESLOTS_FAILURE,
   FETCH_TIMESLOTS_SUCCESS,
+  FETCH_MY_TIMESLOTS,
+  FETCH_MY_TIMESLOTS_FAILURE,
+  FETCH_MY_TIMESLOTS_SUCCESS,
 } from './constants';
 
 /**
- * Create timeslot action
- * @param {Object} data timeslot data
- * @returns {{ type: String, payload: { data } }}
+ * Apply timeslot action
+ * @param {String} timeslotId
+ * @returns {{ type: String, payload: { timeslotId } }}
  */
-const createTimeslot = data => ({
-  type: CREATE_TIMESLOT,
-  payload: { data },
+const applyTimeslot = timeslotId => ({
+  type: APPLY_TIMESLOT,
+  payload: { timeslotId },
 });
 
 /**
- * Create timeslot failed action
+ * Apply timeslot failed action
  * @param {Object} error
  * @returns {{ type: String, payload: { error } }}
  */
-const createTimeslotFailure = error => ({
-  type: CREATE_TIMESLOT_FAILURE,
+const applyTimeslotFailure = error => ({
+  type: APPLY_TIMESLOT_FAILURE,
   payload: { error },
 });
 
 /**
- * Create timeslots success action
+ * Apply timeslots success action
  * @param {Object} timeslot
  * @returns {{ type: String, payload: { timeslot } }}
  */
-const createTimeslotSuccess = timeslot => ({
-  type: CREATE_TIMESLOT_SUCCESS,
+const applyTimeslotSuccess = timeslot => ({
+  type: APPLY_TIMESLOT_SUCCESS,
   payload: { timeslot },
 });
 
 /**
- * Delete timeslot action
+ * Cancel timeslot action
  * @param {String} id timeslot id to delete
  * @returns {{ type: String, payload: { id } }}
  */
-const deleteTimeslot = id => ({
-  type: DELETE_TIMESLOT,
+const cancelTimeslot = id => ({
+  type: CANCEL_TIMESLOT,
   payload: { id },
 });
 
@@ -55,25 +58,27 @@ const deleteTimeslot = id => ({
  * @param {Object} error
  * @returns {{ type: String, payload: { error } }}
  */
-const deleteTimeslotFailure = error => ({
-  type: DELETE_TIMESLOT_FAILURE,
+const cancelTimeslotFailure = error => ({
+  type: CANCEL_TIMESLOT_FAILURE,
   payload: { error },
 });
 
 /**
- * Delete timeslot success action
+ * Cancel timeslot success action
  * @returns {{ type: String }}
  */
-const deleteTimeslotSuccess = () => ({
-  type: DELETE_TIMESLOT_SUCCESS,
+const cancelTimeslotSuccess = () => ({
+  type: CANCEL_TIMESLOT_SUCCESS,
 });
 
 /**
  * Fetch timeslots action
+ * @param {String} date e.g. 2018-01-15
  * @returns {{ type: String }}
  */
-const fetchTimeslots = () => ({
+const fetchTimeslots = (from, to) => ({
   type: FETCH_TIMESLOTS,
+  payload: { from, to },
 });
 
 /**
@@ -96,14 +101,45 @@ const fetchTimeslotsSuccess = timeslots => ({
   payload: { timeslots },
 });
 
+/**
+ * Fetch timeslots action
+ * @returns {{ type: String }}
+ */
+const fetchMyTimeslots = () => ({
+  type: FETCH_MY_TIMESLOTS,
+});
+
+/**
+ * Fetch timeslots failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const fetchMyTimeslotsFailure = error => ({
+  type: FETCH_MY_TIMESLOTS_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Fetch timeslots success action
+ * @param {Array} timeslots
+ * @returns {{ type: String, payload: { timeslots } }}
+ */
+const fetchMyTimeslotsSuccess = timeslots => ({
+  type: FETCH_MY_TIMESLOTS_SUCCESS,
+  payload: { timeslots },
+});
+
 export {
-  createTimeslot,
-  createTimeslotFailure,
-  createTimeslotSuccess,
-  deleteTimeslot,
-  deleteTimeslotFailure,
-  deleteTimeslotSuccess,
+  applyTimeslot,
+  applyTimeslotFailure,
+  applyTimeslotSuccess,
+  cancelTimeslot,
+  cancelTimeslotFailure,
+  cancelTimeslotSuccess,
   fetchTimeslots,
   fetchTimeslotsFailure,
   fetchTimeslotsSuccess,
+  fetchMyTimeslots,
+  fetchMyTimeslotsFailure,
+  fetchMyTimeslotsSuccess,
 };

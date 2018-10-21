@@ -22,107 +22,81 @@ import { withUser } from 'modules/Auth';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
+import { withSchools } from 'modules/Schools';
+
 import {
-  createTimeslot,
-  deleteTimeslot,
-  fetchTimeslots,
+  // createTimeslot,
+  cancelTimeslot,
+  fetchMyTimeslots,
 } from './actions';
 
 import {
-  selectTimeslotCreating,
-  selectTimeslotCreatingError,
-  selectTimeslotDeleting,
-  selectTimeslotDeletingError,
-  selectTimeslots,
-  selectTimeslotsFetching,
-  selectTimeslotsFetchingError,
+  selectMyTimeslots,
+  selectMyTimeslotsBySchool,
+  selectMyTimeslotsFetching,
+  selectMyTimeslotsFetchingError,
+  // selectTimeslotCreating,
+  // selectTimeslotCreatingError,
+  selectTimeslotCanceling,
+  selectTimeslotCancelingError,
 } from './selectors';
 
-import Timeslots from './components/Timeslots';
-import CreateTimeslotForm from './components/CreateTimeslotForm';
+import SchoolRow from './components/SchoolRow';
+// import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 class Schedule extends React.Component {
   state = {
-    deleteConfirmationDialogShown: false,
-    deleteTimeslotId: null,
+    cancelConfirmationDialogShown: false,
+    cancelTimeslotId: null,
   };
 
   componentDidMount() {
-    // const { teacher } = this.props.user;
-    // this.props.onFetchTimeslots(teacher.schoolId);
+    this.props.onFetchMyTimeslots();
   }
 
   componentDidUpdate(prevProps) {
-    // if (prevProps.timeslotCreating && !this.props.timeslotCreating) {
-    //   if (this.props.timeslotCreatingError) {
-    //     toast.error(this.props.timeslotCreatingError.message);
-    //   } else {
-    //     toast.success('Урок успішно створено');
+    if (prevProps.timeslotCanceling && !this.props.timeslotCanceling) {
+      if (this.props.timeslotCancelingError) {
+        toast.error(this.props.timeslotCancelingError.message);
+      } else {
+        toast.success('Урок успішно відмінено');
 
-    //     const { teacher } = this.props.user;
-    //     this.props.onFetchTimeslots(teacher.schoolId);
-    //   }
-    // }
-
-    // if (prevProps.timeslotDeleting && !this.props.timeslotDeleting) {
-    //   if (this.props.timeslotDeletingError) {
-    //     toast.error(this.props.timeslotDeletingError.message);
-    //   } else {
-    //     toast.success('Урок успішно виделано');
-
-    //     const { teacher } = this.props.user;
-    //     this.props.onFetchTimeslots(teacher.schoolId);
-    //   }
-    //   this.handleDeleteCancel();
-    // }
+        this.props.onFetchMyTimeslots();
+      }
+      this.handleCancelCancel();
+    }
   }
 
-  handleSubmit = (formData) => {
-    this.props.onCreateTimeslot({
-      ...pick(formData, ['class', 'notes']),
-      startTime: formData.startTime.toJSDate(),
-      pupilsCount: parseInt(formData.pupilsCount, 10),
-    });
-  }
-
-  handleDeleteClick = timeslotId => this.setState({
-    deleteConfirmationDialogShown: true,
-    deleteTimeslotId: timeslotId,
+  handleCancelClick = timeslotId => this.setState({
+    cancelConfirmationDialogShown: true,
+    cancelTimeslotId: timeslotId,
   });
 
-  handleDeleteCancel = () => this.setState({
-    deleteConfirmationDialogShown: false,
-    deleteTimeslotId: null,
+  handleCancelCancel = () => this.setState({
+    cancelConfirmationDialogShown: false,
+    cancelTimeslotId: null,
   });
 
-  handleDeleteTimeslotConfirm = () => {
-    const { deleteTimeslotId: timeslotId } = this.state;
-    this.props.onDeleteTimeslot(timeslotId);
+  handleCancelTimeslotConfirm = () => {
+    const { cancelTimeslotId: timeslotId } = this.state;
+    this.props.onCancelTimeslot(timeslotId);
   }
 
   render() {
     const {
-      handleDeleteClick,
-      handleDeleteCancel,
-      handleDeleteTimeslotConfirm,
-      handleSubmit,
+      handleCancelClick,
+      handleCancelCancel,
+      handleCancelTimeslotConfirm,
       state: {
-        deleteConfirmationDialogShown,
+        cancelConfirmationDialogShown,
       },
       props: {
-        timeslots,
-        timeslotsFetching,
-        timeslotsFetchingError,
+        schoolsMap,
+        myTimeslotsBySchool,
+        myTimeslotsFetching,
+        myTimeslotsFetchingError,
       },
     } = this;
-
-    if (timeslotsFetching) {
-      return <div>Loading</div>;
-    }
-
-    if (timeslotsFetchingError) {
-      return <div>{timeslotsFetchingError.message}</div>;
-    }
 
     return (
       <React.Fragment>
@@ -149,51 +123,25 @@ class Schedule extends React.Component {
           </Grid>
         </Grid>
 
-        <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Час початку</TableCell>
-                <TableCell>Клас</TableCell>
-                <TableCell>Кількість учнів</TableCell>
-                <TableCell>Коментар</TableCell>
-                <TableCell>Статус</TableCell>
-                <TableCell>Дії</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell component="th" scope="row">8:30</TableCell>
-                <TableCell>8В</TableCell>
-                <TableCell>15</TableCell>
-                <TableCell>Дупа тобі, ментор</TableCell>
-                <TableCell>Підтверджено</TableCell>
-                <TableCell>Відмінити</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell component="th" scope="row">8:30</TableCell>
-                <TableCell>10А</TableCell>
-                <TableCell>15</TableCell>
-                <TableCell>{''}</TableCell>
-                <TableCell>Очікує підтвердження</TableCell>
-                <TableCell>Відмінити</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Paper>
+        {myTimeslotsFetching && <div>Loading</div>}
 
-        {/* <Timeslots
-          timeslots={timeslots}
-          onDeleteTimeslot={handleDeleteClick}
-        />
-        <CreateTimeslotForm onSubmit={handleSubmit} /> */}
-        {deleteConfirmationDialogShown && (
+        {myTimeslotsFetchingError && <div>{myTimeslotsFetchingError.message}</div>}
+
+        {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
+          <SchoolRow
+            school={schoolsMap[schoolId] || {}}
+            timeslots={myTimeslotsBySchool[schoolId] || []}
+            onCancelTimeslot={handleCancelClick}
+          />
+        ))}
+
+        {cancelConfirmationDialogShown && (
           <ConfirmationDialog
-            onCancel={handleDeleteCancel}
-            onConfirm={handleDeleteTimeslotConfirm}
+            onCancel={handleCancelCancel}
+            onConfirm={handleCancelTimeslotConfirm}
             confirmLabel="Так"
             cancelLabel="Ні"
-            title="Ви впевнені, що хочете видалити цей урок?"
+            title="Ви впевнені, що хочете відмінити цей урок?"
           />
         )}
       </React.Fragment>
@@ -202,14 +150,14 @@ class Schedule extends React.Component {
 }
 
 Schedule.propTypes = {
-  onCreateTimeslot: PropTypes.func.isRequired,
-  onDeleteTimeslot: PropTypes.func.isRequired,
-  onFetchTimeslots: PropTypes.func.isRequired,
+  // onCreateTimeslot: PropTypes.func.isRequired,
+  // onCancelTimeslot: PropTypes.func.isRequired,
+  onFetchMyTimeslots: PropTypes.func.isRequired,
   user: PropTypes.shape(PropTypes.object).isRequired,
   timeslotCreating: PropTypes.bool.isRequired,
   timeslotCreatingError: PropTypes.instanceOf(Object),
-  timeslotDeleting: PropTypes.bool.isRequired,
-  timeslotDeletingError: PropTypes.instanceOf(Object),
+  timeslotCanceling: PropTypes.bool.isRequired,
+  timeslotCancelingError: PropTypes.instanceOf(Object),
   timeslots: PropTypes.instanceOf(Array),
   timeslotsFetching: PropTypes.bool.isRequired,
   timeslotsFetchingError: PropTypes.instanceOf(Object),
@@ -217,45 +165,53 @@ Schedule.propTypes = {
 
 Schedule.defaultProps = {
   timeslotCreatingError: null,
-  timeslotDeletingError: null,
+  timeslotCancelingError: null,
   timeslots: [],
   timeslotsFetchingError: null,
 };
 
 const mapStateToProps = createSelector(
-  selectTimeslotCreating(),
-  selectTimeslotCreatingError(),
-  selectTimeslotDeleting(),
-  selectTimeslotDeletingError(),
-  selectTimeslots(),
-  selectTimeslotsFetching(),
-  selectTimeslotsFetchingError(),
+  // selectTimeslotCreating(),
+  // selectTimeslotCreatingError(),
+  selectTimeslotCanceling(),
+  selectTimeslotCancelingError(),
+  // selectTimeslots(),
+  // selectTimeslotsFetching(),
+  // selectTimeslotsFetchingError(),
+  selectMyTimeslots(),
+  selectMyTimeslotsBySchool(),
+  selectMyTimeslotsFetching(),
+  selectMyTimeslotsFetchingError(),
   (
-    timeslotCreating,
-    timeslotCreatingError,
-    timeslotDeleting,
-    timeslotDeletingError,
-    timeslots,
-    timeslotsFetching,
-    timeslotsFetchingError,
+    // timeslotCreating,
+    // timeslotCreatingError,
+    timeslotCanceling,
+    timeslotCancelingError,
+    myTimeslots,
+    myTimeslotsBySchool,
+    myTimeslotsFetching,
+    myTimeslotsFetchingError,
+
   ) => ({
-    timeslotCreating,
-    timeslotCreatingError,
-    timeslotDeleting,
-    timeslotDeletingError,
-    timeslots,
-    timeslotsFetching,
-    timeslotsFetchingError,
+    // timeslotCreating,
+    // timeslotCreatingError,
+    timeslotCanceling,
+    timeslotCancelingError,
+    myTimeslots,
+    myTimeslotsBySchool,
+    myTimeslotsFetching,
+    myTimeslotsFetchingError,
   }),
 );
 
 const mapDispatchToProps = {
-  onCreateTimeslot: createTimeslot,
-  onDeleteTimeslot: deleteTimeslot,
-  onFetchTimeslots: fetchTimeslots,
+  // onCreateTimeslot: createTimeslot,
+  onCancelTimeslot: cancelTimeslot,
+  onFetchMyTimeslots: fetchMyTimeslots,
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withUser,
+  withSchools,
 )(Schedule);

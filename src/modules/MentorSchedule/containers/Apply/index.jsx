@@ -9,16 +9,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
 
 import { toast } from 'react-toastify';
 
@@ -30,39 +25,45 @@ import Range from 'shared/components/Range';
 
 
 import {
-  createTimeslot,
-  deleteTimeslot,
+  applyTimeslot,
   fetchTimeslots,
+  fetchMyTimeslots,
 } from '../../actions';
 
 import {
-  selectTimeslotCreating,
-  selectTimeslotCreatingError,
-  selectTimeslotDeleting,
-  selectTimeslotDeletingError,
+  selectTimeslotApplying,
+  selectTimeslotApplyingError,
   selectTimeslots,
   selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
+  selectTimeslotsBySchool,
+  selectMyTimeslots,
+  selectMyTimeslotsFetching,
+  selectMyTimeslotsFetchingError,
 } from '../../selectors';
 
+import SchoolRow from '../../components/Apply/SchoolRow';
+
+
 const defaultMarks = {
-  0: '8:30',
-  1: '9:00',
-  2: '9:30',
-  3: '10:00',
-  4: '10:30',
-  5: '11:00',
-  6: '11:30',
-  7: '12:00',
-  8: '12:30',
-  9: '13:00',
-  10: '13:30',
-  11: '14:00',
-  12: '14:30',
-  13: '15:00',
-  14: '15:30',
-  15: '16:00',
+  0: '08:00',
+  1: '08:30',
+  2: '09:00',
+  3: '09:30',
+  4: '10:00',
+  5: '10:30',
+  6: '11:00',
+  7: '11:30',
+  8: '12:00',
+  9: '12:30',
+  10: '13:00',
+  11: '13:30',
+  12: '14:00',
+  13: '14:30',
+  14: '15:00',
+  15: '15:30',
+  16: '16:00',
 };
 
 const days = [
@@ -78,41 +79,53 @@ const days = [
 // import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 class Schedule extends React.Component {
-  state = {
-    deleteConfirmationDialogShown: false,
-    deleteTimeslotId: null,
-    timeRangeValue: [0, 15],
-    marks: pick(defaultMarks, [1, 15]),
-    selectedDay: days[0],
-  };
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this.props.onFetchTimeslots();
+    this.state = {
+      applyConfirmationDialogShown: false,
+      applyTimeslotId: null,
+      timeRangeValue: [0, 16],
+      marks: pick(defaultMarks, [0, 16]),
+      selectedDay: days[0],
+    };
+
+    this.handleLoadDayDebounced = debounce(this.handleLoadDay, 300);
   }
 
-  componentDidUpdate(prevProps) {
-    // if (prevProps.timeslotCreating && !this.props.timeslotCreating) {
-    //   if (this.props.timeslotCreatingError) {
-    //     toast.error(this.props.timeslotCreatingError.message);
-    //   } else {
-    //     toast.success('Урок успішно створено');
+  componentDidMount() {
+    this.handleLoadDay();
+    // this.props.onFetchTimeslots(this.state.selectedDay);
+    this.props.onFetchMyTimeslots();
+  }
 
-    //     const { teacher } = this.props.user;
-    //     this.props.onFetchTimeslots(teacher.schoolId);
-    //   }
-    // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.timeslotApplying && !this.props.timeslotApplying) {
+      if (this.props.timeslotApplyingError) {
+        toast.error(this.props.timeslotApplyingError.message);
+      } else {
+        toast.success('Урок успішно створено');
 
-    // if (prevProps.timeslotDeleting && !this.props.timeslotDeleting) {
-    //   if (this.props.timeslotDeletingError) {
-    //     toast.error(this.props.timeslotDeletingError.message);
-    //   } else {
-    //     toast.success('Урок успішно виделано');
+        this.props.onFetchMyTimeslots();
+      }
+      this.handleApplyCancel();
+    }
 
-    //     const { teacher } = this.props.user;
-    //     this.props.onFetchTimeslots(teacher.schoolId);
-    //   }
-    //   this.handleDeleteCancel();
-    // }
+    if (!isEqual(prevState.timeRangeValue, this.state.timeRangeValue)) {
+      this.handleLoadDayDebounced();
+    }
+
+    if (prevState.selectedDay !== this.state.selectedDay) {
+      this.handleLoadDay();
+    }
+  }
+
+  handleLoadDay = () => {
+    const range = Object.values(pick(defaultMarks, this.state.timeRangeValue));
+    const from = DateTime.fromISO(`${this.state.selectedDay}T${range[0]}`).toJSDate();
+    const to = DateTime.fromISO(`${this.state.selectedDay}T${range[1]}`).toJSDate();
+
+    this.props.onFetchTimeslots(from, to);
   }
 
   handleSubmit = (formData) => {
@@ -123,26 +136,26 @@ class Schedule extends React.Component {
     });
   }
 
-  handleDeleteClick = timeslotId => this.setState({
-    deleteConfirmationDialogShown: true,
-    deleteTimeslotId: timeslotId,
+  handleApplyClick = timeslotId => this.setState({
+    applyConfirmationDialogShown: true,
+    applyTimeslotId: timeslotId,
   });
 
-  handleDeleteCancel = () => this.setState({
-    deleteConfirmationDialogShown: false,
-    deleteTimeslotId: null,
+  handleApplyCancel = () => this.setState({
+    applyConfirmationDialogShown: false,
+    applyTimeslotId: null,
   });
 
-  handleDeleteTimeslotConfirm = () => {
-    const { deleteTimeslotId: timeslotId } = this.state;
-    this.props.onDeleteTimeslot(timeslotId);
+  handleApplyConfirm = () => {
+    const { applyTimeslotId: timeslotId } = this.state;
+    this.props.onApplyTimeslot(timeslotId);
   }
 
   handleTimeRangeChange = (value) => {
     this.setState({
       timeRangeValue: value,
       marks: pick(defaultMarks, value),
-    })
+    });
   }
 
   handleChangeDay = (ev, day) => {
@@ -151,33 +164,34 @@ class Schedule extends React.Component {
 
   render() {
     const {
+      handleApplyClick,
+      handleApplyCancel,
+      handleApplyConfirm,
       handleTimeRangeChange,
       handleChangeDay,
-      handleDeleteClick,
-      handleDeleteCancel,
-      handleDeleteTimeslotConfirm,
-      handleSubmit,
+      // handleDeleteClick,
+      // handleDeleteCancel,
+      // handleDeleteTimeslotConfirm,
+      // handleSubmit,
       state: {
         selectedDay,
-        deleteConfirmationDialogShown,
+        applyConfirmationDialogShown,
         timeRangeValue,
         marks,
       },
       props: {
-        timeslots,
+        schoolsMap,
         timeslotsByDays,
         timeslotsFetching,
         timeslotsFetchingError,
+        timeslotsBySchool,
+        myTimeslots,
+        myTimeslotsFetching,
+        myTimeslotsFetchingError,
       },
     } = this;
 
-    if (timeslotsFetching) {
-      return <div>Loading</div>;
-    }
-
-    if (timeslotsFetchingError) {
-      return <div>{timeslotsFetchingError.message}</div>;
-    }
+    // const daySchools = timeslotsByDays[selectedDay] || {};
 
     return (
       <React.Fragment>
@@ -199,7 +213,8 @@ class Schedule extends React.Component {
               size="large"
               component={props => <Link to="/" {...props} />}
             >
-              Обрані уроки (0)
+              Обрані уроки
+              {!myTimeslotsFetching && !myTimeslotsFetchingError && ` (${myTimeslots.length})`}
             </Button>
           </Grid>
         </Grid>
@@ -210,12 +225,12 @@ class Schedule extends React.Component {
           <Grid item xs={12} md={4}>
             <Range
               min={0}
-              max={15}
+              max={16}
               value={timeRangeValue}
               marks={marks}
               step={1}
               dots
-              defaultValue={[0, 15]}
+              defaultValue={[0, 16]}
               allowCross={false}
               onChange={handleTimeRangeChange}
             />
@@ -224,10 +239,42 @@ class Schedule extends React.Component {
 
         <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
           {days.map(day => (
-            <Tab value={day} label={`${day} (${(timeslotsByDays[day] || []).length})`} key={day} />
+            <Tab
+              value={day}
+              // label={`${day} (${(timeslotsByDays[day] || []).length})`}
+              label={day}
+              key={day}
+            />
           ))}
         </Tabs>
-        <Paper>
+
+        {timeslotsFetching && <div>Loading</div>}
+
+        {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
+
+        {!timeslotsFetching && !timeslotsFetchingError && Object.keys(timeslotsBySchool).map(schoolId => (
+          <SchoolRow
+            school={schoolsMap[schoolId] || {}}
+            timeslots={timeslotsBySchool[schoolId] || []}
+            onApply={handleApplyClick}
+          />
+        ))}
+
+        {/* {(timeslotsByDays[selectedDay] || {}).map(school => ( */}
+
+        {/* <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Expansion Panel 1</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+              sit amet blandit leo lobortis eget.
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel> */}
+
+        {/* <Paper>
           <Table>
             <TableHead>
               <TableRow>
@@ -250,20 +297,20 @@ class Schedule extends React.Component {
               ))}
             </TableBody>
           </Table>
-        </Paper>
+        </Paper> */}
 
         {/* <Timeslots
           timeslots={timeslots}
           onDeleteTimeslot={handleDeleteClick}
         />
         <CreateTimeslotForm onSubmit={handleSubmit} /> */}
-        {deleteConfirmationDialogShown && (
+        {applyConfirmationDialogShown && (
           <ConfirmationDialog
-            onCancel={handleDeleteCancel}
-            onConfirm={handleDeleteTimeslotConfirm}
+            onCancel={handleApplyCancel}
+            onConfirm={handleApplyConfirm}
             confirmLabel="Так"
             cancelLabel="Ні"
-            title="Ви впевнені, що хочете видалити цей урок?"
+            title="Ви впевнені, що хочете провести цей урок?"
           />
         )}
       </React.Fragment>
@@ -276,56 +323,59 @@ Schedule.propTypes = {
   onDeleteTimeslot: PropTypes.func.isRequired,
   onFetchTimeslots: PropTypes.func.isRequired,
   user: PropTypes.shape(PropTypes.object).isRequired,
-  timeslotCreating: PropTypes.bool.isRequired,
-  timeslotCreatingError: PropTypes.instanceOf(Object),
-  timeslotDeleting: PropTypes.bool.isRequired,
-  timeslotDeletingError: PropTypes.instanceOf(Object),
+  timeslotApplying: PropTypes.bool.isRequired,
+  timeslotApplyingError: PropTypes.instanceOf(Object),
   timeslots: PropTypes.instanceOf(Array),
   timeslotsFetching: PropTypes.bool.isRequired,
   timeslotsFetchingError: PropTypes.instanceOf(Object),
 };
 
 Schedule.defaultProps = {
-  timeslotCreatingError: null,
-  timeslotDeletingError: null,
+  timeslotApplyingError: null,
   timeslots: [],
   timeslotsFetchingError: null,
 };
 
 const mapStateToProps = createSelector(
-  selectTimeslotCreating(),
-  selectTimeslotCreatingError(),
-  selectTimeslotDeleting(),
-  selectTimeslotDeletingError(),
+  selectTimeslotApplying(),
+  selectTimeslotApplyingError(),
   selectTimeslots(),
   selectTimeslotsByDays(),
   selectTimeslotsFetching(),
   selectTimeslotsFetchingError(),
+  selectMyTimeslots(),
+  selectMyTimeslotsFetching(),
+  selectMyTimeslotsFetchingError(),
+  selectTimeslotsBySchool(),
   (
-    timeslotCreating,
-    timeslotCreatingError,
-    timeslotDeleting,
-    timeslotDeletingError,
+    timeslotApplying,
+    timeslotApplyingError,
     timeslots,
     timeslotsByDays,
     timeslotsFetching,
     timeslotsFetchingError,
+    myTimeslots,
+    myTimeslotsFetching,
+    myTimeslotsFetchingError,
+    timeslotsBySchool,
   ) => ({
-    timeslotCreating,
-    timeslotCreatingError,
-    timeslotDeleting,
-    timeslotDeletingError,
+    timeslotApplying,
+    timeslotApplyingError,
     timeslots,
     timeslotsByDays,
     timeslotsFetching,
     timeslotsFetchingError,
+    myTimeslots,
+    myTimeslotsFetching,
+    myTimeslotsFetchingError,
+    timeslotsBySchool,
   }),
 );
 
 const mapDispatchToProps = {
-  onCreateTimeslot: createTimeslot,
-  onDeleteTimeslot: deleteTimeslot,
+  onApplyTimeslot: applyTimeslot,
   onFetchTimeslots: fetchTimeslots,
+  onFetchMyTimeslots: fetchMyTimeslots,
 };
 
 export default compose(

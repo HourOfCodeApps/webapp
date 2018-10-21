@@ -5,70 +5,122 @@ import {
   takeEvery, takeLatest, fork, put, select,
 } from 'redux-saga/effects';
 import pick from 'lodash/pick';
+import { DateTime } from 'luxon';
 
 // Application
 import { selectUser } from 'modules/Auth';
 
 import {
-  CREATE_TIMESLOT,
-  DELETE_TIMESLOT,
+  APPLY_TIMESLOT,
+  CANCEL_TIMESLOT,
   FETCH_TIMESLOTS,
+  FETCH_MY_TIMESLOTS,
 } from './constants';
 
 import {
-  createTimeslotFailure,
-  createTimeslotSuccess,
+  applyTimeslotFailure,
+  applyTimeslotSuccess,
   fetchTimeslotsFailure,
   fetchTimeslotsSuccess,
-  deleteTimeslotFailure,
-  deleteTimeslotSuccess,
+  cancelTimeslotFailure,
+  cancelTimeslotSuccess,
+  fetchMyTimeslotsFailure,
+  fetchMyTimeslotsSuccess,
 } from './actions';
 
 
-function* createTimeslot({ payload: { data } }) {
+function* applyTimeslot({ payload: { timeslotId } }) {
   try {
+    const firestore = firebase.firestore();
+
     const user = yield select(selectUser());
 
-    if (!user.teacher || !user.teacher.schoolId) {
-      throw new Error('Oops');
-    }
+    const timeslotRef = firestore.collection('timeslots').doc(timeslotId);
 
-    const { schoolId } = user.teacher;
+    yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
+      .then((doc) => {
+        if (!doc.exists) {
+          throw new Error('Document does not exist!');
+        }
 
-    const docRef = yield firebase.firestore().collection('timeslots')
-      .add({
-        ...pick(data, ['class', 'pupilsCount', 'notes']),
-        schoolId,
-        startTime: firebase.firestore.Timestamp.fromDate(data.startTime),
-      });
+        const docData = doc.data();
 
-    const createdSnapshot = yield docRef.get();
+        if (docData.mentorId) {
+          throw new Error('Timeslot already has a mentor');
+        }
 
-    const createdTimeslot = { ...createdSnapshot.data(), id: createdSnapshot.id };
+        // var newPopulation = sfDoc.data().population + 1;
+        return transaction.update(timeslotRef, { mentorId: user.uid });
+      }));
 
-    yield put(createTimeslotSuccess(createdTimeslot));
+    const updatedSnapshot = yield timeslotRef.get();
+
+    const updatedTimeslot = { ...updatedSnapshot.data(), id: updatedSnapshot.id };
+
+    yield put(applyTimeslotSuccess(updatedTimeslot));
   } catch (error) {
-    yield put(createTimeslotFailure(error));
+    yield put(applyTimeslotFailure(error));
   }
 }
 
-function* deleteTimeslot({ payload: { id } }) {
+function* cancelTimeslot({ payload: { id } }) {
   try {
-    yield firebase.firestore().collection('timeslots').doc(id).delete();
+    const firestore = firebase.firestore();
 
-    yield put(deleteTimeslotSuccess());
+    const user = yield select(selectUser());
+
+    const timeslotRef = firestore.collection('timeslots').doc(id);
+
+    yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
+      .then((doc) => {
+        if (!doc.exists) {
+          throw new Error('Timeslot does not exist!');
+        }
+
+        const docData = doc.data();
+
+        if (docData.mentorId !== user.uid) {
+          throw new Error('Timeslot isn\t your');
+        }
+
+        // var newPopulation = sfDoc.data().population + 1;
+        return transaction.update(timeslotRef, { mentorId: null });
+      }));
+
+    // const updatedSnapshot = yield timeslotRef.get();
+
+    // const updatedTimeslot = { ...updatedSnapshot.data(), id: updatedSnapshot.id };
+
+
+    // yield firebase.firestore().collection('timeslots').doc(id).cancel();
+
+    yield put(cancelTimeslotSuccess());
   } catch (error) {
-    yield put(deleteTimeslotFailure(error));
+    yield put(cancelTimeslotFailure(error));
   }
 }
 
 /**
  * fetch timeslots without mentor
  */
-function* fetchTimeslots() {
+function* fetchTimeslots({ payload }) {
   try {
+    const from = firebase.firestore.Timestamp.fromDate(payload.from);
+    //   DateTime.fromISO(date).set({
+    //     hour: 0, minute: 0, second: 0, millisecond: 0,
+    //   }).toJSDate(),
+    // );
+    const to = firebase.firestore.Timestamp.fromDate(payload.to);
+    //   DateTime.fromISO(date).set({
+    //     hour: 23, minute: 59, second: 59, millisecond: 999,
+    //   }).toJSDate(),
+    // );
+
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .where('mentorId', '==', null)
+      .where('startTime', '>=', from)
+      .where('startTime', '<', to)
+      .orderBy('startTime', 'asc')
       .orderBy('schoolId', 'asc')
       .get();
 
@@ -87,12 +139,39 @@ function* fetchTimeslots() {
 }
 
 /**
+ * fetch mentor's timeslots
+ */
+function* fetchMyTimeslots() {
+  try {
+    const user = yield select(selectUser());
+
+    const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
+      .where('mentorId', '==', user.uid)
+      .orderBy('schoolId', 'asc')
+      .orderBy('startTime', 'asc')
+      .get();
+
+    const timeslots = timeslotsSnaps.docs
+      .map(doc => ({ ...doc.data(), id: doc.id }))
+      .map(timeslot => ({
+        ...timeslot,
+        startTime: timeslot.startTime.toDate(),
+      }));
+
+    yield put(fetchMyTimeslotsSuccess(timeslots));
+  } catch (error) {
+    yield put(fetchMyTimeslotsFailure(error));
+  }
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeEvery, CREATE_TIMESLOT, createTimeslot);
-  yield fork(takeEvery, DELETE_TIMESLOT, deleteTimeslot);
+  yield fork(takeEvery, APPLY_TIMESLOT, applyTimeslot);
+  yield fork(takeEvery, CANCEL_TIMESLOT, cancelTimeslot);
   yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
+  yield fork(takeLatest, FETCH_MY_TIMESLOTS, fetchMyTimeslots);
 }
 
 export default [
@@ -100,8 +179,8 @@ export default [
 ];
 // Exports for testing
 export {
-  createTimeslot,
-  deleteTimeslot,
+  applyTimeslot,
+  cancelTimeslot,
   fetchTimeslots,
   rootSaga,
 };
