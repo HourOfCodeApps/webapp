@@ -25,7 +25,6 @@ import SigninForm from '../../components/SignInForm';
 
 class SignIn extends React.Component {
   static propTypes = {
-    classes: PropTypes.shape(PropTypes.object).isRequired,
     onSignIn: PropTypes.func.isRequired,
     signingIn: PropTypes.bool.isRequired,
     signingInError: PropTypes.instanceOf(Object),

@@ -20,7 +20,7 @@ export const Heading = styled.div`
             position: absolute;
             height: 3px;
             width: 35%;
-            background: #333;
+            background: ${props.color};
         }
     `}
 
@@ -37,7 +37,7 @@ export const Heading = styled.div`
                 position: absolute;
                 height: 2px;
                 width: 100%;
-                background: #333;
+                background: ${props.color};
             }
         }
     `}

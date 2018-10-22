@@ -5,12 +5,12 @@ export const Container = styled(Grid)` // inherits m-ui props
   max-width: 940px;
   height: ${props => props.fullScreen && '100vh'};
 
-  ${props => props.marginCenter && 'margin: 0 auto'};  // centering without flex wrapper; 
+  ${props => props.marginCenter && 'margin: 0 auto'};  // centering without flex wrapper;
 `;
 
 export const Column = styled(Grid)` // inherits m-ui props
   position: relative;
-  
+
   ${props => props.withBar && `
     &:before {
       content: "";
@@ -19,7 +19,7 @@ export const Column = styled(Grid)` // inherits m-ui props
       left: -75px;
       width: 1px;
       height: 300px;
-      background-color: #1696a0;
+      background-color: ${props.bgColor};
       opacity: .2;
     }
   `}

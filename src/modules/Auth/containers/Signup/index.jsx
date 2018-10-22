@@ -17,7 +17,6 @@ import {
 
 class SignUp extends React.Component {
   static propTypes = {
-    classes: PropTypes.shape(PropTypes.object).isRequired,
     onSignUp: PropTypes.func.isRequired,
     signingUp: PropTypes.bool.isRequired,
     signingUpError: PropTypes.instanceOf(Object),
