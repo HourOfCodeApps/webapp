@@ -7,12 +7,16 @@ import {
   UPDATE_ME_SUCCESS,
 } from './constants';
 
+/**
+ * Fetch me action
+ * @returns {{ type: String }}
+ */
 const fetchMe = () => ({
   type: FETCH_ME,
 });
 
 /**
- * Dispatch when loading user caused error
+ * Fetch me failure action
  * @param {Object} error
  * @returns {{ type: String, payload: { error } }}
  */
@@ -22,7 +26,7 @@ const fetchMeFailure = error => ({
 });
 
 /**
- * Dispatch when user data loaded successfully
+ * Fetch me success action
  * @param {Object} me
  * @returns {{ type: String, payload: { me } }}
  */
@@ -31,14 +35,18 @@ const fetchMeSuccess = me => ({
   payload: { me },
 });
 
-
+/**
+ * Update me action
+ * @param {Object} userData
+ * @returns {{ type: String, payload: { userData } }}
+ */
 const updateMe = userData => ({
   type: UPDATE_ME,
   payload: { userData },
 });
 
 /**
- * Dispatch when loading user caused error
+ * Update me failure action
  * @param {Object} error
  * @returns {{ type: String, payload: { error } }}
  */
@@ -48,15 +56,14 @@ const updateMeFailure = error => ({
 });
 
 /**
- * Dispatch when user data loaded successfully
- * @param {Object} user
- * @returns {{ type: String, payload: { user } }}
+ * Update me success action
+ * @param {Object} me
+ * @returns {{ type: String, payload: { me } }}
  */
-const updateMeSuccess = user => ({
+const updateMeSuccess = me => ({
   type: UPDATE_ME_SUCCESS,
-  payload: { user },
+  payload: { me },
 });
-
 
 export {
   fetchMe,

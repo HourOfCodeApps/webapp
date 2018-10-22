@@ -3,106 +3,130 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-// import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { toast } from 'react-toastify';
 
 import {
   selectMe,
   selectMeFetching,
   selectMeFetchingError,
+  selectMeUpdating,
+  selectMeUpdatingError,
 } from './selectors';
 
-import ProfileForm from './components/ProfileForm';
-import { fetchMe } from './actions';
+import {
+  fetchMe,
+  updateMe,
+} from './actions';
 
-const styles = theme => ({
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: '100vh',
-    width: '100%',
-    backgroundColor: theme.palette.background.default,
-  },
-  button: {
-    marginTop: theme.spacing.unit,
-  },
-});
+import ProfileForm from './components/ProfileForm';
 
 class Profile extends React.Component {
   componentDidMount() {
     this.props.onFetchMe();
   }
-  // handleGoogleLogin = () => {
-  //   const { onSignIn } = this.props;
-  //   onSignIn(SIGNIN_GOOGLE_PROVIDER);
-  // };
 
-  // handleEmailPasswordLogin = (formData) => {
-  //   // console.log(formData);
-  //   const { onSignIn } = this.props;
-  //   onSignIn(SIGNIN_EMAILPASSWORD_PROVIDER, {
-  //     email: formData.email,
-  //     password: formData.password,
-  //   });
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.meUpdating && !this.props.meUpdating) {
+      if (this.props.meUpdatingError) {
+        toast.error(this.props.meUpdatingError.message);
+      } else {
+        toast.success('Дані успішно оновлено');
+      }
+    }
+  }
 
-  // handleSignUp = () => {
-
-  // };
+  handleSubmit = (formData) => {
+    this.props.onUpdateMe(formData);
+  };
 
   render() {
     const {
-      handleEmailPasswordLogin,
-      handleGoogleLogin,
-      handleSignUp,
-      props: { classes, me, meFetching, meFetchingError },
+      handleSubmit,
+      props: {
+        me,
+        meFetching,
+        meFetchingError,
+        meUpdating,
+        meUpdatingError,
+      },
     } = this;
 
     return (
-      // <div className={classes.root1}>
       <div>
+        <Typography
+          variant="display1"
+          gutterBottom
+        >
+          Мої дані
+        </Typography>
+        {meFetching && (
+          <Typography variant="caption" gutterBottom>Завантаження</Typography>
+        )}
+
+        {meUpdating && (
+          <Typography variant="caption" gutterBottom>Оновлення</Typography>
+        )}
+
         {meFetchingError && (
           <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meFetchingError.message}</Typography>
         )}
-        <div style={{ maxWidth: 600 }}>
-          <ProfileForm
-            initialValues={me}
-            // disabled={signingIn}
-            // onSignUp={handleSignUp}
-            // onSubmit={handleEmailPasswordLogin}
-          />
-        </div>
+
+        {meUpdatingError && (
+          <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meUpdatingError.message}</Typography>
+        )}
+
+        {!meFetching && !meFetchingError && me && (
+          <div style={{ maxWidth: 600 }}>
+            <ProfileForm
+              initialValues={me}
+              disabled={meUpdating}
+              onSubmit={handleSubmit}
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 
 Profile.propTypes = {
-  classes: PropTypes.shape(PropTypes.object).isRequired,
-  onSignIn: PropTypes.func.isRequired,
-  signingIn: PropTypes.bool.isRequired,
-  signingInError: PropTypes.instanceOf(Object),
+  onFetchMe: PropTypes.func.isRequired,
+  onUpdateMe: PropTypes.func.isRequired,
+  me: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    phone: PropTypes.string,
+    email: PropTypes.string,
+  }),
+  meFetching: PropTypes.bool.isRequired,
+  meFetchingError: PropTypes.instanceOf(Object),
+  meUpdating: PropTypes.bool.isRequired,
+  meUpdatingError: PropTypes.instanceOf(Object),
 };
 
 Profile.defaultProps = {
-  signingInError: null,
+  me: null,
+  meFetchingError: null,
+  meUpdatingError: null,
 };
 
 const mapStateToProps = createSelector(
   selectMe(),
   selectMeFetching(),
   selectMeFetchingError(),
+  selectMeUpdating(),
+  selectMeUpdatingError(),
   (
-    me, meFetching, meFetchingError,
+    me, meFetching, meFetchingError, meUpdating, meUpdatingError,
   ) => ({
-    me, meFetching, meFetchingError,
+    me, meFetching, meFetchingError, meUpdating, meUpdatingError,
   }),
 );
 
 const mapDispatchToProps = {
   onFetchMe: fetchMe,
+  onUpdateMe: updateMe,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

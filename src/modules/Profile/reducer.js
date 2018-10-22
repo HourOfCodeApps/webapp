@@ -11,6 +11,8 @@ const initialState = {
   me: null,
   meFetching: false,
   meFetchingError: null,
+  meUpdating: false,
+  meUpdatingError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,83 +35,30 @@ const reducer = (state = initialState, action) => {
     case FETCH_ME_SUCCESS:
       return {
         ...state,
-        meFetching: false,
         me: action.payload.me,
+        meFetching: false,
       };
 
-    // case LOAD_USER_FAILURE:
-    //   return {
-    //     ...state,
-    //     user: null,
-    //     userLoadingError: action.payload.error,
-    //     userLoading: false,
-    //   };
+    case UPDATE_ME:
+      return {
+        ...state,
+        meUpdating: true,
+        meUpdatingError: null,
+      };
 
-    // case LOAD_USER_SUCCESS:
-    //   return {
-    //     ...state,
-    //     user: action.payload.user,
-    //     userLoading: false,
-    //   };
+    case UPDATE_ME_FAILURE:
+      return {
+        ...state,
+        meUpdating: false,
+        meUpdatingError: action.payload.error,
+      };
 
-    // case SIGNIN:
-    //   return {
-    //     ...state,
-    //     auth: null,
-    //     user: null,
-    //     signingIn: true,
-    //     signingInError: null,
-    //   };
-
-    // case SIGNIN_FAILURE:
-    //   return {
-    //     ...state,
-    //     signingIn: false,
-    //     signingInError: action.payload.error,
-    //   };
-
-    // case SIGNIN_SUCCESS:
-    //   return {
-    //     ...state,
-    //     signingIn: false,
-    //     auth: action.payload.auth,
-    //   };
-
-    // case SIGNUP:
-    //   return {
-    //     ...state,
-    //     signingUp: true,
-    //     signingUpError: null,
-    //   };
-
-    // case SIGNUP_FAILURE:
-    //   return {
-    //     ...state,
-    //     signingUp: false,
-    //     signingUpError: action.payload.error,
-    //   };
-
-    // case SIGNUP_SUCCESS:
-    //   return {
-    //     ...state,
-    //     signingUp: false,
-    //   };
-
-    // case SIGNOUT_SUCCESS:
-    //   return Object.assign({}, state, { user: null });
-
-    // case STATE_INIT:
-    //   return {
-    //     ...state,
-    //     stateInitLoaded: false,
-    //   };
-
-    // case STATE_CHANGED:
-    //   return {
-    //     ...state,
-    //     stateInitLoaded: true,
-    //     auth: action.payload.auth,
-    //   };
+    case UPDATE_ME_SUCCESS:
+      return {
+        ...state,
+        me: action.payload.me,
+        meUpdating: false,
+      };
 
     default:
       return state;

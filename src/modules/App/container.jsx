@@ -66,27 +66,21 @@ const Private = ({ user }) => (
   <Router>
     <AppWrapper>
       <Switch>
-        {user.admin && (
-          <React.Fragment>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/schools" exact component={Schools} />
-            <Route path="/school/new" exact component={SchoolCreate} />
-            <Route path="/school/:id" exact component={School} />
-            <Route path="/school/:id/edit" exact component={SchoolEdit} />
-            <Route path="/teachers" exact component={Teachers} />
-          </React.Fragment>
-        )}
+        {user.admin && [
+          <Route path="/" exact component={Dashboard} />,
+          <Route path="/schools" exact component={Schools} />,
+          <Route path="/school/new" exact component={SchoolCreate} />,
+          <Route path="/school/:id" exact component={School} />,
+          <Route path="/school/:id/edit" exact component={SchoolEdit} />,
+          <Route path="/teachers" exact component={Teachers} />,
+        ]}
         {user.teacher && (
-          <React.Fragment>
-            <Route path="/" exact component={Schedule} />
-          </React.Fragment>
+          <Route path="/" exact component={Schedule} />
         )}
-        {user.mentor && (
-          <React.Fragment>
-            <Route path="/" exact component={MentorSchedule} />
-            <Route path="/apply" exact component={MentorScheduleApply} />
-          </React.Fragment>
-        )}
+        {user.mentor && [
+          <Route path="/" exact component={MentorSchedule} />,
+          <Route path="/apply" exact component={MentorScheduleApply} />,
+        ]}
         <Route path="/me" exact component={Profile} />
         <Route component={Page404} />
       </Switch>

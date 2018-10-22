@@ -13,28 +13,33 @@ const ProfileForm = (
   {
     handleSubmit,
     pristine,
+    disabled,
   },
 ) => (
   <form onSubmit={handleSubmit}>
     <Field
+      disabled={disabled}
       component={TextField}
       label="Ім'я"
       name="firstName"
       required
     />
     <Field
+      disabled={disabled}
       component={TextField}
       label="Прізвище"
       name="lastName"
       required
     />
     <Field
+      disabled={disabled}
       component={TextField}
       label="Поштова скринька"
       name="email"
       required
     />
     <Field
+      disabled={disabled}
       component={TextField}
       label="Телефон"
       name="phone"
@@ -48,7 +53,7 @@ const ProfileForm = (
         variant="contained"
         size="large"
         type="submit"
-        disabled={pristine}
+        disabled={disabled || pristine}
       >
         Оновити
       </Button>
@@ -57,8 +62,13 @@ const ProfileForm = (
 );
 
 ProfileForm.propTypes = {
+  disabled: PropTypes.bool,
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+};
+
+ProfileForm.defaultProps = {
+  disabled: false,
 };
 
 export default reduxForm({

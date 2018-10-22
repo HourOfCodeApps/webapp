@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+// import IconButton from '@material-ui/core/IconButton';
+// import Badge from '@material-ui/core/Badge';
+// import NotificationsIcon from '@material-ui/icons/Notifications';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = theme => ({
   toolbar: {
@@ -39,11 +38,11 @@ const Header = ({ classes, onSignOut, user }) => (
         HOC Organizer
       </Typography>
 
-      <IconButton color="inherit">
+      {/* <IconButton color="inherit">
         <Badge badgeContent={4} color="secondary">
           <NotificationsIcon />
         </Badge>
-      </IconButton>
+      </IconButton> */}
       {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
       {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
       {/* {user.admin && (

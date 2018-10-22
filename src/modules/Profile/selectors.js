@@ -17,9 +17,21 @@ const selectMeFetchingError = () => createSelector(
   substate => substate.meFetchingError,
 );
 
+const selectMeUpdating = () => createSelector(
+  selectProfileDomain(),
+  substate => substate.meUpdating,
+);
+
+const selectMeUpdatingError = () => createSelector(
+  selectProfileDomain(),
+  substate => substate.meUpdatingError,
+);
+
 export {
   selectMe,
   selectMeFetching,
   selectMeFetchingError,
+  selectMeUpdating,
+  selectMeUpdatingError,
   selectProfileDomain,
 };
