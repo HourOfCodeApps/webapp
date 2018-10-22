@@ -40,6 +40,7 @@ function* createTimeslot({ payload: { data } }) {
         ...pick(data, ['class', 'pupilsCount', 'notes']),
         schoolId,
         startTime: firebase.firestore.Timestamp.fromDate(data.startTime),
+        mentorId: null,
       });
 
     const createdSnapshot = yield docRef.get();

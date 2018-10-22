@@ -147,8 +147,8 @@ function* fetchMyTimeslots() {
 
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .where('mentorId', '==', user.uid)
-      .orderBy('schoolId', 'asc')
       .orderBy('startTime', 'asc')
+      .orderBy('schoolId', 'asc')
       .get();
 
     const timeslots = timeslotsSnaps.docs

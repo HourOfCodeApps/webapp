@@ -20,7 +20,6 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
-import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Range from 'shared/components/Range';
 
 
@@ -44,7 +43,6 @@ import {
 } from '../../selectors';
 
 import SchoolRow from '../../components/Apply/SchoolRow';
-
 
 const defaultMarks = {
   0: '08:00',
@@ -75,16 +73,11 @@ const days = [
   '2018-12-08',
 ];
 
-// import Timeslots from './components/Timeslots';
-// import CreateTimeslotForm from './components/CreateTimeslotForm';
-
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      applyConfirmationDialogShown: false,
-      applyTimeslotId: null,
       timeRangeValue: [0, 16],
       marks: pick(defaultMarks, [0, 16]),
       selectedDay: days[0],
@@ -107,6 +100,7 @@ class Schedule extends React.Component {
         toast.success('Урок успішно створено');
 
         this.props.onFetchMyTimeslots();
+        this.handleLoadDay();
       }
       this.handleApplyCancel();
     }
@@ -136,18 +130,7 @@ class Schedule extends React.Component {
     });
   }
 
-  handleApplyClick = timeslotId => this.setState({
-    applyConfirmationDialogShown: true,
-    applyTimeslotId: timeslotId,
-  });
-
-  handleApplyCancel = () => this.setState({
-    applyConfirmationDialogShown: false,
-    applyTimeslotId: null,
-  });
-
-  handleApplyConfirm = () => {
-    const { applyTimeslotId: timeslotId } = this.state;
+  handleApply = (timeslotId) => {
     this.props.onApplyTimeslot(timeslotId);
   }
 
@@ -164,24 +147,16 @@ class Schedule extends React.Component {
 
   render() {
     const {
-      handleApplyClick,
-      handleApplyCancel,
-      handleApplyConfirm,
+      handleApply,
       handleTimeRangeChange,
       handleChangeDay,
-      // handleDeleteClick,
-      // handleDeleteCancel,
-      // handleDeleteTimeslotConfirm,
-      // handleSubmit,
       state: {
         selectedDay,
-        applyConfirmationDialogShown,
         timeRangeValue,
         marks,
       },
       props: {
         schoolsMap,
-        timeslotsByDays,
         timeslotsFetching,
         timeslotsFetchingError,
         timeslotsBySchool,
@@ -256,63 +231,9 @@ class Schedule extends React.Component {
           <SchoolRow
             school={schoolsMap[schoolId] || {}}
             timeslots={timeslotsBySchool[schoolId] || []}
-            onApply={handleApplyClick}
+            onApply={handleApply}
           />
         ))}
-
-        {/* {(timeslotsByDays[selectedDay] || {}).map(school => ( */}
-
-        {/* <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Expansion Panel 1</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-              sit amet blandit leo lobortis eget.
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel> */}
-
-        {/* <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Час початку</TableCell>
-                <TableCell>Клас</TableCell>
-                <TableCell>Кількість учнів</TableCell>
-                <TableCell>Коментар</TableCell>
-                <TableCell>Дії</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(timeslotsByDays[selectedDay] || []).map(timeslot => (
-                <TableRow key={timeslot.id}>
-                  <TableCell component="th" scope="row">{DateTime.fromJSDate(timeslot.startTime).toFormat('HH:mm')}</TableCell>
-                  <TableCell>{timeslot.class}</TableCell>
-                  <TableCell>{timeslot.pupilsCount}</TableCell>
-                  <TableCell>{timeslot.notes}</TableCell>
-                  <TableCell>Я прийду на урок</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper> */}
-
-        {/* <Timeslots
-          timeslots={timeslots}
-          onDeleteTimeslot={handleDeleteClick}
-        />
-        <CreateTimeslotForm onSubmit={handleSubmit} /> */}
-        {applyConfirmationDialogShown && (
-          <ConfirmationDialog
-            onCancel={handleApplyCancel}
-            onConfirm={handleApplyConfirm}
-            confirmLabel="Так"
-            cancelLabel="Ні"
-            title="Ви впевнені, що хочете провести цей урок?"
-          />
-        )}
       </React.Fragment>
     );
   }

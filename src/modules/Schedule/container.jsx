@@ -4,11 +4,12 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
-import Typography from '@material-ui/core/Typography'
+import Typography from '@material-ui/core/Typography';
 
 import { toast } from 'react-toastify';
 
 import { withUser } from 'modules/Auth';
+import { withSchools } from 'modules/Schools';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
@@ -58,7 +59,7 @@ class Schedule extends React.Component {
       if (this.props.timeslotDeletingError) {
         toast.error(this.props.timeslotDeletingError.message);
       } else {
-        toast.success('Урок успішно виделано');
+        toast.success('Урок успішно видалено');
 
         const { teacher } = this.props.user;
         this.props.onFetchTimeslots(teacher.schoolId);
@@ -100,9 +101,11 @@ class Schedule extends React.Component {
         deleteConfirmationDialogShown,
       },
       props: {
+        schoolsMap,
         timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
+        user,
       },
     } = this;
 
@@ -114,9 +117,15 @@ class Schedule extends React.Component {
       return <div>{timeslotsFetchingError.message}</div>;
     }
 
+    const school = schoolsMap[user.teacher.schoolId] || {};
+
     return (
       <React.Fragment>
-        <div>{this.props.user.teacher.schoolId}</div>
+
+        <Typography variant="title" gutterBottom>{school.name}</Typography>
+        <Typography variant="body2" gutterBottom>
+          Створи уроки, ментори долучаться. Адміністратор Години Коду підтверджує всі уроки та заявки менторів, статус у відповідній колонці.
+        </Typography>
         <Timeslots
           timeslots={timeslots}
           onDeleteTimeslot={handleDeleteClick}
@@ -148,6 +157,7 @@ Schedule.propTypes = {
   timeslots: PropTypes.instanceOf(Array),
   timeslotsFetching: PropTypes.bool.isRequired,
   timeslotsFetchingError: PropTypes.instanceOf(Object),
+  schoolsMap: PropTypes.instanceOf(Object),
 };
 
 Schedule.defaultProps = {
@@ -155,6 +165,7 @@ Schedule.defaultProps = {
   timeslotDeletingError: null,
   timeslots: [],
   timeslotsFetchingError: null,
+  schoolsMap: {},
 };
 
 const mapStateToProps = createSelector(
@@ -193,4 +204,5 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withUser,
+  withSchools,
 )(Schedule);
