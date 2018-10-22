@@ -1,17 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Auth, { SignUp } from 'modules/Auth';
-import withTheme from '@material-ui/core/styles/withTheme';
 import { Container, Column, FlexBox } from 'shared/components/LayoutStyled';
 import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
 import WelcomeHero from './components/WelcomeHero';
 
-
 class WelcomePage extends React.Component {
-  static propTypes = {
-    theme: PropTypes.shape({ palette: PropTypes.object.isRequired }).isRequired,
-  };
-
   state = {
     isSignInShown: false,
   };
@@ -24,8 +17,6 @@ class WelcomePage extends React.Component {
       props: { classes },
       state: { isSignInShown },
     } = this;
-
-    const colors = theme.palette;
 
     return (
       <React.Fragment>
@@ -44,14 +35,14 @@ class WelcomePage extends React.Component {
             {!isSignInShown && (
               <FlexBox margin="0 0 50px 0" align="center" justify="center">
                 <SignUp />
-                <HeadingSm variant="subheading" link color={colors.common.black}>
+                <HeadingSm variant="subheading" link>
                   Вже реєструвався? —
                   <span onClick={handleToggleMode}>Увійди</span>
                 </HeadingSm>
               </FlexBox>
             )}
           </Column>
-          <Column item xs={12} md={5} withBar bgColor={colors.primary.main}>
+          <Column item xs={12} md={5} withBar>
             <FlexBox column margin="0 0 20px 0">
               <Heading bolder margin="0 0 5px 0">Ментор</Heading>
               <HeadingSm>
@@ -68,7 +59,7 @@ class WelcomePage extends React.Component {
             </FlexBox>
             <FlexBox column>
               <Heading bolder margin="0 0 5px 0">Є питання?</Heading>
-              <HeadingSm link color={colors.common.black}>
+              <HeadingSm link>
                 Пиши на&nbsp;
                 <span>hoflviv@gmail.com</span>
               </HeadingSm>
@@ -80,4 +71,4 @@ class WelcomePage extends React.Component {
   }
 }
 
-export default withTheme()(WelcomePage);
+export default WelcomePage;

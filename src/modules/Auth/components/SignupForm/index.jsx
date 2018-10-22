@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, formValueSelector, reduxForm } from 'redux-form';
-import withTheme from '@material-ui/core/styles/withTheme';
 import Button from '@material-ui/core/Button';
 
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
@@ -20,11 +19,10 @@ const SignupForm = (
     pristine,
     role,
     formError,
-    theme,
   },
 ) => (
   <form onSubmit={handleSubmit}>
-    <Heading fontSize="24px" bolder halfLine margin="0 0 15px 0" color={theme.palette.common.black}>Реєстрація</Heading>
+    <Heading fontSize="24px" bolder halfLine margin="0 0 15px 0">Реєстрація</Heading>
     <Field
       component={RadioGroupField}
       label="Я хочу бути:"
@@ -81,7 +79,6 @@ SignupForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
-  theme: PropTypes.shape({ palette: PropTypes.object.isRequired }).isRequired,
 };
 
 SignupForm.defaultProps = {
@@ -100,6 +97,6 @@ export default connect((state) => {
   return {
     role,
   };
-})(withTheme()(form));
+})(form);
 
 export { SignupForm as SignupFormComponent };
