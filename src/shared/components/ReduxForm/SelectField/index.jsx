@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 // import Select from 'react-select';
 
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from 'shared/components/Select';
 
