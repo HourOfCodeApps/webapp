@@ -5,7 +5,7 @@ import CompleteSignUp from './containers/CompleteSignUp';
 import sagas from './sagas';
 import reducer from './reducer';
 
-import { authStateInit, signOut } from './actions';
+import { authStateInit, signOut, loadUserSuccess } from './actions';
 import {
   selectAuth,
   selectUser,
@@ -39,4 +39,5 @@ export {
   SignUp,
   withAuth,
   withUser,
+  loadUserSuccess,
 };
