@@ -55,7 +55,13 @@ function* updateMe({ payload: { userData } }) {
     }
 
     const { uid } = auth;
-    const profile = pick(userData, ['firstName', 'lastName', 'email', 'phone']);
+    // const profile = pick(userData, ['firstName', 'lastName', 'email', 'phone']);
+    const profile = pick(userData, ['firstName', 'lastName', 'phone']);
+
+    const { currentUser } = firebase.auth();
+    yield currentUser.updateProfile({
+      displayName: `${profile.firstName} ${profile.lastName}`,
+    });
 
     yield updateUserSection('users', uid, profile);
 

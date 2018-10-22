@@ -31,13 +31,13 @@ const ProfileForm = (
       name="lastName"
       required
     />
-    <Field
+    {/* <Field
       disabled={disabled}
       component={TextField}
       label="Поштова скринька"
       name="email"
       required
-    />
+    /> */}
     <Field
       disabled={disabled}
       component={TextField}
