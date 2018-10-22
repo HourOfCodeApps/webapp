@@ -25,6 +25,7 @@ const initialState = {
   schools: [],
   schoolsFetching: false,
   schoolsFetchingError: null,
+  schoolsMap: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -96,6 +97,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         schools: [],
+        schoolsMap: {},
         schoolsFetching: true,
         schoolsFetchingError: null,
       };
@@ -111,6 +113,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         schools: action.payload.schools.slice(),
+        schoolsMap: action.payload.schools.reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {}),
         schoolsFetching: false,
       };
 

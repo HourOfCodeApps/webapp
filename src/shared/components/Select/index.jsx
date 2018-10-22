@@ -74,39 +74,37 @@ function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
 }
 
-function Control(props) {
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputComponent,
-        inputProps: {
-          className: props.selectProps.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps,
-        },
-      }}
-      {...props.selectProps.textFieldProps}
-    />
-  );
-}
+const Control = props => (
+  <TextField
+    fullWidth
+    variant="outlined"
+    margin="normal"
+    InputProps={{
+      inputComponent,
+      inputProps: {
+        className: props.selectProps.classes.input,
+        inputRef: props.innerRef,
+        children: props.children,
+        ...props.innerProps,
+      },
+    }}
+    {...props.selectProps.textFieldProps}
+  />
+);
 
-function Option(props) {
-  return (
-    <MenuItem
-      buttonRef={props.innerRef}
-      selected={props.isFocused}
-      component="div"
-      style={{
-        fontWeight: props.isSelected ? 500 : 400,
-      }}
-      {...props.innerProps}
-    >
-      {props.children}
-    </MenuItem>
-  );
-}
+const Option = props => (
+  <MenuItem
+    buttonRef={props.innerRef}
+    selected={props.isFocused}
+    component="div"
+    style={{
+      fontWeight: props.isSelected ? 500 : 400,
+    }}
+    {...props.innerProps}
+  >
+    {props.children}
+  </MenuItem>
+);
 
 function Placeholder(props) {
   return (
