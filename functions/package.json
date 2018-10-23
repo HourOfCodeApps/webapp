@@ -9,11 +9,13 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "prebuild": "rm -rf ./dist",
-    "build": "babel src --out-dir dist --source-maps"
+    "build": "babel src --out-dir dist --source-maps --copy-files"
   },
   "dependencies": {
     "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.0.3"
+    "firebase-functions": "^2.0.3",
+    "nodemailer": "^4.6.8",
+    "pug": "^2.0.3"
   },
   "engines": {
     "node": "8"
