@@ -11,21 +11,25 @@ import Typography from '@material-ui/core/Typography';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
+import { FlexBox } from 'shared/components/LayoutStyled';
+import { Heading } from 'shared/components/TypographyStyled';
+import { Logo } from 'shared/components/WelcomePageStyled';
 
 const styles = theme => ({
   toolbar: {
     paddingRight: 24,
+    justifyContent: 'space-between',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   title: {
-    flexGrow: 1,
     textDecoration: 'none',
   },
   toolbarButton: {
     color: 'white',
   },
+  logo: theme.palette.common.white,
 });
 
 const Header = ({ classes, onSignOut, user }) => (
@@ -35,60 +39,64 @@ const Header = ({ classes, onSignOut, user }) => (
   >
     <Toolbar className={classes.toolbar}>
       <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
-        HOC Organizer
+        <FlexBox margin="10px 0px" align="center">
+          <Logo width="60px" height="60px" />
+          <Heading bolder color={classes.logo}>Lviv</Heading>
+        </FlexBox>
       </Typography>
-
-      {/* <IconButton color="inherit">
-        <Badge badgeContent={4} color="secondary">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton> */}
-      {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
-      {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
-      {/* {user.admin && (
-        <Button
-          className={classes.toolbarButton}
-          component={props => <Link to="/users" {...props} />}
-        >
-          Користувачі
-        </Button>
-      )} */}
-      {user.admin && (
-        <React.Fragment>
+      <FlexBox>
+        {/* <IconButton color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton> */}
+        {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
+        {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
+        {/* {user.admin && (
           <Button
             className={classes.toolbarButton}
-            component={props => <Link to="/schools" {...props} />}
+            component={props => <Link to="/me" {...props} />}
           >
-            Школи
+            Мої дані
           </Button>
+        )} */}
+        {user.admin && (
+          <React.Fragment>
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/schools" {...props} />}
+            >
+              Школи
+            </Button>
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/teachers" {...props} />}
+            >
+              Вчителі
+            </Button>
+          </React.Fragment>
+        )}
+        {user.teacher && (
           <Button
             className={classes.toolbarButton}
-            component={props => <Link to="/teachers" {...props} />}
+            component={props => <Link to="/" {...props} />}
           >
-            Вчителі
+            Розклад
           </Button>
-        </React.Fragment>
-      )}
-      {user.teacher && (
+        )}
         <Button
           className={classes.toolbarButton}
-          component={props => <Link to="/" {...props} />}
+          component={props => <Link to="/me" {...props} />}
         >
-          Розклад
+          Мої дані
         </Button>
-      )}
-      <Button
-        className={classes.toolbarButton}
-        component={props => <Link to="/me" {...props} />}
-      >
-        Мої дані
-      </Button>
-      <Button
-        className={classes.toolbarButton}
-        onClick={onSignOut}
-      >
-        Вихід
-      </Button>
+        <Button
+          className={classes.toolbarButton}
+          onClick={onSignOut}
+        >
+          Вихід
+        </Button>
+      </FlexBox>
     </Toolbar>
   </AppBar>
 );
