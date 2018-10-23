@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
+import { FlexBox } from 'shared/components/LayoutStyled';
+import { Heading } from 'shared/components/TypographyStyled';
+import { Logo } from 'shared/components/WelcomePageStyled';
 
 const styles = theme => ({
   toolbar: {
@@ -26,6 +29,7 @@ const styles = theme => ({
   toolbarButton: {
     color: 'white',
   },
+  logo: theme.palette.common.white,
 });
 
 const Header = ({ classes, onSignOut, user }) => (
@@ -37,61 +41,62 @@ const Header = ({ classes, onSignOut, user }) => (
       <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
         <FlexBox margin="10px 0px" align="center">
           <Logo width="60px" height="60px" />
-          <Heading bolder>Lviv</Heading>
+          <Heading bolder color={classes.logo}>Lviv</Heading>
         </FlexBox>
       </Typography>
-
-      {/* <IconButton color="inherit">
-        <Badge badgeContent={4} color="secondary">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton> */}
-      {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
-      {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
-      {/* {user.admin && (
+      <FlexBox>
+        {/* <IconButton color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton> */}
+        {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
+        {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
+        {/* {user.admin && (
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/me" {...props} />}
+          >
+            Мої дані
+          </Button>
+        )} */}
+        {user.admin && (
+          <React.Fragment>
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/schools" {...props} />}
+            >
+              Школи
+            </Button>
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/teachers" {...props} />}
+            >
+              Вчителі
+            </Button>
+          </React.Fragment>
+        )}
+        {user.teacher && (
+          <Button
+            className={classes.toolbarButton}
+            component={props => <Link to="/" {...props} />}
+          >
+            Розклад
+          </Button>
+        )}
         <Button
           className={classes.toolbarButton}
           component={props => <Link to="/me" {...props} />}
         >
           Мої дані
         </Button>
-      )} */}
-      {user.admin && (
-        <React.Fragment>
-          <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/schools" {...props} />}
-          >
-            Школи
-          </Button>
-          <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/teachers" {...props} />}
-          >
-            Вчителі
-          </Button>
-        </React.Fragment>
-      )}
-      {user.teacher && (
         <Button
           className={classes.toolbarButton}
-          component={props => <Link to="/" {...props} />}
+          onClick={onSignOut}
         >
-          Розклад
+          Вихід
         </Button>
-      )}
-      <Button
-        className={classes.toolbarButton}
-        component={props => <Link to="/me" {...props} />}
-      >
-        Мої дані
-      </Button>
-      <Button
-        className={classes.toolbarButton}
-        onClick={onSignOut}
-      >
-        Вихід
-      </Button>
+      </FlexBox>
     </Toolbar>
   </AppBar>
 );

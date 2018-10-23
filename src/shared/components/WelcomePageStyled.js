@@ -15,6 +15,7 @@ export const WelcomeHeroWrapper = withTheme()(styled.div`
         height: 100%;
         background-color: ${props => props.theme.palette.primary.main};
         opacity: .2;
+        z-index: -1;
     }
 `);
 

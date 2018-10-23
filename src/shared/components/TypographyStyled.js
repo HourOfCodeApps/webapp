@@ -6,7 +6,7 @@ export const Heading = withTheme()(styled.div`
     margin: ${props => (props.margin ? props.margin : 0)};
     font-size: ${props => (props.fontSize ? props.fontSize : '24px')};
     font-weight: ${props => (props.bolder ? 600 : 400)};
-    color: ${props => props.theme.palette.common.black};
+    color: ${props => (props.color ? props.color : props.theme.palette.common.black)};
     line-height: ${props => props.lineHeight};
 
     ${props => props.halfLine && `
