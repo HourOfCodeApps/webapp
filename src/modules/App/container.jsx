@@ -113,6 +113,12 @@ class App extends React.Component {
     onAuthStateInit();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.auth && !this.props.auth) {
+      window.location.href = '/';
+    }
+  }
+
   renderContent = () => {
     const {
       props: {
