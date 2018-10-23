@@ -40,6 +40,17 @@ module.exports = {
         ],
       },
       {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+            publicPath: '/',
+            context: 'src',
+          },
+        },
+      },
+      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
