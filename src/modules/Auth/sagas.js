@@ -7,6 +7,7 @@ import {
   call, takeEvery, takeLatest, fork, put, select, take,
 } from 'redux-saga/effects';
 import get from 'lodash/get';
+import pick from 'lodash/pick';
 
 import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
 
@@ -178,6 +179,13 @@ function* updateUser({ payload }) {
     }
 
     const { uid } = auth;
+
+    const profileFields = pick(profile, ['firstName', 'lastName', 'phone']);
+
+    const { currentUser } = firebase.auth();
+    yield currentUser.updateProfile({
+      displayName: `${profileFields.firstName} ${profileFields.lastName}`,
+    });
 
     yield updateUserInfo('users', uid, profile);
 

@@ -1,54 +1,14 @@
 /* eslint-disable import/prefer-default-export */
-// const functions = require('firebase-functions');
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 
 import * as functions from 'firebase-functions';
 import admin from 'firebase-admin';
 
+import sendEmail from './lib/sendEmail';
+import renderTemplate from './lib/renderTemplate';
+
 admin.initializeApp(functions.config().firebase);
 const firestore = admin.firestore();
 firestore.settings({ timestampsInSnapshots: true });
-
-
-// import sendEmail from './lib/sendEmail';
-
-// // Sends an email confirmation when a user changes his mailing list subscription.
-// exports.sendEmailConfirmation = functions.database.ref('/users/{uid}').onWrite(async (change) => {
-//   const snapshot = change.after;
-//   const val = snapshot.val();
-
-//   if (!snapshot.changed('subscribedToMailingList')) {
-//     return null;
-//   }
-
-//   const mailOptions = {
-//     from: '"Spammy Corp." <noreply@firebase.com>',
-//     to: val.email,
-//   };
-
-//   const subscribed = val.subscribedToMailingList;
-
-//   // Building Email message.
-//   mailOptions.subject = subscribed ? 'Thanks and Welcome!' : 'Sad to see you go :`(';
-//   mailOptions.text = subscribed ?
-//       'Thanks you for subscribing to our newsletter. You will receive our next weekly newsletter.' :
-//       'I hereby confirm that I will stop sending you the newsletter.';
-
-//   try {
-//     await sendEmail(mailOptions);
-//     console.log(`New ${subscribed ? '' : 'un'}subscription confirmation email sent to:`, val.email);
-//   } catch(error) {
-//     console.error('There was an error while sending the email:', error);
-//   }
-//   return null;
-// });
-// const admin = require('firebase-admin');
 
 const updateSchoolsTimeslotsCount = functions.firestore.document('timeslots/{timeslotId}')
   .onWrite(async (change, context) => {
@@ -71,6 +31,80 @@ const updateSchoolsTimeslotsCount = functions.firestore.document('timeslots/{tim
     }, { merge: true });
   });
 
+const emailTeacherApproved = functions.firestore.document('teachers/{uid}')
+  .onUpdate(async (change, context) => {
+    const newValue = change.after.data();
+    const oldValue = change.before.data();
+
+    if (oldValue.isApproved || !newValue.isApproved) {
+      return;
+    }
+
+    const { uid } = context.params;
+
+    const userRecord = await admin.auth().getUser(uid);
+    await sendEmail({
+      to: userRecord.email,
+      subject: 'Ваш доступ підтверджено',
+      text: 'Ваш доступ було підтверджено адміністратором',
+      html: renderTemplate('email-teacher-approved', {
+        displayName: userRecord.displayName,
+      })
+    });
+    console.log('Email sent', userRecord.toJSON());
+  });
+
+const emailTeacherNeedsApprove = functions.firestore.document('teachers/{uid}')
+  .onWrite(async (change, context) => {
+    if (!change.after.exists) {
+      // teacher deleted
+      return;
+    }
+
+    const teacher = change.after.data();
+    const oldValue = change.before.data();
+
+    if (
+      !teacher.schoolId // teacher hasn't school yet
+      || oldValue.isApproved || teacher.isApproved // teacher is already approved
+    ) {
+      return;
+    }
+
+    const { uid } = context.params;
+    const userSnap = await firestore.collection('users').doc(context.params.uid).get();
+    const user = userSnap.data();
+
+    const teacherUserRecord = await admin.auth().getUser(uid);
+
+    const schoolSnap = await firestore.collection('schools').doc(teacher.schoolId).get();
+    const school = schoolSnap.data();
+
+    const adminSnaps = await firestore.collection('admins').get();
+
+    const admins = await Promise.all(
+      adminSnaps.docs
+        .map(doc => doc.id)
+        .map(uid => admin.auth().getUser(uid))
+    );
+
+    const adminEmails = admins.map(userRecord => userRecord.email);
+
+    await sendEmail({
+      bcc: adminEmails.filter(v => v).join(),
+      subject: 'Новий вчитель потребує підтвердження',
+      text: `Вчитель ${teacherUserRecord.displayName} з школи "${school.name}" потребує підтвердження.`,
+      html: renderTemplate('email-teacher-needs-approve', {
+        school,
+        teacher: teacherUserRecord,
+        url: `${functions.config().general.host}/teachers`,
+      })
+    });
+    console.log('Email sent');
+  });
+
 export {
+  emailTeacherApproved,
+  emailTeacherNeedsApprove,
   updateSchoolsTimeslotsCount,
 }
