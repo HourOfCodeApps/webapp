@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import withTheme from '@material-ui/core/styles/withTheme';
 
+import LogoImage from 'assets/img/hoc-logo.png';
+
 export const WelcomeHeroWrapper = withTheme()(styled.div`
     padding: 40px 0 40px;
     position: relative;
@@ -22,7 +24,7 @@ export const WelcomeHeroWrapper = withTheme()(styled.div`
 export const Logo = styled.div`
     width: ${props => (props.width ? props.width : '100px')};
     height: ${props => (props.height ? props.height : '100px')};
-    background-image: url('../src/shared/assets/img/hoc-logo.png');
+    background-image: url('${LogoImage}');
     background-size: contain;
     margin-right: 10px;
 `;
