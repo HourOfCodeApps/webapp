@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
 import TextField from 'shared/components/ReduxForm/TextField';
-import { Heading } from 'shared/components/TypographyStyled';
+import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
 import { FlexBox } from 'shared/components/LayoutStyled';
 
 import { SIGNUP_FORM_ID } from '../../constants';
@@ -58,7 +58,7 @@ const SignupForm = (
     />
     {formError && (
       <FlexBox margin="10px 0 10px 0">
-        {formError.message}
+        <HeadingSm error fontSize="14px">{formError.message}</HeadingSm>
       </FlexBox>
     )}
     <FlexBox margin="10px 0 20px 0">
