@@ -56,36 +56,42 @@ const AppLoading = () => <div>Loading</div>;
 
 const Public = () => (
   <Router>
-    <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      <Route component={Page404} />
-    </Switch>
+    <div>
+      <Switch>
+        <Route path="/" exact component={WelcomePage} />
+        <Route component={Page404} />
+      </Switch>
+      <Footer />
+    </div>
   </Router>
 );
 
 const Private = ({ user }) => (
   <Router>
-    <AppWrapper>
-      <Switch>
-        {user.admin && [
-          <Route path="/" exact component={Dashboard} />,
-          <Route path="/schools" exact component={Schools} />,
-          <Route path="/school/new" exact component={SchoolCreate} />,
-          <Route path="/school/:id" exact component={School} />,
-          <Route path="/school/:id/edit" exact component={SchoolEdit} />,
-          <Route path="/teachers" exact component={Teachers} />,
-        ]}
-        {user.teacher && (
-          <Route path="/" exact component={Schedule} />
-        )}
-        {user.mentor && [
-          <Route path="/" exact component={MentorSchedule} />,
-          <Route path="/apply" exact component={MentorScheduleApply} />,
-        ]}
-        <Route path="/me" exact component={Profile} />
-        <Route component={Page404} />
-      </Switch>
-    </AppWrapper>
+    <div>
+      <AppWrapper>
+        <Switch>
+          {user.admin && [
+            <Route path="/" exact component={Dashboard} />,
+            <Route path="/schools" exact component={Schools} />,
+            <Route path="/school/new" exact component={SchoolCreate} />,
+            <Route path="/school/:id" exact component={School} />,
+            <Route path="/school/:id/edit" exact component={SchoolEdit} />,
+            <Route path="/teachers" exact component={Teachers} />,
+          ]}
+          {user.teacher && (
+            <Route path="/" exact component={Schedule} />
+          )}
+          {user.mentor && [
+            <Route path="/" exact component={MentorSchedule} />,
+            <Route path="/apply" exact component={MentorScheduleApply} />,
+          ]}
+          <Route path="/me" exact component={Profile} />
+          <Route component={Page404} />
+        </Switch>
+      </AppWrapper>
+      <Footer />
+    </div>
   </Router>
 );
 
@@ -166,7 +172,6 @@ class App extends React.Component {
         <CssBaseline />
         <ToastContainer />
         {renderContent()}
-        <Footer />
       </MuiThemeProvider>
     );
   }
