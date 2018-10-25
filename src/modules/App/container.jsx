@@ -41,6 +41,7 @@ import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
+import AppLoading from './components/AppLoading';
 
 const theme = createMuiTheme({
   palette: {
@@ -50,8 +51,6 @@ const theme = createMuiTheme({
     },
   },
 });
-
-const AppLoading = () => <div>Loading</div>;
 
 const Public = () => (
   <Router>
