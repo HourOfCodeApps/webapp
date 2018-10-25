@@ -39,6 +39,7 @@ import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
+import Footer from './components/Footer';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 
@@ -165,6 +166,7 @@ class App extends React.Component {
         <CssBaseline />
         <ToastContainer />
         {renderContent()}
+        <Footer />
       </MuiThemeProvider>
     );
   }
