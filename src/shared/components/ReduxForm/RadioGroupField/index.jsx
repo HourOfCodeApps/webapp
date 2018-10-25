@@ -5,12 +5,17 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 
 const RadioGroupField = ({
-  color, input, label, labelKey, options, valueKey, meta: { error, touched }, horizontal,
+  color, disabled, input, label, labelKey, options, valueKey, meta: { error, touched }, horizontal,
 }) => (
-  <FormControl fullWidth>
+  <FormControl
+    fullWidth
+    error={touched && error}
+    disabled={disabled}
+  >
     <FormLabel component="legend">{label}</FormLabel>
     <RadioGroup
       aria-label={label}
@@ -28,13 +33,15 @@ const RadioGroupField = ({
         />
       ))}
     </RadioGroup>
-    {touched && error && <span>{error}</span>}
+    {touched && error && <FormHelperText>{error}</FormHelperText>}
+    {/* {touched && error && <span>{error}</span>} */}
   </FormControl>
 );
 
 
 RadioGroupField.propTypes = {
   color: PropTypes.string,
+  disabled: PropTypes.bool,
   input: PropTypes.shape(PropTypes.object).isRequired,
   label: PropTypes.string.isRequired,
   labelKey: PropTypes.string,
@@ -49,6 +56,7 @@ RadioGroupField.propTypes = {
 
 RadioGroupField.defaultProps = {
   color: undefined,
+  disabled: false,
   labelKey: 'label',
   valueKey: 'value',
   horizontal: false,
