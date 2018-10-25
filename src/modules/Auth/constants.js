@@ -1,3 +1,6 @@
+export const FORGOT_PASSWORD = 'app/Auth/FORGOT_PASSWORD';
+export const FORGOT_PASSWORD_FAILURE = 'app/Auth/FORGOT_PASSWORD_FAILURE';
+export const FORGOT_PASSWORD_SUCCESS = 'app/Auth/FORGOT_PASSWORD_SUCCESS';
 export const LOAD_USER = 'app/Auth/LOAD_USER';
 export const LOAD_USER_FAILURE = 'app/Auth/LOAD_USER_FAILURE';
 export const LOAD_USER_SUCCESS = 'app/Auth/LOAD_USER_SUCCESS';

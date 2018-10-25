@@ -42,6 +42,16 @@ const selectSigningUpError = () => createSelector(
   substate => substate.signingUpError,
 );
 
+const selectForgotPasswordInProgress = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.forgotPasswordInProgress,
+);
+
+const selectForgotPasswordInProgressError = () => createSelector(
+  selectAuthDomain(),
+  substate => substate.forgotPasswordInProgressError,
+);
+
 export {
   selectAuth,
   selectAuthDomain,
@@ -52,4 +62,6 @@ export {
   selectStateInitLoaded,
   selectUser,
   selectUserLoading,
+  selectForgotPasswordInProgress,
+  selectForgotPasswordInProgressError,
 };

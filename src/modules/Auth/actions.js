@@ -1,4 +1,7 @@
 import {
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_FAILURE,
+  FORGOT_PASSWORD_SUCCESS,
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
@@ -20,6 +23,35 @@ import {
 
 
 const authStateInit = () => ({ type: STATE_INIT });
+
+/**
+ * Forgot password action
+ * @param {String} email
+ * @returns {{ type: String, payload: { email: String } }}
+ */
+const forgotPassword = email => ({
+  type: FORGOT_PASSWORD,
+  payload: { email },
+});
+
+/**
+ * Forgot password failure action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const forgotPasswordFailure = error => ({
+  type: FORGOT_PASSWORD_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Forgot password success action
+ * @returns {{ type: String }}
+ */
+const forgotPasswordSuccess = () => ({
+  type: FORGOT_PASSWORD_SUCCESS,
+});
+
 
 const stateChanged = auth => ({
   type: STATE_CHANGED,
@@ -135,6 +167,9 @@ const updateUserSuccess = user => ({
 
 export {
   authStateInit,
+  forgotPassword,
+  forgotPasswordFailure,
+  forgotPasswordSuccess,
   loadUser,
   loadUserSuccess,
   loadUserFailure,
