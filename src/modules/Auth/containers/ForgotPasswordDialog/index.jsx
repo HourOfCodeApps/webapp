@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { toast } from 'react-toastify';
@@ -86,8 +87,11 @@ class ForgotPasswordDialog extends React.Component {
         aria-labelledby="confirmation-dialog-title"
         aria-describedby="confirmation-dialog-description"
       >
-        <DialogTitle id="confirmation-dialog-title">Відновлення паролю</DialogTitle>
+        <DialogTitle id="confirmation-dialog-title">Забули пароль?</DialogTitle>
         <DialogContent>
+          <DialogContentText>
+            Для відновлення паролю будь ласка введіть Вашу поштову скриньку.
+          </DialogContentText>
           <TextField
             margin="normal"
             variant="outlined"
