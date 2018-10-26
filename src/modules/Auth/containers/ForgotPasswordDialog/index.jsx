@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,6 +10,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import { HeadingSm } from 'shared/components/TypographyStyled';
+import { FlexBox } from 'shared/components/LayoutStyled';
 import { toast } from 'react-toastify';
 
 
@@ -33,6 +36,18 @@ const validateEmail = (email) => {
   }
 
   return null;
+};
+
+const styles = {
+  actions: {
+    padding: '10px',
+  },
+  title: {
+    padding: '24px 24px 15px',
+  },
+  content: {
+    padding: '0 24px 0',
+  },
 };
 
 class ForgotPasswordDialog extends React.Component {
@@ -72,6 +87,7 @@ class ForgotPasswordDialog extends React.Component {
       handleConfirm,
       handleEmailChange,
       props: {
+        classes,
         forgotPasswordInProgress,
         forgotPasswordInProgressError,
         onCancel,
@@ -87,8 +103,15 @@ class ForgotPasswordDialog extends React.Component {
         aria-labelledby="confirmation-dialog-title"
         aria-describedby="confirmation-dialog-description"
       >
-        <DialogTitle id="confirmation-dialog-title">Забули пароль?</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          id="confirmation-dialog-title"
+          classes={{ root: classes.title }}
+        >
+          Забули пароль?
+        </DialogTitle>
+        <DialogContent
+          classes={{ root: classes.content }}
+        >
           <DialogContentText>
             Для відновлення паролю будь ласка введіть Вашу поштову скриньку.
           </DialogContentText>
@@ -104,15 +127,22 @@ class ForgotPasswordDialog extends React.Component {
             value={email}
             autoFocus
           />
-          {forgotPasswordInProgressError && <div>{forgotPasswordInProgressError.message}</div>}
+          {forgotPasswordInProgressError && (
+            <FlexBox margin="5px 0 0 0">
+              <HeadingSm error fontSize="14px">{forgotPasswordInProgressError.message}</HeadingSm>
+            </FlexBox>
+          )}
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          classes={{ root: classes.actions }}
+        >
           <Button onClick={onCancel} color="primary" disabled={forgotPasswordInProgress}>
             Відміна
           </Button>
           <Button
             onClick={handleConfirm}
             color="primary"
+            variant="outlined"
             disabled={!email.trim() || errors.email || forgotPasswordInProgress}
           >
             Відновити пароль
@@ -124,6 +154,7 @@ class ForgotPasswordDialog extends React.Component {
 }
 
 ForgotPasswordDialog.propTypes = {
+  classes: PropTypes.shape(PropTypes.object).isRequired,
   forgotPasswordInProgress: PropTypes.bool.isRequired,
   forgotPasswordInProgressError: PropTypes.instanceOf(Object),
   onCancel: PropTypes.func.isRequired,
@@ -149,4 +180,4 @@ const mapDispatchToProps = {
   onForgotPassword: forgotPassword,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ForgotPasswordDialog));
