@@ -56,19 +56,19 @@ const AppLoading = () => <div>Loading</div>;
 
 const Public = () => (
   <Router>
-    <div>
+    <React.Fragment>
       <Switch>
         <Route path="/" exact component={WelcomePage} />
         <Route component={Page404} />
       </Switch>
       <Footer />
-    </div>
+    </React.Fragment>
   </Router>
 );
 
 const Private = ({ user }) => (
   <Router>
-    <div>
+    <React.Fragment>
       <AppWrapper>
         <Switch>
           {user.admin && [
@@ -91,7 +91,7 @@ const Private = ({ user }) => (
         </Switch>
       </AppWrapper>
       <Footer />
-    </div>
+    </React.Fragment>
   </Router>
 );
 
