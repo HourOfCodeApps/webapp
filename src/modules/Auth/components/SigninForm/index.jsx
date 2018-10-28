@@ -18,13 +18,13 @@ const SigninForm = ({
   <form onSubmit={handleSubmit}>
     <Field
       component={TextField}
-      label="Email"
+      label="Поштова скринька"
       name="email"
       required
     />
     <Field
       component={TextField}
-      label="Password"
+      label="Пароль"
       name="password"
       type="password"
       required

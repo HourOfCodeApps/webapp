@@ -21,7 +21,7 @@ import {
   SIGNIN_GOOGLE_PROVIDER,
 } from './constants';
 
-import SigninForm from './components/SigninForm';
+import SignInForm from './components/SignInForm';
 
 const styles = theme => ({
   root: {
@@ -70,7 +70,7 @@ class Auth extends React.Component {
         {signingInError && (
           <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{signingInError.message}</Typography>
         )}
-        <SigninForm
+        <SignInForm
           disabled={signingIn}
           onSignUp={handleSignUp}
           onSubmit={handleEmailPasswordLogin}
