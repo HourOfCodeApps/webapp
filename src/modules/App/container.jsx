@@ -39,6 +39,7 @@ import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
 import WelcomePage from './containers/WelcomePage';
 import AppWrapper from './containers/AppWrapper';
+import Footer from './components/Footer';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 import AppLoading from './components/AppLoading';
@@ -54,36 +55,42 @@ const theme = createMuiTheme({
 
 const Public = () => (
   <Router>
-    <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      <Route component={Page404} />
-    </Switch>
+    <React.Fragment>
+      <Switch>
+        <Route path="/" exact component={WelcomePage} />
+        <Route component={Page404} />
+      </Switch>
+      <Footer />
+    </React.Fragment>
   </Router>
 );
 
 const Private = ({ user }) => (
   <Router>
-    <AppWrapper>
-      <Switch>
-        {user.admin && [
-          <Route path="/" exact component={Dashboard} />,
-          <Route path="/schools" exact component={Schools} />,
-          <Route path="/school/new" exact component={SchoolCreate} />,
-          <Route path="/school/:id" exact component={School} />,
-          <Route path="/school/:id/edit" exact component={SchoolEdit} />,
-          <Route path="/teachers" exact component={Teachers} />,
-        ]}
-        {user.teacher && (
-          <Route path="/" exact component={Schedule} />
-        )}
-        {user.mentor && [
-          <Route path="/" exact component={MentorSchedule} />,
-          <Route path="/apply" exact component={MentorScheduleApply} />,
-        ]}
-        <Route path="/me" exact component={Profile} />
-        <Route component={Page404} />
-      </Switch>
-    </AppWrapper>
+    <React.Fragment>
+      <AppWrapper>
+        <Switch>
+          {user.admin && [
+            <Route path="/" exact component={Dashboard} />,
+            <Route path="/schools" exact component={Schools} />,
+            <Route path="/school/new" exact component={SchoolCreate} />,
+            <Route path="/school/:id" exact component={School} />,
+            <Route path="/school/:id/edit" exact component={SchoolEdit} />,
+            <Route path="/teachers" exact component={Teachers} />,
+          ]}
+          {user.teacher && (
+            <Route path="/" exact component={Schedule} />
+          )}
+          {user.mentor && [
+            <Route path="/" exact component={MentorSchedule} />,
+            <Route path="/apply" exact component={MentorScheduleApply} />,
+          ]}
+          <Route path="/me" exact component={Profile} />
+          <Route component={Page404} />
+        </Switch>
+      </AppWrapper>
+      <Footer />
+    </React.Fragment>
   </Router>
 );
 
