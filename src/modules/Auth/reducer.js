@@ -1,4 +1,7 @@
 import {
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_FAILURE,
+  FORGOT_PASSWORD_SUCCESS,
   LOAD_USER,
   LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
@@ -25,10 +28,32 @@ const initialState = {
   signingInError: null,
   signingUp: false,
   signingUpError: null,
+  forgotPasswordInProgress: false,
+  forgotPasswordInProgressError: null,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        forgotPasswordInProgress: true,
+        forgotPasswordInProgressError: null,
+      };
+
+    case FORGOT_PASSWORD_FAILURE:
+      return {
+        ...state,
+        forgotPasswordInProgress: false,
+        forgotPasswordInProgressError: action.payload.error,
+      };
+
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        forgotPasswordInProgress: false,
+      };
+
     case LOAD_USER:
       return {
         ...state,

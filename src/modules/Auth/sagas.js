@@ -13,6 +13,7 @@ import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
 
 // Application
 import {
+  FORGOT_PASSWORD,
   LOAD_USER,
   SIGNIN,
   SIGNOUT,
@@ -25,6 +26,8 @@ import {
 } from './constants';
 
 import {
+  forgotPasswordFailure,
+  forgotPasswordSuccess,
   loadUser as loadUserAction,
   loadUserFailure,
   loadUserSuccess,
@@ -58,6 +61,20 @@ const signInProvider = async (providerEnum, data) => {
       throw new Error('No Auth Provider');
   }
 };
+
+function* forgotPassword({ payload: { email } }) {
+  try {
+    const actionCodeSettings = {
+      url: `${window.location.protocol}//${window.location.host}`,
+    };
+
+    yield firebase.auth().sendPasswordResetEmail(email, actionCodeSettings);
+
+    yield put(forgotPasswordSuccess());
+  } catch (error) {
+    yield put(forgotPasswordFailure(error));
+  }
+}
 
 function* signUp({ payload: { userData } }) {
   try {
@@ -220,6 +237,7 @@ function* rootSaga() {
   yield fork(takeLatest, LOAD_USER, loadUser);
   yield fork(takeLatest, SIGNUP, signUp);
   yield fork(takeEvery, UPDATE_USER, updateUser);
+  yield fork(takeLatest, FORGOT_PASSWORD, forgotPassword);
 }
 
 // All sagas to be loaded by configureStore()

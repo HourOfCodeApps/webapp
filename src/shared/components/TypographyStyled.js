@@ -8,6 +8,7 @@ export const Heading = withTheme()(styled.div`
     font-weight: ${props => (props.bolder ? 600 : 400)};
     color: ${props => (props.color ? props.color : props.theme.palette.common.black)};
     line-height: ${props => props.lineHeight};
+    cursor: ${props => props.pointer && 'pointer'};
 
     ${props => props.halfLine && `
         padding-bottom: 3px;
