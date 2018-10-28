@@ -39,14 +39,18 @@ const validateEmail = (email) => {
 };
 
 const styles = {
+  wrapper: {
+    minWidth: 650,
+  },
   actions: {
-    padding: '10px',
+    padding: '10px 30px 20px 10px',
+    margin: '10px 0 0 0',
   },
   title: {
-    padding: '24px 24px 15px',
+    padding: '24px 35px 15px',
   },
   content: {
-    padding: '0 24px 0',
+    padding: '0 35px 0',
   },
 };
 
@@ -102,6 +106,7 @@ class ForgotPasswordDialog extends React.Component {
         onClose={onClose}
         aria-labelledby="confirmation-dialog-title"
         aria-describedby="confirmation-dialog-description"
+        classes={{ paper: classes.wrapper }}
       >
         <DialogTitle
           id="confirmation-dialog-title"
