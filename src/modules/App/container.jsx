@@ -21,6 +21,7 @@ import { Teachers } from 'modules/Users';
 import Schedule from 'modules/Schedule';
 import MentorSchedule, { MentorScheduleApply } from 'modules/MentorSchedule';
 import Profile from 'modules/Profile';
+import { Timeslots as AdminTimeslots } from 'modules/Admin';
 
 import {
   selectAuth,
@@ -72,6 +73,7 @@ const Private = ({ user }) => (
           <Route path="/school/:id" exact component={School} />,
           <Route path="/school/:id/edit" exact component={SchoolEdit} />,
           <Route path="/teachers" exact component={Teachers} />,
+          <Route path="/timeslots" exact component={AdminTimeslots} />,
         ]}
         {user.teacher && (
           <Route path="/" exact component={Schedule} />

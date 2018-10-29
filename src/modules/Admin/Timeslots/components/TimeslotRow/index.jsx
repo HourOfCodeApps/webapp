@@ -5,9 +5,14 @@ import { DateTime } from 'luxon';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import ApproveIcon from '@material-ui/icons/Done';
+import RejectIcon from '@material-ui/icons/Clear';
 
 const renderStatus = (timeslot) => {
+  if (timeslot.isRejected) {
+    return <span style={{ color: 'red' }}>Відхилено</span>;
+  }
+
   if (!timeslot.isApproved) {
     return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
   }
@@ -20,13 +25,18 @@ const renderStatus = (timeslot) => {
 };
 
 class Timeslot extends React.Component {
-  handleDelete = () => {
-    this.props.onDelete(this.props.timeslot.id);
+  handleApprove = () => {
+    this.props.onApprove(this.props.timeslot.id);
+  }
+
+  handleReject = () => {
+    this.props.onReject(this.props.timeslot.id);
   }
 
   render() {
     const {
-      handleDelete,
+      handleApprove,
+      handleReject,
       props: { timeslot },
     } = this;
 
@@ -40,12 +50,22 @@ class Timeslot extends React.Component {
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell>{renderStatus(timeslot)}</TableCell>
         <TableCell number>
-          <IconButton
-            onClick={handleDelete}
-            aria-label="Delete"
-          >
-            <DeleteIcon />
-          </IconButton>
+          {!timeslot.isApproved && (
+            <IconButton
+              onClick={handleApprove}
+              aria-label="Approve"
+            >
+              <ApproveIcon />
+            </IconButton>
+          )}
+          {!timeslot.isApproved && (
+            <IconButton
+              onClick={handleReject}
+              aria-label="Reject"
+            >
+              <RejectIcon />
+            </IconButton>
+          )}
         </TableCell>
       </TableRow>
     );
@@ -54,7 +74,8 @@ class Timeslot extends React.Component {
 
 Timeslot.propTypes = {
   timeslot: PropTypes.shape(PropTypes.object).isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onApprove: PropTypes.func.isRequired,
+  onReject: PropTypes.func.isRequired,
 };
 
 export default Timeslot;
