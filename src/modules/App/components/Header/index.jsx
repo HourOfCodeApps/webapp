@@ -74,6 +74,12 @@ const Header = ({ classes, onSignOut, user }) => (
             >
               Вчителі
             </Button>
+            <Button
+              className={classes.toolbarButton}
+              component={props => <Link to="/timeslots" {...props} />}
+            >
+              Уроки
+            </Button>
           </React.Fragment>
         )}
         {user.teacher && (

@@ -8,20 +8,35 @@ import IconButton from '@material-ui/core/IconButton';
 import ApproveIcon from '@material-ui/icons/Done';
 import RejectIcon from '@material-ui/icons/Clear';
 
-const renderStatus = (timeslot) => {
-  if (timeslot.isRejected) {
-    return <span style={{ color: 'red' }}>Відхилено</span>;
-  }
+import {
+  TIMESLOT_STATUS_NEEDS_APPROVE,
+  TIMESLOT_STATUS_NEEDS_MENTOR,
+  TIMESLOT_STATUS_HAS_MENTOR,
+  TIMESLOT_STATUS_REJECTED,
+} from 'shared/constants/timeslots';
 
-  if (!timeslot.isApproved) {
+const renderStatus = (timeslot) => {
+  if (!timeslot.status || timeslot.status === TIMESLOT_STATUS_NEEDS_APPROVE) {
     return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
   }
 
-  if (timeslot.mentorId && timeslot.mentor) {
+  if (timeslot.status === TIMESLOT_STATUS_NEEDS_MENTOR) {
+    return <span style={{ color: 'green' }}>Очікує ментора</span>;
+  }
+
+  if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR && timeslot.mentorId && timeslot.mentor) {
     return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
   }
 
-  return <span style={{ color: 'green' }}>Очікує ментора</span>;
+  if (timeslot.status === TIMESLOT_STATUS_REJECTED) {
+    return <span style={{ color: 'red' }}>Відхилено</span>;
+  }
+
+  // if (timeslot.mentorId && timeslot.mentor) {
+  //   return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+  // }
+
+  return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
 };
 
 class Timeslot extends React.Component {

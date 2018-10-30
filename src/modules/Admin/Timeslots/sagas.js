@@ -7,6 +7,10 @@ import {
 
 // Application
 import {
+  TIMESLOT_STATUS_APPROVED,
+} from 'shared/constants/timeslots';
+
+import {
   APPROVE_TIMESLOTS,
   FETCH_TIMESLOTS,
 } from './constants';
@@ -28,7 +32,7 @@ function* approveTimeslots({ payload: { timeslotIds } }) {
     const existingTimeslots = timeslots.filter(t => t.exists);
 
     const batch = firebase.firestore().batch();
-    existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { isApproved: true }));
+    existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { status: TIMESLOT_STATUS_APPROVED }));
 
     yield batch.commit();
 
@@ -42,7 +46,7 @@ function* approveTimeslots({ payload: { timeslotIds } }) {
 function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
-      .orderBy('isApproved', 'asc')
+      .orderBy('status', 'asc')
       .limit(10)
       .get();
 
