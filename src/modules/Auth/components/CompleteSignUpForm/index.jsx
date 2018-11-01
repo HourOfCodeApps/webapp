@@ -3,21 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, formValueSelector, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
-// import Select from 'react-select';
-import Select from 'shared/components/Select';
 
 
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
 import SelectField from 'shared/components/ReduxForm/SelectField';
 import TextField from 'shared/components/ReduxForm/TextField';
+import PhoneInput from 'shared/components/PhoneInput/index';
+
 
 import { COMPLETE_SIGNUP_FORM_ID } from '../../constants';
 import validate from './validate';
-
-
-const getOptionLabel = option => option.name;
-const getOptionValue = option => option.id;
 
 const SignupForm = (
   {
@@ -78,7 +74,7 @@ const SignupForm = (
     )}
     {!initialValues.profile.phone && (
       <Field
-        component={TextField}
+        component={PhoneInput}
         label="Телефон"
         name="profile.phone"
         required
