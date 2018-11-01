@@ -73,7 +73,8 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow create: if request.auth.uid == userId && isUserCreateValid(request.resource.data);
-      allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      // allow read: if request.auth.uid == userId || isAdmin(request.auth.uid);
+      allow read: if true;
       allow update: if isAdmin(request.auth.uid) || request.auth.uid == userId; // && isAbleToUpdateUser(resource.data, request.resource.data));
       allow delete: if false;
       allow list: if isAdmin(request.auth.uid);

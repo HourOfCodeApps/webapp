@@ -8,9 +8,11 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config ./internals/webpack.config.js --mode production",
+    "build:prod": "NODE_ENV=production webpack --config ./internals/webpack.config.js --mode production",
     "lint": "eslint --ext .jsx,.js src",
     "prebuild": "rimraf ./dist",
     "start": "webpack-dev-server --config ./internals/webpack.config.js --mode development",
+    "start:prod": "NODE_ENV=production webpack-dev-server --config ./internals/webpack.config.js --mode development",
     "test": "jest"
   },
   "jest": {

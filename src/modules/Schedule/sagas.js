@@ -8,6 +8,7 @@ import pick from 'lodash/pick';
 
 // Application
 import { selectUser } from 'modules/Auth';
+import { loadUserProfile } from 'shared/utils/helpers/loadUserInfo';
 
 import {
   CREATE_TIMESLOT,
@@ -23,7 +24,6 @@ import {
   deleteTimeslotFailure,
   deleteTimeslotSuccess,
 } from './actions';
-
 
 function* createTimeslot({ payload: { data } }) {
   try {
@@ -77,7 +77,20 @@ function* fetchTimeslots({ payload: { schoolId } }) {
         // endTime: timeslot.endTime.toDate(),
       }));
 
-    yield put(fetchTimeslotsSuccess(timeslots));
+    const mentorIds = timeslots.filter(t => t.mentorId).map(t => t.mentorId);
+
+    const mentors = yield Promise.all(mentorIds.map(uid => loadUserProfile(uid)));
+
+    const timeslotsAggregated = timeslots.map((t) => {
+      if (!t.mentorId) {
+        return t;
+      }
+
+      const mentor = mentors.find(m => m.uid === t.mentorId);
+      return { ...t, mentor };
+    });
+
+    yield put(fetchTimeslotsSuccess(timeslotsAggregated));
   } catch (error) {
     yield put(fetchTimeslotsFailure(error));
   }
