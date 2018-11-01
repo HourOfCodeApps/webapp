@@ -88,7 +88,7 @@ class SignIn extends React.Component {
             onSignUp={handleSignUp}
             onSubmit={handleEmailPasswordLogin}
           />
-          <FlexBox margin="15px 0 0 0" width="100%">
+          {/* <FlexBox margin="15px 0 0 0" width="100%">
             <Button
               fullWidth
               variant="contained"
@@ -97,7 +97,7 @@ class SignIn extends React.Component {
             >
               Увійти з Google
             </Button>
-          </FlexBox>
+          </FlexBox> */}
           <FlexBox margin="10px 0 20px 0" width="100%">
             <HeadingSm
               onClick={handleForgotPassword}

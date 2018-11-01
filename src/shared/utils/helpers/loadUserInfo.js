@@ -7,6 +7,19 @@ const loadUserSection = async (section, uid) => {
   return doc.exists ? doc.data() : null;
 };
 
+const loadUserProfile = async (uid) => {
+  const profile = await loadUserSection('users', uid);
+
+  if (!profile) {
+    return null;
+  }
+
+  return {
+    uid,
+    ...profile,
+  };
+};
+
 const loadUserInfo = async (uid) => {
   const profile = await loadUserSection('users', uid);
 
@@ -36,4 +49,7 @@ const loadUserInfo = async (uid) => {
 };
 
 export default loadUserInfo;
-export { loadUserSection };
+export {
+  loadUserProfile,
+  loadUserSection,
+};

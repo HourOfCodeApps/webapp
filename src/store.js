@@ -14,8 +14,10 @@ import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
 import { reducer as schoolsReducer, sagas as schoolsSagas } from 'modules/Schools';
 import { reducer as scheduleReducer, sagas as scheduleSagas } from 'modules/Schedule';
 import { reducer as profileReducer, sagas as profileSagas } from 'modules/Profile';
+import { reducer as adminReducer, sagas as adminSagas } from 'modules/Admin';
 
 const reducer = combineReducers({
+  admin: adminReducer,
   auth: authReducer,
   form: formReducer,
   mentorSchedule: mentorScheduleReducer,
@@ -38,6 +40,7 @@ const store = createStore(
 );
 
 [
+  ...adminSagas,
   ...authSagas,
   ...mentorScheduleSagas,
   ...scheduleSagas,
