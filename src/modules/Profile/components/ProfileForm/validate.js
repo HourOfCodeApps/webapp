@@ -1,5 +1,6 @@
+import { isValidPhoneNumber } from 'react-phone-number-input';
+
 import isEmail from 'shared/utils/validations/isEmail';
-import isPhoneNumber from 'shared/utils/validations/isPhoneNumber';
 
 const namePattern = /^[a-zA-Zа-яА-ЯЇїґҐєЄіІ' ]+$/;
 
@@ -26,7 +27,7 @@ const validate = (values) => {
 
   if (!values.phone) {
     errors.phone = 'Required';
-  } else if (!isPhoneNumber(values.phone)) {
+  } else if (!isValidPhoneNumber(values.phone)) {
     errors.phone = 'Invalid phone number';
   }
 

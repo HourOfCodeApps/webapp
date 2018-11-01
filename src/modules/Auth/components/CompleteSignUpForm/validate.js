@@ -1,7 +1,7 @@
 import get from 'lodash/get';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 import isEmail from 'shared/utils/validations/isEmail';
-import isPhoneNumber from 'shared/utils/validations/isPhoneNumber';
 
 const namePattern = /^[a-zA-Zа-яА-ЯЇїґҐєЄіІ' ]+$/;
 
@@ -36,7 +36,7 @@ const validate = (values) => {
 
   if (!get(values, 'profile.phone')) {
     errors.profile.phone = 'Required';
-  } else if (!isPhoneNumber(values.profile.phone)) {
+  } else if (!isValidPhoneNumber(values.profile.phone)) {
     errors.profile.phone = 'Invalid phone number';
   }
 
