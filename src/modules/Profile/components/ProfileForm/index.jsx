@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import Button from '@material-ui/core/Button';
 
 import TextField from 'shared/components/ReduxForm/TextField';
+import PhoneInput from 'shared/components/ReduxForm/PhoneInput';
 
 import { PROFILE_FORM_ID } from '../../constants';
 import validate from './validate';
@@ -40,7 +41,7 @@ const ProfileForm = (
     /> */}
     <Field
       disabled={disabled}
-      component={TextField}
+      component={PhoneInput}
       label="Телефон"
       name="phone"
       required

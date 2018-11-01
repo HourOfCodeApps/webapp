@@ -9,8 +9,7 @@ import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
 import SelectField from 'shared/components/ReduxForm/SelectField';
 import TextField from 'shared/components/ReduxForm/TextField';
-import PhoneInput from 'shared/components/PhoneInput/index';
-
+import PhoneInput from 'shared/components/ReduxForm/PhoneInput';
 
 import { COMPLETE_SIGNUP_FORM_ID } from '../../constants';
 import validate from './validate';
