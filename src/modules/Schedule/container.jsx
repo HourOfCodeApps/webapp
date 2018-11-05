@@ -5,6 +5,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import { DateTime } from 'luxon';
 
 import { toast } from 'react-toastify';
 
@@ -12,6 +17,7 @@ import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 
 import {
   createTimeslot,
@@ -25,6 +31,7 @@ import {
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
   selectTimeslots,
+  selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
 } from './selectors';
@@ -32,10 +39,21 @@ import {
 import Timeslots from './components/Timeslots';
 import CreateTimeslotForm from './components/CreateTimeslotForm';
 
+const days = [
+  '2018-12-03',
+  '2018-12-04',
+  '2018-12-05',
+  '2018-12-06',
+  '2018-12-07',
+  '2018-12-08',
+];
+
+
 class Schedule extends React.Component {
   state = {
     deleteConfirmationDialogShown: false,
     deleteTimeslotId: null,
+    selectedDay: days[0],
   };
 
   componentDidMount() {
@@ -43,15 +61,14 @@ class Schedule extends React.Component {
     this.props.onFetchTimeslots(teacher.schoolId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.timeslotCreating && !this.props.timeslotCreating) {
       if (this.props.timeslotCreatingError) {
         toast.error(this.props.timeslotCreatingError.message);
       } else {
         toast.success('Урок успішно створено');
 
-        const { teacher } = this.props.user;
-        this.props.onFetchTimeslots(teacher.schoolId);
+        this.handleLoadDay();
       }
     }
 
@@ -61,17 +78,29 @@ class Schedule extends React.Component {
       } else {
         toast.success('Урок успішно видалено');
 
-        const { teacher } = this.props.user;
-        this.props.onFetchTimeslots(teacher.schoolId);
+        this.handleLoadDay();
       }
       this.handleDeleteCancel();
     }
+
+    if (prevState.selectedDay !== this.state.selectedDay) {
+      this.handleLoadDay();
+    }
+  }
+
+  handleLoadDay = () => {
+    const { teacher } = this.props.user;
+    const from = DateTime.fromISO(`${this.state.selectedDay}T00:00:00`).toJSDate();
+    const to = DateTime.fromISO(`${this.state.selectedDay}T23:59:59`).toJSDate();
+
+    this.props.onFetchTimeslots(teacher.schoolId, from, to);
   }
 
   handleSubmit = (formData) => {
+    const startTime = DateTime.fromISO(`${this.state.selectedDay}T${formData.startTime.toLocaleString(DateTime.TIME_24_SIMPLE)}`).toJSDate();
     this.props.onCreateTimeslot({
       ...pick(formData, ['class', 'notes']),
-      startTime: formData.startTime.toJSDate(),
+      startTime,
       pupilsCount: parseInt(formData.pupilsCount, 10),
     });
   }
@@ -91,14 +120,20 @@ class Schedule extends React.Component {
     this.props.onDeleteTimeslot(timeslotId);
   }
 
+  handleChangeDay = (ev, day) => {
+    this.setState({ selectedDay: day });
+  }
+
   render() {
     const {
       handleDeleteClick,
       handleDeleteCancel,
       handleDeleteTimeslotConfirm,
       handleSubmit,
+      handleChangeDay,
       state: {
         deleteConfirmationDialogShown,
+        selectedDay,
       },
       props: {
         schoolsMap,
@@ -109,28 +144,43 @@ class Schedule extends React.Component {
       },
     } = this;
 
-    if (timeslotsFetching) {
-      return <div>Loading</div>;
-    }
-
-    if (timeslotsFetchingError) {
-      return <div>{timeslotsFetchingError.message}</div>;
-    }
-
     const school = schoolsMap[user.teacher.schoolId] || {};
 
     return (
       <React.Fragment>
-
         <Typography variant="title" gutterBottom>{school.name}</Typography>
         <Typography variant="body2" gutterBottom>
           Створи уроки, ментори долучаться. Адміністратор Години Коду підтверджує всі уроки та заявки менторів, статус у відповідній колонці.
         </Typography>
-        <Timeslots
-          timeslots={timeslots}
-          onDeleteTimeslot={handleDeleteClick}
-        />
-        <CreateTimeslotForm onSubmit={handleSubmit} />
+
+        <Paper>
+          <AppBar position="static">
+            <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
+              {days.map(day => (
+                <Tab
+                  value={day}
+                  label={`${day} (${(timeslots[day] || []).length})`}
+                  // label={day}
+                  key={day}
+                />
+              ))}
+            </Tabs>
+          </AppBar>
+
+          {timeslotsFetching && <Loading />}
+
+          {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
+
+          {!timeslotsFetching && !timeslotsFetchingError && (
+            <Timeslots
+              timeslots={timeslots[selectedDay] || []}
+              onDeleteTimeslot={handleDeleteClick}
+            />
+          )}
+        </Paper>
+        {!timeslotsFetching && !timeslotsFetchingError && (
+          <CreateTimeslotForm onSubmit={handleSubmit} />
+        )}
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}
@@ -173,7 +223,7 @@ const mapStateToProps = createSelector(
   selectTimeslotCreatingError(),
   selectTimeslotDeleting(),
   selectTimeslotDeletingError(),
-  selectTimeslots(),
+  selectTimeslotsByDays(),
   selectTimeslotsFetching(),
   selectTimeslotsFetchingError(),
   (
