@@ -48,22 +48,23 @@ class WelcomePage extends React.Component {
             <FlexBox column margin="0 0 20px 0">
               <Heading bolder margin="0 0 5px 0">Ментор</Heading>
               <HeadingSm>
-                Милий проактивний задрот, що мріє
-                допомогти дітям войті в ІТ.
+                представник сфери ІТ, охочий розповісти школярам про свою професію та обовязки:
+                бізнес-аналітики, програмісти, тестувальники, проектні менеджери, HR, рекрутери та інші.
+                <br />
+                Стань ментором і ти!
               </HeadingSm>
             </FlexBox>
             <FlexBox column margin="0 0 20px 0">
-              <Heading bolder margin="0 0 5px 0">Представник школи</Heading>
+              <Heading bolder margin="0 0 5px 0">Вчитель</Heading>
               <HeadingSm>
-                Вчитель або інший працівник школи, що мріє про вільну
-                годину серед робочого дня.
+                контактна особа школи, котра відповідає за проведення Години коду у конкретній школі (наприклад, вчитель інформатики).
               </HeadingSm>
             </FlexBox>
             <FlexBox column>
               <Heading bolder margin="0 0 5px 0">Є питання?</Heading>
               <HeadingSm link>
                 Пиши на&nbsp;
-                <span>hoflviv@gmail.com</span>
+                <span><a href="mailto:hourofcodelviv@gmail.com">hourofcodelviv@gmail.com</a></span>
               </HeadingSm>
             </FlexBox>
           </Column>
