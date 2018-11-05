@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -57,7 +58,8 @@ const Public = () => (
   <Router>
     <Switch>
       <Route path="/" exact component={WelcomePage} />
-      <Route component={Page404} />
+      {/* <Route component={Page404} /> */}
+      <Redirect to="/" />
     </Switch>
   </Router>
 );
