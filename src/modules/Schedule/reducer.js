@@ -78,12 +78,24 @@ const reducer = (state = initialState, action) => {
         timeslotsFetchingError: action.payload.error,
       };
 
-    case FETCH_TIMESLOTS_SUCCESS:
+    case FETCH_TIMESLOTS_SUCCESS: {
+      const timeslotsByDays = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
+
+          const daySchools = (acc[day] || {});
+          daySchools[curr.schoolId] = (daySchools[curr.schoolId] || []).concat(curr);
+
+          // const dayValues = (acc[day] || []).concat(curr);
+          return { ...acc, [day]: daySchools };
+        }, {});
+
       return {
         ...state,
         timeslots: action.payload.timeslots.slice(),
         timeslotsFetching: false,
       };
+    }
 
     default:
       return state;
