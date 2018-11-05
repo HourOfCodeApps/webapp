@@ -17,14 +17,13 @@ const WelcomeHero = props => (
     </FlexBox>
     <Container alignItems="center" marginCenter>
       <Heading margin="0 0 25px 0" lineHeight="24px" fontSize="18px">
-        Година Коду є глобальним заходом, який залучає
-        десятки мільйонів учнів
+        Година коду - це глобальна ініціатива щодо популяризації програмування серед школярів усього світу, метою якої є показати учням, що інформатика може бути веселою та цікавою.
         <br />
-        у більш, як 180 країнах світу.
+        637,564,646 учнів вже спробували Годину коду!
       </Heading>
       <Heading link fontSize="18px">
         Більше інформації на&nbsp;
-        <span>https://hourofcode.com/ua</span>
+        <span><a href="https://hourofcode.com/ua/uk">https://hourofcode.com/ua/uk</a></span>
       </Heading>
     </Container>
   </WelcomeHeroWrapper>
