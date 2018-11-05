@@ -27,20 +27,12 @@ export const Heading = withTheme()(styled.div`
     `}
 
     ${props => props.link && `
-        span {
+        span, span a {
             cursor: pointer;
             position: relative;
             padding-bottom: 2px;
-
-            &:before {
-                content: "";
-                bottom: 0;
-                left: 0;
-                position: absolute;
-                height: 2px;
-                width: 100%;
-                background: ${props.theme.palette.common.black}};
-            }
+            text-decoration: none;
+            color: ${props.theme.palette.primary.main};
         }
     `}
 `);

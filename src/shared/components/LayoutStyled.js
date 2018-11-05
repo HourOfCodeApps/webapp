@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 export const Container = styled(Grid)` // inherits m-ui props
   max-width: 940px;
   height: ${props => props.fullScreen && '100vh'};
+  min-height: ${props => props.minHeight}px;
 
   ${props => props.marginCenter && 'margin: 0 auto'};  // centering without flex wrapper;
 `;
