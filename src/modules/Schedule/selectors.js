@@ -27,6 +27,11 @@ const selectTimeslots = () => createSelector(
   substate => substate.timeslots,
 );
 
+const selectTimeslotsByDays = () => createSelector(
+  selectScheduleDomain(),
+  substate => substate.timeslotsByDays,
+);
+
 const selectTimeslotsFetching = () => createSelector(
   selectScheduleDomain(),
   substate => substate.timeslotsFetching,
@@ -43,6 +48,7 @@ export {
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
   selectTimeslots,
+  selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
   selectScheduleDomain,

@@ -31,32 +31,13 @@ import {
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
   selectTimeslots,
+  selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
 } from './selectors';
 
 import Timeslots from './components/Timeslots';
 import CreateTimeslotForm from './components/CreateTimeslotForm';
-
-const defaultMarks = {
-  0: '08:00',
-  1: '08:30',
-  2: '09:00',
-  3: '09:30',
-  4: '10:00',
-  5: '10:30',
-  6: '11:00',
-  7: '11:30',
-  8: '12:00',
-  9: '12:30',
-  10: '13:00',
-  11: '13:30',
-  12: '14:00',
-  13: '14:30',
-  14: '15:00',
-  15: '15:30',
-  16: '16:00',
-};
 
 const days = [
   '2018-12-03',
@@ -178,8 +159,8 @@ class Schedule extends React.Component {
               {days.map(day => (
                 <Tab
                   value={day}
-                  // label={`${day} (${(timeslotsByDays[day] || []).length})`}
-                  label={day}
+                  label={`${day} (${(timeslots[day] || []).length})`}
+                  // label={day}
                   key={day}
                 />
               ))}
@@ -192,12 +173,14 @@ class Schedule extends React.Component {
 
           {!timeslotsFetching && !timeslotsFetchingError && (
             <Timeslots
-              timeslots={timeslots}
+              timeslots={timeslots[selectedDay] || []}
               onDeleteTimeslot={handleDeleteClick}
             />
           )}
         </Paper>
-        <CreateTimeslotForm onSubmit={handleSubmit} />
+        {!timeslotsFetching && !timeslotsFetchingError && (
+          <CreateTimeslotForm onSubmit={handleSubmit} />
+        )}
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}
@@ -240,7 +223,7 @@ const mapStateToProps = createSelector(
   selectTimeslotCreatingError(),
   selectTimeslotDeleting(),
   selectTimeslotDeletingError(),
-  selectTimeslots(),
+  selectTimeslotsByDays(),
   selectTimeslotsFetching(),
   selectTimeslotsFetchingError(),
   (

@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import {
   CREATE_TIMESLOT,
   CREATE_TIMESLOT_FAILURE,
@@ -16,6 +18,7 @@ const initialState = {
   timeslotDeleting: false,
   timeslotDeletingError: null,
   timeslots: [],
+  timeslotsByDays: {},
   timeslotsFetching: false,
   timeslotsFetchingError: null,
 };
@@ -83,15 +86,13 @@ const reducer = (state = initialState, action) => {
         .reduce((acc, curr) => {
           const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
 
-          const daySchools = (acc[day] || {});
-          daySchools[curr.schoolId] = (daySchools[curr.schoolId] || []).concat(curr);
-
-          // const dayValues = (acc[day] || []).concat(curr);
-          return { ...acc, [day]: daySchools };
+          const dayValues = (acc[day] || []).concat(curr);
+          return { ...acc, [day]: dayValues };
         }, {});
 
       return {
         ...state,
+        timeslotsByDays,
         timeslots: action.payload.timeslots.slice(),
         timeslotsFetching: false,
       };
