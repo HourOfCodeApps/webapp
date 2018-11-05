@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import TimeslotRow from '../TimeslotRow';
 
 const Timeslots = ({ onDeleteTimeslot, timeslots }) => (
-  <Paper>
+  // <Paper>
     <Table>
       <TableHead>
         <TableRow>
@@ -32,7 +32,7 @@ const Timeslots = ({ onDeleteTimeslot, timeslots }) => (
         ))}
       </TableBody>
     </Table>
-  </Paper>
+  // </Paper>
 );
 
 Timeslots.propTypes = {

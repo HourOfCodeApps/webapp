@@ -67,6 +67,7 @@ function* fetchTimeslots({ payload: { schoolId } }) {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .where('schoolId', '==', schoolId)
+      .orderBy('startTime', 'asc')
       .get();
 
     const timeslots = timeslotsSnaps.docs

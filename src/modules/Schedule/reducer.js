@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import {
   CREATE_TIMESLOT,
   CREATE_TIMESLOT_FAILURE,
@@ -16,6 +18,7 @@ const initialState = {
   timeslotDeleting: false,
   timeslotDeletingError: null,
   timeslots: [],
+  timeslotsByDays: {},
   timeslotsFetching: false,
   timeslotsFetchingError: null,
 };
@@ -78,12 +81,22 @@ const reducer = (state = initialState, action) => {
         timeslotsFetchingError: action.payload.error,
       };
 
-    case FETCH_TIMESLOTS_SUCCESS:
+    case FETCH_TIMESLOTS_SUCCESS: {
+      const timeslotsByDays = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
+
+          const dayValues = (acc[day] || []).concat(curr);
+          return { ...acc, [day]: dayValues };
+        }, {});
+
       return {
         ...state,
+        timeslotsByDays,
         timeslots: action.payload.timeslots.slice(),
         timeslotsFetching: false,
       };
+    }
 
     default:
       return state;
