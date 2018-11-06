@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { Heading } from 'shared/components/TypographyStyled';
+import { FlexBox } from 'shared/components/LayoutStyled';
 
 const styles = theme => ({
   paper: {
@@ -28,7 +30,7 @@ const styles = theme => ({
   },
 });
 
-const ConfirmEmailFirst = ({ classes }) => (
+const ConfirmEmailFirst = ({ classes, theme }) => (
   <div className={classes.root}>
     <Paper className={classes.paper}>
       <Typography variant="display1" gutterBottom align="center">
@@ -40,6 +42,16 @@ const ConfirmEmailFirst = ({ classes }) => (
       <Typography variant="title" gutterBottom align="center">
         Дякую, що Ви з нами.
       </Typography>
+      <FlexBox margin="20px 0 0 0" width="100%" align="center" justify="center">
+        <Heading
+          // onClick={handleForgotPassword}
+          fontSize="16px"
+          color={theme.palette.primary.main}
+          pointer
+        >
+          Надіслати підтвердження ще раз?
+        </Heading>
+      </FlexBox>
     </Paper>
   </div>
 );
@@ -51,4 +63,4 @@ ConfirmEmailFirst.propTypes = {
   }).isRequired,
 };
 
-export default withStyles(styles)(ConfirmEmailFirst);
+export default withStyles(styles, { withTheme: true })(ConfirmEmailFirst);
