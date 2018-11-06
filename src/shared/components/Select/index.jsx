@@ -22,7 +22,6 @@ const styles = theme => ({
   },
   valueContainer: {
     display: 'flex',
-    flexWrap: 'wrap',
     flex: 1,
     alignItems: 'center',
   },
@@ -40,10 +39,12 @@ const styles = theme => ({
   },
   singleValue: {
     fontSize: 16,
+    padding: '8px',
   },
   placeholder: {
     position: 'absolute',
     left: 2,
+    padding: '8px',
     fontSize: 16,
   },
   paper: {
@@ -99,6 +100,9 @@ const Option = props => (
     component="div"
     style={{
       fontWeight: props.isSelected ? 500 : 400,
+      whiteSpace: 'pre-wrap',
+      fontSize: 14,
+      height: 'auto'
     }}
     {...props.innerProps}
   >
