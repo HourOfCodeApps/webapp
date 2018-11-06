@@ -40,4 +40,8 @@ export const Heading = withTheme()(styled.div`
 export const HeadingSm = withTheme()(styled(Heading)`
     font-size: ${props => (props.fontSize ? props.fontSize : '16px')};
     color: ${props => props.error && props.theme.palette.error.main};
+
+    ${props => (props.primary && `
+      color: ${props.theme.palette.primary.main}
+    `)};
 `);
