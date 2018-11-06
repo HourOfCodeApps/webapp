@@ -35,6 +35,10 @@ export const Heading = withTheme()(styled.div`
             color: ${props.theme.palette.primary.main};
         }
     `}
+
+    ${props => (props.primary && `
+      color: ${props.theme.palette.primary.main}
+    `)};
 `);
 
 export const HeadingSm = withTheme()(styled(Heading)`
