@@ -15,7 +15,7 @@ class Teacher extends React.Component {
   render() {
     const {
       handleApprove,
-      props: { teacher },
+      props: { school, teacher },
     } = this;
 
     return (
@@ -27,7 +27,8 @@ class Teacher extends React.Component {
           {teacher.profile.lastName}
         </TableCell>
         <TableCell>
-          {teacher.teacher.schoolId}
+          {/* {teacher.teacher.schoolId} */}
+          {school.name}
         </TableCell>
         <TableCell>
           {teacher.profile.email}

@@ -10,6 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
+import { withSchools } from 'modules/Schools';
+import { compose } from 'redux';
 
 import {
   approveTeachers,
@@ -69,6 +71,7 @@ class Teachers extends React.Component {
       // },
       props: {
         classes,
+        schoolsMap,
         teachers,
         teachersFetching,
         teachersFetchingError,
@@ -101,6 +104,7 @@ class Teachers extends React.Component {
                 key={t.id}
                 teacher={t}
                 onApprove={handleApproveTeacherClick}
+                school={(t.teacher.schoolId && schoolsMap[t.teacher.schoolId]) || {}}
                 // onDelete={handleDeleteClick}
               />
             ))}
@@ -138,4 +142,8 @@ const mapDispatchToProps = {
   onFetchTeachers: fetchTeachers,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Teachers));
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withStyles(styles),
+  withSchools,
+)(Teachers);
