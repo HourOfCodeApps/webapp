@@ -52,13 +52,17 @@ class Timeslot extends React.Component {
     const {
       handleApprove,
       handleReject,
-      props: { timeslot },
+      props: { school, timeslot },
     } = this;
 
     return (
       <TableRow>
         <TableCell>
-          {DateTime.fromJSDate(timeslot.startTime).toLocaleString(DateTime.TIME_24_SIMPLE)}
+          {DateTime.fromJSDate(timeslot.startTime).toFormat('dd LLL yyyy, HH:mm')}
+        </TableCell>
+        <TableCell>
+          {/* {timeslot.schoolId} */}
+          {school.name}
         </TableCell>
         <TableCell>{timeslot.class}</TableCell>
         <TableCell>{timeslot.pupilsCount}</TableCell>
@@ -89,6 +93,7 @@ class Timeslot extends React.Component {
 
 Timeslot.propTypes = {
   timeslot: PropTypes.shape(PropTypes.object).isRequired,
+  school: PropTypes.shape(PropTypes.object).isRequired,
   onApprove: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
@@ -10,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import Typography from '@material-ui/core/Typography';
+import { withSchools } from 'modules/Schools';
 
 import {
   approveTimeslots,
@@ -49,6 +51,7 @@ class Timeslots extends React.Component {
         timeslotsFetching,
         timeslotsFetchingError,
         onApproveTimeslots,
+        schoolsMap: schools,
       },
     } = this;
 
@@ -67,6 +70,7 @@ class Timeslots extends React.Component {
               <TableHead>
                 <TableRow>
                   <TableCell>Час початку</TableCell>
+                  <TableCell>Школа</TableCell>
                   <TableCell>Клас</TableCell>
                   <TableCell>Кількість учнів</TableCell>
                   <TableCell>Коментар</TableCell>
@@ -80,6 +84,7 @@ class Timeslots extends React.Component {
                     key={t.id}
                     timeslot={t}
                     onApprove={onApproveTimeslots}
+                    school={schools[t.schoolId] || {}}
                     // onDelete={handleDeleteClick}
                   />
                 ))}
@@ -123,4 +128,7 @@ const mapDispatchToProps = {
   onFetchTimeslots: fetchTimeslots,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timeslots);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withSchools,
+)(Timeslots);
