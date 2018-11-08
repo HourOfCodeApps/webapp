@@ -96,8 +96,7 @@ class CompleteSignUp extends React.Component {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <div>
-            Завершення реєстрації — Представник школи
-            Будь ласка, введи вірні дані
+            Завершення реєстрації — Представник школи, будь ласка, введіть вірні дані
           </div>
           <CompleteSignUpForm
             initialValues={initialValues}
