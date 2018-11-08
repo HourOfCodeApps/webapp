@@ -104,7 +104,7 @@ function* signUp({ payload: { userData } }) {
 
     if (role === 'teacher') {
       yield firebase.firestore().collection('teachers').doc(uid).set({
-        teacherApproved: false,
+        isApproved: false,
       });
     }
 
