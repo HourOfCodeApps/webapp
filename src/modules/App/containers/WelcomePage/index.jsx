@@ -55,7 +55,7 @@ class WelcomePage extends React.Component {
               </HeadingSm>
             </FlexBox>
             <FlexBox column margin="0 0 20px 0">
-              <Heading bolder margin="0 0 5px 0">Вчитель</Heading>
+              <Heading bolder margin="0 0 5px 0">Представник школи</Heading>
               <HeadingSm>
                 контактна особа школи, котра відповідає за проведення Години коду у конкретній школі (наприклад, вчитель інформатики).
               </HeadingSm>
