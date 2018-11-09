@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "hoc-org-dev"
+    "default": "hoc-org-dev",
+    "dev": "hoc-org-dev",
+    "prod": "hoc-org-lviv"
   }
 }
