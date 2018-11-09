@@ -22,6 +22,14 @@
     {
       "collectionId": "timeslots",
       "fields": [
+        { "fieldPath": "status", "mode": "ASCENDING" },
+        { "fieldPath": "startTime", "mode": "ASCENDING" },
+        { "fieldPath": "schoolId", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "timeslots",
+      "fields": [
         { "fieldPath": "schoolId", "mode": "ASCENDING" },
         { "fieldPath": "startTime", "mode": "ASCENDING" }
       ]
