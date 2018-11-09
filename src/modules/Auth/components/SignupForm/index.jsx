@@ -28,7 +28,7 @@ const SignupForm = (
       label="Я хочу бути:"
       name="role"
       options={[
-        // { value: 'mentor', label: 'Ментором' },
+        { value: 'mentor', label: 'Ментором' },
         { value: 'teacher', label: 'Представником школи' },
       ]}
       horizontal

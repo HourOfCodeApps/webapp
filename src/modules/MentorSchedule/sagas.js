@@ -11,6 +11,10 @@ import { DateTime } from 'luxon';
 import { selectUser } from 'modules/Auth';
 
 import {
+  TIMESLOT_STATUS_NEEDS_MENTOR,
+} from 'shared/constants/timeslots';
+
+import {
   APPLY_TIMESLOT,
   CANCEL_TIMESLOT,
   FETCH_TIMESLOTS,
@@ -117,6 +121,7 @@ function* fetchTimeslots({ payload }) {
     // );
 
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
+      .where('status', '==', TIMESLOT_STATUS_NEEDS_MENTOR)
       .where('mentorId', '==', null)
       .where('startTime', '>=', from)
       .where('startTime', '<', to)
