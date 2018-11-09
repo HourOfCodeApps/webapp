@@ -97,7 +97,7 @@ class Schedule extends React.Component {
   }
 
   handleSubmit = (formData) => {
-    const startTime = DateTime.fromISO(`${this.state.selectedDay}T${formData.startTime.toLocaleString(DateTime.TIME_24_SIMPLE)}`).toJSDate();
+    const startTime = DateTime.fromISO(`${this.state.selectedDay}T${formData.startTime.toFormat('HH:mm')}`).toJSDate();
     this.props.onCreateTimeslot({
       ...pick(formData, ['class', 'notes']),
       startTime,
