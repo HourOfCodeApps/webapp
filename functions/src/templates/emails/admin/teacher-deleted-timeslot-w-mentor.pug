@@ -1,11 +1,15 @@
-p Вітаємо, #{teacher.displayName}
+p Вітаємо,
 p
-  | Ваш урок було підтверджено адміністратором.
-  br
-  | Тепер його зможуть переглядати ментори.
+  | Вчитель видалив урок з ментором
 
 p
   strong Інформація про урок
+  br
+  | Вчитель: #{teacher.displayName}
+  br
+  | Ментор: #{mentor.displayName}
+  br
+  | Школа: #{school.name}
   br
   | Час проведення: #{timeslot.startTimeFormatted}
   br

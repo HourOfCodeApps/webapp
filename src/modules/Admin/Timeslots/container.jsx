@@ -11,10 +11,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import Typography from '@material-ui/core/Typography';
-import { withSchools } from 'modules/Schools';
 
+import { withSchools } from 'modules/Schools';
+import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 import {
   approveTimeslots,
+  deleteTimeslot,
   fetchTimeslots,
 } from './actions';
 
@@ -24,11 +27,18 @@ import {
   selectTimeslotsApprovingError,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
+  selectTimeslotDeleting,
+  selectTimeslotDeletingError,
 } from './selectors';
 
 import TimeslotRow from './components/TimeslotRow';
 
 class Timeslots extends React.Component {
+  state = {
+    deleteConfirmationDialogShown: false,
+    deleteTimeslotId: null,
+  };
+
   componentDidMount() {
     this.props.onFetchTimeslots();
   }
@@ -39,18 +49,52 @@ class Timeslots extends React.Component {
         toast.error(this.props.timeslotsApprovingError.message);
       } else {
         toast.success('Урок підтверджено');
-        this.props.onFetchTimeslots();
       }
+      this.props.onFetchTimeslots();
     }
+
+    if (prevProps.timeslotDeleting && !this.props.timeslotDeleting) {
+      if (this.props.timeslotDeletingError) {
+        toast.error(this.props.timeslotDeletingError.message);
+      } else {
+        toast.success('Урок успішно видалено');
+      }
+      this.props.onFetchTimeslots();
+      this.handleDeleteCancel();
+    }
+  }
+
+  handleDeleteClick = timeslotId => this.setState({
+    deleteConfirmationDialogShown: true,
+    deleteTimeslotId: timeslotId,
+  });
+
+  handleDeleteCancel = () => this.setState({
+    deleteConfirmationDialogShown: false,
+    deleteTimeslotId: null,
+  });
+
+  handleDeleteTimeslotConfirm = () => {
+    const { deleteTimeslotId } = this.state;
+    this.props.onDeleteTimeslot(deleteTimeslotId);
   }
 
   render() {
     const {
+      handleDeleteClick,
+      handleDeleteCancel,
+      handleDeleteTimeslotConfirm,
+      handleSubmit,
+      handleChangeDay,
+      state: {
+        deleteConfirmationDialogShown,
+      },
       props: {
         timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
         onApproveTimeslots,
+        onDeleteTimeslots,
         schoolsMap: schools,
       },
     } = this;
@@ -84,6 +128,8 @@ class Timeslots extends React.Component {
                     key={t.id}
                     timeslot={t}
                     onApprove={onApproveTimeslots}
+                    // onDelete={onDeleteTimeslots}
+                    onDelete={handleDeleteClick}
                     school={schools[t.schoolId] || {}}
                     // onDelete={handleDeleteClick}
                   />
@@ -91,6 +137,15 @@ class Timeslots extends React.Component {
               </TableBody>
             </Table>
           </Paper>
+        )}
+        {deleteConfirmationDialogShown && (
+          <ConfirmationDialog
+            onCancel={handleDeleteCancel}
+            onConfirm={handleDeleteTimeslotConfirm}
+            confirmLabel="Так"
+            cancelLabel="Ні"
+            title="Ви впевнені, що хочете видалити цей урок?"
+          />
         )}
       </React.Fragment>
     );
@@ -108,23 +163,30 @@ const mapStateToProps = createSelector(
   selectTimeslotsApprovingError(),
   selectTimeslotsFetching(),
   selectTimeslotsFetchingError(),
+  selectTimeslotDeleting(),
+  selectTimeslotDeletingError(),
   (
     timeslots,
     timeslotsApproving,
     timeslotsApprovingError,
     timeslotsFetching,
     timeslotsFetchingError,
+    timeslotDeleting,
+    timeslotDeletingError,
   ) => ({
     timeslots,
     timeslotsApproving,
     timeslotsApprovingError,
     timeslotsFetching,
     timeslotsFetchingError,
+    timeslotDeleting,
+    timeslotDeletingError,
   }),
 );
 
 const mapDispatchToProps = {
   onApproveTimeslots: approveTimeslots,
+  onDeleteTimeslot: deleteTimeslot,
   onFetchTimeslots: fetchTimeslots,
 };
 

@@ -1,6 +1,8 @@
 // Vendor
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/functions';
+
 import {
   takeEvery, takeLatest, fork, put, select,
 } from 'redux-saga/effects';
@@ -53,9 +55,34 @@ function* createTimeslot({ payload: { data } }) {
   }
 }
 
+// function* deleteTimeslot({ payload: { id } }) {
+//   try {
+//     yield firebase.firestore().collection('timeslots').doc(id).delete();
+
+//     yield put(deleteTimeslotSuccess());
+//   } catch (error) {
+//     yield put(deleteTimeslotFailure(error));
+//   }
+// }
 function* deleteTimeslot({ payload: { id } }) {
   try {
-    yield firebase.firestore().collection('timeslots').doc(id).delete();
+    const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
+    yield deleteTimeslotsCallable(id);
+
+    // console.log(response);
+    // const response = firebas
+    // const collection = firebase.firestore().collection('timeslots');
+    // const timeslots = yield Promise.all(
+    //   timeslotIds.map(id => firebase.firestore().collection('timeslots').doc(id).get()),
+    // );
+
+    // const existingTimeslots = timeslots.filter(t => t.exists);
+
+    // const batch = firebase.firestore().batch();
+    // existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { status: TIMESLOT_STATUS_APPROVED }));
+
+    // yield batch.commit();
+
 
     yield put(deleteTimeslotSuccess());
   } catch (error) {

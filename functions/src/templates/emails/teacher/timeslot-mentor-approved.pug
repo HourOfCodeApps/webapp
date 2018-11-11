@@ -1,0 +1,26 @@
+p Вітання, #{teacher.firstName} #{teacher.lastName}, до вас записався ментор!
+
+p
+  strong Інформація про урок
+  br
+  | Час проведення: #{timeslot.startTimeFormatted}
+  br
+  | Ментор: #{mentor.firstName} #{mentor.lastName} #{mentor.phone}
+  br
+  | Клас: #{timeslot.class}
+  br
+  | Кількість учнів: #{timeslot.pupilsCount}
+  br
+  | Коментар ментору: #{timeslot.notes}
+
+p Контакти ментора також можна переглянути у вашому кабінеті навпроти біля його імені.
+
+p
+  | Щоб увійти у свій кабінет та переглянути зміни, натисніть тут:
+  br
+  a(href=url) #{url}
+
+p
+  | З повагою,
+  br
+  | Команда Hour of Code Lviv

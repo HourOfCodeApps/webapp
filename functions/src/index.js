@@ -8,12 +8,14 @@ import { DateTime, Settings } from 'luxon';
 import sendEmail from './lib/sendEmail';
 import renderTemplate from './lib/renderTemplate';
 import admin from './lib/firebase';
+import loadUserInfo from './lib/loadUserInfo';
 import { sendEmailToAdmins } from './admin';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_APPROVED,
   TIMESLOT_STATUS_HAS_MENTOR,
+  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
 } from './constants/timeslots';
 
 Settings.defaultZoneName = 'Europe/Kiev';
@@ -114,6 +116,84 @@ const emailTeacherNeedsApprove = functions.firestore.document('teachers/{uid}')
     console.log('Email sent');
   });
 
+const getSchool = async (id) => {
+  const snap = await firestore.collection('schools').doc(id).get();
+  return { ...snap.data(), id };
+}
+
+const getSchoolTeachers = async (schoolId) => {
+  const teacherSnaps = await firestore.collection('teachers')
+    .where('schoolId', '==', schoolId)
+    .get();
+
+  const teachers = await Promise.all(
+    teacherSnaps.docs
+      .map(doc => doc.id)
+      .map(uid => loadUserInfo(uid))
+      // .map(uid => admin.auth().getUser(uid))
+  );
+
+  return teachers;
+}
+
+const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
+  .onUpdate(async (change, context) => {
+    console.log('Timeslot', context.id, ': mentor was approved');
+    const newValue = change.after.data();
+    const timeslot = newValue;
+    const oldValue = change.before.data();
+    const { id } = change.after;
+
+    const school = await getSchool(timeslot.schoolId);
+
+    const teachers = await getSchoolTeachers(timeslot.schoolId);
+    const { profile: teacher } = teachers[0];
+
+    const { profile: mentor } = await loadUserInfo(timeslot.mentorId);
+    console.log(teachers);
+
+    if (oldValue.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && newValue.status === TIMESLOT_STATUS_HAS_MENTOR) {
+      // send email to mentor
+      await sendEmail({
+        to: `${mentor.firstName} ${mentor.lasstName} <${mentor.email}>`,
+        subject: 'Статус обраних уроків: підтверджено',
+        html: renderTemplate('emails/mentor/timeslot-approved', {
+          school,
+          mentor,
+          teacher,
+          timeslot: {
+            ...timeslot,
+            startTime: timeslot.startTime.toDate(),
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}/schedule`,
+          approvedTimeslots: 'TODO',
+        })
+      });
+
+      // send email to teachers
+      await Promise.all(
+        teachers.map(t => t.profile).map(
+          t => sendEmail({
+            to: `${t.firstName} ${t.lastName} <${t.email}>`,
+            subject: 'На ваш урок записався ментор!',
+            html: renderTemplate('emails/teacher/timeslot-mentor-approved', {
+              school,
+              teacher: t,
+              mentor,
+              timeslot: {
+                ...timeslot,
+                startTime: timeslot.startTime.toDate(),
+                startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+              },
+              url: `${functions.config().general.host}/schedule`,
+            })
+          }),
+        ),
+      );
+    }
+  });
+
 const timeslotUpdated = functions.firestore.document('timeslots/{id}')
   .onWrite(async (change, context) => {
 
@@ -138,9 +218,14 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
       return;
     }
 
+    const schoolSnap = await firestore.collection('schools').doc(newValue.schoolId).get();
+    const school = schoolSnap.data();
+
     if (
       !newValue.status
       || newValue.mentorId === undefined
+      || !newValue.geo
+      || !newValue.date
     ) {
       const defaultData = {};
 
@@ -152,13 +237,20 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
         defaultData.mentorId = null;
       }
 
+      if (!newValue.geo) {
+        defaultData.geo = new admin.firestore.GeoPoint(school.latitude, school.longitude);
+      }
+
+      if (!newValue.date) {
+        defaultData.date = DateTime.fromJSDate(newValue.startTime.toDate()).toISODate();
+      }
+
       await change.after.ref.set(defaultData, { merge: true });
       console.log('Default data set');
     }
 
     if (!change.before.exists) {
-      const schoolSnap = await firestore.collection('schools').doc(newValue.schoolId).get();
-      const school = schoolSnap.data();
+
 
       await sendEmailToAdmins(
         'Новий урок потребує підтвердження',
@@ -179,9 +271,6 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
         // timeslot was approved
 
         // get teachers profile data
-        const schoolSnap = await firestore.collection('schools').doc(newValue.schoolId).get();
-        const school = schoolSnap.data();
-
         const teacherSnaps = await firestore.collection('teachers')
           .where('schoolId', '==', newValue.schoolId)
           .get();
@@ -194,9 +283,8 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
         await Promise.all(
           teachers.map(
             teacherUserRecord => sendEmail({
-              bcc: teachers.map(t => t.email).filter(v => v).join(),
+              to: teacherUserRecord.email,
               subject: 'Статус додавання уроків: підтверджено',
-              // text: `Вчитель ${teacherUserRecord.displayName} з школи "${school.name}" потребує підтвердження.`,
               html: renderTemplate('email-teacher-timeslot-approved', {
                 school,
                 teacher: teacherUserRecord,
@@ -228,6 +316,51 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
         // send email to teacher
       }
 
+    }
+
+    if (oldValue && newValue && newValue.status === TIMESLOT_STATUS_APPROVED && newValue.mentorId) {
+      await change.after.ref.set({ status: TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE }, { merge: true });
+      console.log('mentor applied');
+    }
+
+    if (oldValue && newValue) {
+      // onUpdate
+
+      if (oldValue.status !== newValue.status && newValue.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE) {
+        const slots = await firestore.collection('timeslots').where('mentorId', '==', newValue.mentorId).get();
+
+        const query = firestore.collection('timeslots').where('mentorId', '==', newValue.mentorId);
+        try {
+          await firestore.runTransaction(async (transaction) => {
+            const slots = await transaction.get(query);
+
+            if (slots.docs.length > 3) {
+              throw new Error('Autoapply limit exceeded');
+            }
+
+            return transaction.update(change.after.ref, { status: TIMESLOT_STATUS_HAS_MENTOR });
+          });
+          console.log('Mentor for timeslot', change.after.id, 'autoapproved');
+        } catch (error) {
+          console.log(error);
+          const timeslot = newValue;
+          const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
+          await sendEmailToAdmins(
+            'Ментор потребує підтвердження проведення уроку',
+            'emails/admin/timeslot-mentor-needs-approve',
+            {
+              school,
+              mentor: mentorUserRecord,
+              timeslot: {
+                ...timeslot,
+                startTime: timeslot.startTime.toDate(),
+                startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+              },
+              url: `${functions.config().general.host}/timeslots`,
+            }
+          )
+        }
+      }
     }
 
     // const { uid } = context.params;
@@ -270,10 +403,157 @@ const userCleanup = functions.auth.user().onDelete(async (user) => {
   await firestore.collection('users').doc(uid).delete();
 });
 
+const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
+  const uid = context.auth.uid;
+
+  const timeslotSnap = await firestore.collection('timeslots').doc(timeslotId).get();
+  const timeslot = timeslotSnap.data();
+
+  const schoolSnap = await firestore.collection('schools').doc(timeslot.schoolId).get();
+  const school = schoolSnap.data();
+
+  const adminSnap = await firestore.collection('admins').doc(uid).get();
+  if (adminSnap.exists) {
+    await firestore.collection('timeslots').doc(timeslotId).delete();
+
+    if (timeslot.mentorId) {
+      // get mentor and send them email
+      const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
+      await sendEmail({
+        to: `${mentorUserRecord.displayName} <${mentorUserRecord.email}>`,
+        subject: 'Статус додавання уроків: видалено',
+        html: renderTemplate('emails/mentor/admin-deleted-timeslot', {
+          school,
+          mentor: mentorUserRecord,
+          timeslot: {
+            ...timeslot,
+            startTime: timeslot.startTime.toDate(),
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}/schedule`,
+        })
+      });
+    }
+
+    // send email to teachers
+    // get teachers profile data
+    const teacherSnaps = await firestore.collection('teachers')
+      .where('schoolId', '==', timeslot.schoolId)
+      .get();
+    const teachers = await Promise.all(
+      teacherSnaps.docs
+        .map(doc => doc.id)
+        .map(uid => admin.auth().getUser(uid))
+    );
+
+    await Promise.all(
+      teachers.map(
+        teacherUserRecord => sendEmail({
+          to: `${teacherUserRecord.displayName} <${teacherUserRecord.email}>`,
+          subject: 'Статус додавання уроків: видалено',
+          html: renderTemplate('emails/teacher/admin-deleted-timeslot', {
+            school,
+            teacher: teacherUserRecord,
+            timeslot: {
+              ...timeslot,
+              startTime: timeslot.startTime.toDate(),
+              startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+            },
+            url: `${functions.config().general.host}/schedule`,
+          })
+        }),
+      ),
+    );
+
+    return;
+  }
+
+  const teacherSnap = await firestore.collection('teachers').doc(uid).get();
+  if (teacherSnap.exists) {
+    await firestore.collection('timeslots').doc(timeslotId).delete();
+
+    if (timeslot.mentorId) {
+      const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
+      const teacherUserRecord = await admin.auth().getUser(uid);
+
+      await sendEmail({
+        to: `${mentorUserRecord.displayName} <${mentorUserRecord.email}>`,
+        subject: 'Статус додавання уроків: видалено',
+        html: renderTemplate('emails/mentor/teacher-deleted-timeslot', {
+          school,
+          mentor: mentorUserRecord,
+          timeslot: {
+            ...timeslot,
+            startTime: timeslot.startTime.toDate(),
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}/schedule`,
+        })
+      });
+
+      await sendEmailToAdmins(
+        'Вчитель видалив урок з ментором',
+        'emails/admin/teacher-deleted-timeslot-w-mentor',
+        {
+          school,
+          mentor: mentorUserRecord,
+          teacher: teacherUserRecord,
+          timeslot: {
+            ...timeslot,
+            startTime: timeslot.startTime.toDate(),
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}/timeslots`,
+        }
+      );
+    }
+
+    return;
+  }
+
+  throw new functions.https.HttpsError('access-denied', 'Access Denied');
+});
+
+const applyTimeslot = functions.https.onCall(async (timeslotId, context) => {
+  const uid = context.auth.uid;
+
+  const mentorSnap = await firestore.collection('mentors').doc(uid).get();
+  if (!mentorSnap.exists) {
+    throw new functions.https.HttpsError('access-denied', 'Access Denied');
+  }
+
+  const timeslotRef = firestore.collection('timeslots').doc(timeslotId);
+
+  await firestore.runTransaction(async (transaction) => {
+    const doc = await transaction.get(timeslotRef);
+
+    if (!doc.exists) {
+      throw new functions.https.HttpsError('not-found', 'Document does not exist!');
+    }
+
+    const docData = doc.data();
+
+    if (docData.mentorId) {
+      throw new functions.https.HttpsError('already-has-mentor', 'Timeslot already has a mentor!');
+    }
+
+    if (docData.status !== TIMESLOT_STATUS_NEEDS_MENTOR) {
+      throw new functions.https.HttpsError('cant-apply', 'You can\'t apply at the moment!');
+    }
+
+    return transaction.update(timeslotRef, {
+      mentorId: user.uid,
+      status: TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
+    });
+  });
+});
+
 export {
   emailTeacherApproved,
   emailTeacherNeedsApprove,
   timeslotUpdated,
+  timeslotMentorApproved,
   updateSchoolsTimeslotsCount,
   userCleanup,
+  deleteTimeslot,
 };
