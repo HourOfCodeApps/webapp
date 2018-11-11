@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
@@ -27,6 +28,7 @@ import {
   applyTimeslot,
   fetchTimeslots,
   fetchMyTimeslots,
+  getUserGeolocation,
 } from '../../actions';
 
 import {
@@ -40,9 +42,14 @@ import {
   selectMyTimeslots,
   selectMyTimeslotsFetching,
   selectMyTimeslotsFetchingError,
+  selectUserLocation,
+  selectUserLocationFetching,
+  selectUserLocationFetchingError,
 } from '../../selectors';
 
 import SchoolRow from '../../components/Apply/SchoolRow';
+
+import Map from '../Map';
 
 const defaultMarks = {
   0: '08:00',
@@ -78,16 +85,18 @@ class Schedule extends React.Component {
     super(props);
 
     this.state = {
+      bounds: null,
       timeRangeValue: [0, 16],
       marks: pick(defaultMarks, [0, 16]),
       selectedDay: days[0],
+      isMapShown: false,
     };
 
     this.handleLoadDayDebounced = debounce(this.handleLoadDay, 300);
   }
 
   componentDidMount() {
-    this.handleLoadDay();
+    // this.handleLoadDay();
     // this.props.onFetchTimeslots(this.state.selectedDay);
     this.props.onFetchMyTimeslots();
   }
@@ -102,10 +111,13 @@ class Schedule extends React.Component {
         this.props.onFetchMyTimeslots();
         this.handleLoadDay();
       }
-      this.handleApplyCancel();
+      // this.handleApplyCancel();
     }
 
-    if (!isEqual(prevState.timeRangeValue, this.state.timeRangeValue)) {
+    if (
+      !isEqual(prevState.timeRangeValue, this.state.timeRangeValue)
+      || !isEqual(prevState.bounds, this.state.bounds)
+    ) {
       this.handleLoadDayDebounced();
     }
 
@@ -115,11 +127,12 @@ class Schedule extends React.Component {
   }
 
   handleLoadDay = () => {
+    const { southWest, northEast } = this.state.bounds;
     const range = Object.values(pick(defaultMarks, this.state.timeRangeValue));
     const from = DateTime.fromISO(`${this.state.selectedDay}T${range[0]}`).toJSDate();
     const to = DateTime.fromISO(`${this.state.selectedDay}T${range[1]}`).toJSDate();
 
-    this.props.onFetchTimeslots(from, to);
+    this.props.onFetchTimeslots(from, to, { southWest, northEast });
   }
 
   handleSubmit = (formData) => {
@@ -145,18 +158,28 @@ class Schedule extends React.Component {
     this.setState({ selectedDay: day });
   }
 
+  handleMapToggle = () => this.setState(({ isMapShown }) => ({ isMapShown: !isMapShown }));
+
+  handleBoundsChanged = (southWest, northEast) => {
+    this.setState({ bounds: { southWest, northEast } });
+  }
+
   render() {
     const {
       handleApply,
+      handleBoundsChanged,
       handleTimeRangeChange,
       handleChangeDay,
+      handleMapToggle,
       state: {
+        isMapShown,
         selectedDay,
         timeRangeValue,
         marks,
       },
       props: {
         schoolsMap,
+        timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
         timeslotsBySchool,
@@ -196,6 +219,8 @@ class Schedule extends React.Component {
         <Grid container style={{ marginBottom: 20 }}>
           <Grid item xs={12} md={8}>
             Знайти школу поблизу
+            <br />
+            <span onClick={handleMapToggle}>Карта</span>
           </Grid>
           <Grid item xs={12} md={4}>
             <Range
@@ -211,17 +236,25 @@ class Schedule extends React.Component {
             />
           </Grid>
         </Grid>
+        {/* {isMapShown && ( */}
+        <Map
+          onBoundsChanged={handleBoundsChanged}
+          timeslots={timeslots}
+        />
+        {/* )} */}
 
-        <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
-          {days.map(day => (
-            <Tab
-              value={day}
-              // label={`${day} (${(timeslotsByDays[day] || []).length})`}
-              label={day}
-              key={day}
-            />
-          ))}
-        </Tabs>
+        <AppBar position="static">
+          <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
+            {days.map(day => (
+              <Tab
+                value={day}
+                // label={`${day} (${(timeslotsByDays[day] || []).length})`}
+                label={day}
+                key={day}
+              />
+            ))}
+          </Tabs>
+        </AppBar>
 
         {timeslotsFetching && <div>Loading</div>}
 
@@ -268,6 +301,9 @@ const mapStateToProps = createSelector(
   selectMyTimeslotsFetching(),
   selectMyTimeslotsFetchingError(),
   selectTimeslotsBySchool(),
+  selectUserLocation(),
+  selectUserLocationFetching(),
+  selectUserLocationFetchingError(),
   (
     timeslotApplying,
     timeslotApplyingError,
@@ -279,6 +315,9 @@ const mapStateToProps = createSelector(
     myTimeslotsFetching,
     myTimeslotsFetchingError,
     timeslotsBySchool,
+    userLocation,
+    userLocationFetching,
+    userLocationFetchingError,
   ) => ({
     timeslotApplying,
     timeslotApplyingError,
@@ -290,6 +329,9 @@ const mapStateToProps = createSelector(
     myTimeslotsFetching,
     myTimeslotsFetchingError,
     timeslotsBySchool,
+    userLocation,
+    userLocationFetching,
+    userLocationFetchingError,
   }),
 );
 
@@ -297,6 +339,7 @@ const mapDispatchToProps = {
   onApplyTimeslot: applyTimeslot,
   onFetchTimeslots: fetchTimeslots,
   onFetchMyTimeslots: fetchMyTimeslots,
+  onGetUserGeolocation: getUserGeolocation,
 };
 
 export default compose(

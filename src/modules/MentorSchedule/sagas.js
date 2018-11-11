@@ -12,13 +12,18 @@ import { selectUser } from 'modules/Auth';
 
 import {
   TIMESLOT_STATUS_NEEDS_MENTOR,
+  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
+  TIMESLOT_STATUS_HAS_MENTOR,
 } from 'shared/constants/timeslots';
+
+import getUserPosition from 'shared/utils/helpers/getUserLocation';
 
 import {
   APPLY_TIMESLOT,
   CANCEL_TIMESLOT,
   FETCH_TIMESLOTS,
   FETCH_MY_TIMESLOTS,
+  GET_USER_GEOLOCATION,
 } from './constants';
 
 import {
@@ -30,6 +35,8 @@ import {
   cancelTimeslotSuccess,
   fetchMyTimeslotsFailure,
   fetchMyTimeslotsSuccess,
+  getUserGeolocationFailure,
+  getUserGeolocationSuccess,
 } from './actions';
 
 
@@ -51,6 +58,10 @@ function* applyTimeslot({ payload: { timeslotId } }) {
 
         if (docData.mentorId) {
           throw new Error('Timeslot already has a mentor');
+        }
+
+        if (docData.status !== TIMESLOT_STATUS_NEEDS_MENTOR) {
+          throw new Error('You can\'t apply at the moment');
         }
 
         // var newPopulation = sfDoc.data().population + 1;
@@ -87,6 +98,13 @@ function* cancelTimeslot({ payload: { id } }) {
           throw new Error('Timeslot isn\t your');
         }
 
+        if (
+          docData.status !== TIMESLOT_STATUS_HAS_MENTOR
+          && docData.status !== TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
+        ) {
+          throw new Error('You can\'t cancel at the moment');
+        }
+
         // var newPopulation = sfDoc.data().population + 1;
         return transaction.update(timeslotRef, { mentorId: null });
       }));
@@ -107,41 +125,79 @@ function* cancelTimeslot({ payload: { id } }) {
 /**
  * fetch timeslots without mentor
  */
-function* fetchTimeslots({ payload }) {
+function* fetchTimeslots({ payload: { bounds, ...payload } }) {
   try {
-    const from = firebase.firestore.Timestamp.fromDate(payload.from);
-    //   DateTime.fromISO(date).set({
-    //     hour: 0, minute: 0, second: 0, millisecond: 0,
-    //   }).toJSDate(),
-    // );
-    const to = firebase.firestore.Timestamp.fromDate(payload.to);
-    //   DateTime.fromISO(date).set({
-    //     hour: 23, minute: 59, second: 59, millisecond: 999,
-    //   }).toJSDate(),
-    // );
+    const date = DateTime.fromJSDate(payload.from).toISODate();
+    let query = firebase.firestore().collection('timeslots');
 
-    const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
-      .where('status', '==', TIMESLOT_STATUS_NEEDS_MENTOR)
-      .where('mentorId', '==', null)
-      .where('startTime', '>=', from)
-      .where('startTime', '<', to)
+    query = query.where('date', '==', date);
+
+    const southWest = new firebase.firestore.GeoPoint(bounds.southWest.lat, bounds.southWest.lng);
+    const northEast = new firebase.firestore.GeoPoint(bounds.northEast.lat, bounds.northEast.lng);
+
+    query = query
+      .where('geo', '>', southWest)
+      .where('geo', '<', northEast);
+
+    query = query
+      .orderBy('geo', 'asc')
       .orderBy('startTime', 'asc')
-      .orderBy('schoolId', 'asc')
-      .get();
+      .where('status', '==', TIMESLOT_STATUS_NEEDS_MENTOR)
+      .where('mentorId', '==', null);
+
+    // const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
+    // .where('status', '==', TIMESLOT_STATUS_NEEDS_MENTOR)
+    // .where('mentorId', '==', null)
+    //   .where('date', '==', date)
+    //   // .where('startTime', '>=', from)
+    //   // .where('startTime', '<', to)
+    //   .orderBy('startTime', 'asc')
+    //   .orderBy('schoolId', 'asc')
+    //   .get();
+
+    const timeslotsSnaps = yield query.get();
 
     const timeslots = timeslotsSnaps.docs
       .map(doc => ({ ...doc.data(), id: doc.id }))
       .map(timeslot => ({
         ...timeslot,
         startTime: timeslot.startTime.toDate(),
-        // endTime: timeslot.endTime.toDate(),
-      }));
+      }))
+      .filter(({ geo, startTime }) => (
+        geo.latitude >= bounds.southWest.lat
+        && geo.longitude >= bounds.southWest.lng
+        && geo.latitude <= bounds.northEast.lat
+        && geo.longitude <= bounds.northEast.lng
+        && startTime >= payload.from
+        && startTime <= payload.to
+      ));
 
     yield put(fetchTimeslotsSuccess(timeslots));
   } catch (error) {
     yield put(fetchTimeslotsFailure(error));
   }
 }
+
+const getSchool = async (schoolId) => {
+  const schoolSnap = await firebase.firestore().collection('schools').doc(schoolId).get();
+
+  const school = { ...schoolSnap.data(), id: schoolId };
+
+  const teachersSnaps = await firebase.firestore().collection('teachers')
+    .where('schoolId', '==', schoolId).limit(1)
+    .get();
+
+  const teacherId = teachersSnaps.docs[0].id;
+  // const teacher = { ...teachersSnaps.docs[0].data() };
+
+  const profileSnap = await firebase.firestore().collection('users').doc(teacherId).get();
+  const profile = { ...profileSnap.data(), uid: teacherId };
+
+  return {
+    ...school,
+    teacher: profile,
+  };
+};
 
 /**
  * fetch mentor's timeslots
@@ -156,16 +212,33 @@ function* fetchMyTimeslots() {
       .orderBy('schoolId', 'asc')
       .get();
 
+    const schoolIds = timeslotsSnaps.docs.map(d => d.get('schoolId'));
+
+    const schools = yield Promise.all(schoolIds.map(id => getSchool(id)));
+
     const timeslots = timeslotsSnaps.docs
       .map(doc => ({ ...doc.data(), id: doc.id }))
       .map(timeslot => ({
         ...timeslot,
         startTime: timeslot.startTime.toDate(),
+        school: schools.find(s => s.id === timeslot.schoolId),
       }));
 
     yield put(fetchMyTimeslotsSuccess(timeslots));
   } catch (error) {
     yield put(fetchMyTimeslotsFailure(error));
+  }
+}
+
+function* getUserGeolocation() {
+  try {
+    const position = yield getUserPosition();
+
+    const location = (position && position.coords) ? pick(position.coords, ['latitude', 'longitude', 'accuracy']) : null;
+
+    yield put(getUserGeolocationSuccess(location));
+  } catch (error) {
+    yield put(getUserGeolocationFailure(error));
   }
 }
 
@@ -177,6 +250,7 @@ function* rootSaga() {
   yield fork(takeEvery, CANCEL_TIMESLOT, cancelTimeslot);
   yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
   yield fork(takeLatest, FETCH_MY_TIMESLOTS, fetchMyTimeslots);
+  yield fork(takeLatest, GET_USER_GEOLOCATION, getUserGeolocation);
 }
 
 export default [

@@ -13,6 +13,9 @@ import {
   FETCH_MY_TIMESLOTS,
   FETCH_MY_TIMESLOTS_FAILURE,
   FETCH_MY_TIMESLOTS_SUCCESS,
+  GET_USER_GEOLOCATION,
+  GET_USER_GEOLOCATION_FAILURE,
+  GET_USER_GEOLOCATION_SUCCESS,
 } from './constants';
 
 const initialState = {
@@ -30,6 +33,9 @@ const initialState = {
   timeslotsBySchool: [],
   timeslotsFetching: false,
   timeslotsFetchingError: null,
+  userLocation: null,
+  userLocationFetching: false,
+  userLocationFetchingError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -147,10 +153,17 @@ const reducer = (state = initialState, action) => {
 
       const myTimeslotsBySchool = action.payload.timeslots.slice()
         .reduce((acc, curr) => {
-          const schoolTimeslots = (acc[curr.schoolId] || []).concat(curr);
+          const schoolTimeslots = ((acc[curr.schoolId] && acc[curr.schoolId].timeslots) || []).concat(curr);
 
           // const dayValues = (acc[day] || []).concat(curr);
-          return { ...acc, [curr.schoolId]: schoolTimeslots };
+          // return { ...acc, [curr.schoolId]: schoolTimeslots };
+          return {
+            ...acc,
+            [curr.schoolId]: {
+              timeslots: schoolTimeslots,
+              school: curr.school,
+            },
+          };
         }, {});
 
       return {
@@ -161,6 +174,27 @@ const reducer = (state = initialState, action) => {
         myTimeslotsFetching: false,
       };
     }
+
+    case GET_USER_GEOLOCATION:
+      return {
+        ...state,
+        userLocationFetching: true,
+        userLocationFetchingError: null,
+      };
+
+    case GET_USER_GEOLOCATION_FAILURE:
+      return {
+        ...state,
+        userLocationFetching: false,
+        userLocationFetchingError: action.payload.error,
+      };
+
+    case GET_USER_GEOLOCATION_SUCCESS:
+      return {
+        ...state,
+        userLocation: action.payload.location,
+        userLocationFetching: false,
+      };
 
     default:
       return state;

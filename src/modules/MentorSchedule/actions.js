@@ -11,6 +11,9 @@ import {
   FETCH_MY_TIMESLOTS,
   FETCH_MY_TIMESLOTS_FAILURE,
   FETCH_MY_TIMESLOTS_SUCCESS,
+  GET_USER_GEOLOCATION,
+  GET_USER_GEOLOCATION_FAILURE,
+  GET_USER_GEOLOCATION_SUCCESS,
 } from './constants';
 
 /**
@@ -76,9 +79,9 @@ const cancelTimeslotSuccess = () => ({
  * @param {String} date e.g. 2018-01-15
  * @returns {{ type: String }}
  */
-const fetchTimeslots = (from, to) => ({
+const fetchTimeslots = (from, to, bounds) => ({
   type: FETCH_TIMESLOTS,
-  payload: { from, to },
+  payload: { from, to, bounds },
 });
 
 /**
@@ -129,6 +132,20 @@ const fetchMyTimeslotsSuccess = timeslots => ({
   payload: { timeslots },
 });
 
+const getUserGeolocation = () => ({
+  type: GET_USER_GEOLOCATION,
+});
+
+const getUserGeolocationFailure = error => ({
+  type: GET_USER_GEOLOCATION_FAILURE,
+  payload: { error },
+});
+
+const getUserGeolocationSuccess = location => ({
+  type: GET_USER_GEOLOCATION_SUCCESS,
+  payload: { location },
+});
+
 export {
   applyTimeslot,
   applyTimeslotFailure,
@@ -142,4 +159,7 @@ export {
   fetchMyTimeslots,
   fetchMyTimeslotsFailure,
   fetchMyTimeslotsSuccess,
+  getUserGeolocation,
+  getUserGeolocationFailure,
+  getUserGeolocationSuccess,
 };

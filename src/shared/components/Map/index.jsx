@@ -5,6 +5,7 @@ import { compose, withProps } from 'recompose';
 import {
   withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow,
 } from 'react-google-maps';
+import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
 
 import config from 'config';
 
@@ -17,13 +18,17 @@ const Map = compose(
   }),
   withScriptjs,
   withGoogleMap,
-)(props => (
+)(({ children, forwardedRef, ...props }) => (
   <GoogleMap
-    defaultZoom={props.defaultZoom}
-    defaultCenter={props.defaultCenter}
-    options={props.options}
+    ref={forwardedRef}
+    // defaultZoom={props.defaultZoom}
+    // defaultCenter={props.defaultCenter}
+    // options={props.options}
+    {...props}
+    // onCenterChanged={data => console.log('onCenterChanged', data)}
+    // onBoundsChanged={data => console.log('onBoundsChanged', data)}
   >
-    {props.children}
+    {children}
   </GoogleMap>
 ));
 
@@ -46,4 +51,5 @@ export default Map;
 export {
   InfoWindow,
   Marker,
+  MarkerClusterer,
 };

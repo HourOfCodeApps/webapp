@@ -89,6 +89,7 @@ class Schedule extends React.Component {
         myTimeslotsFetchingError,
       },
     } = this;
+    console.log(myTimeslotsBySchool);
 
     return (
       <React.Fragment>
@@ -121,8 +122,8 @@ class Schedule extends React.Component {
 
         {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
           <SchoolRow
-            school={schoolsMap[schoolId] || {}}
-            timeslots={myTimeslotsBySchool[schoolId] || []}
+            school={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].school) || {}}
+            timeslots={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].timeslots) || []}
             onCancelTimeslot={handleCancelClick}
           />
         ))}

@@ -67,6 +67,21 @@ const selectMyTimeslotsFetchingError = () => createSelector(
   substate => substate.myTimeslotsFetchingError,
 );
 
+const selectUserLocation = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.userLocation,
+);
+
+const selectUserLocationFetching = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.userLocationFetching,
+);
+
+const selectUserLocationFetchingError = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.userLocationFetchingError,
+);
+
 export {
   selectTimeslotApplying,
   selectTimeslotApplyingError,
@@ -82,4 +97,7 @@ export {
   selectMyTimeslotsBySchool,
   selectMyTimeslotsFetching,
   selectMyTimeslotsFetchingError,
+  selectUserLocation,
+  selectUserLocationFetching,
+  selectUserLocationFetchingError,
 };
