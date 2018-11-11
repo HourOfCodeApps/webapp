@@ -24,7 +24,7 @@ class Timeslot extends React.PureComponent {
         <TableCell>{timeslot.pupilsCount}</TableCell>
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell number>
-          <Button onClick={handleApply}>
+          <Button onClick={handleApply} variant="outlined">
             Я прийду на урок
           </Button>
         </TableCell>

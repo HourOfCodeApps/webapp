@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_NEEDS_MENTOR,
+  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
   TIMESLOT_STATUS_HAS_MENTOR,
   TIMESLOT_STATUS_REJECTED,
 } from 'shared/constants/timeslots';
@@ -21,6 +22,10 @@ const renderStatus = (timeslot) => {
 
   if (timeslot.status === TIMESLOT_STATUS_NEEDS_MENTOR) {
     return <span style={{ color: 'green' }}>Очікує ментора</span>;
+  }
+
+  if (timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && timeslot.mentorId && timeslot.mentor) {
+    return <span style={{ color: 'blue' }}>Ментор очікує на підтвердження: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
   }
 
   if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR && timeslot.mentorId && timeslot.mentor) {

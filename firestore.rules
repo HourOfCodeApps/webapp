@@ -40,6 +40,14 @@ service cloud.firestore {
       // return getUserRoles(request.auth.uid).admin == true;
     }
 
+    function isMentor(userId) {
+      return get(/databases/$(database)/documents/mentors/$(userId)) != null;
+    }
+
+    function isTeacher(userId) {
+      return get(/databases/$(database)/documents/teachers/$(userId)) != null;
+    }
+
     match /schools/{schoolId} {
       allow read: if request.auth.uid != null;
       allow write: if isAdmin(request.auth.uid);
@@ -55,10 +63,11 @@ service cloud.firestore {
 
     match /teachers/{userId} {
       allow create: if request.auth.uid == userId;
-      allow read: if isAdmin(request.auth.uid) || request.auth.uid == userId;
+      allow read: if isAdmin(request.auth.uid) || request.auth.uid == userId || isMentor(request.auth.uid);
       allow update: if isAdmin(request.auth.uid)
                     || (request.auth.uid == userId && isTeacherUpdateAllowed(resource.data, request.resource.data));
-      allow delete, list: if isAdmin(request.auth.uid);
+      allow list: if isAdmin(request.auth.uid) || isMentor(request.auth.uid);
+      allow delete: if isAdmin(request.auth.uid);
     }
 
     match /timeslots/{slotId} {

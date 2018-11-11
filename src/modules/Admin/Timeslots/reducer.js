@@ -5,6 +5,9 @@ import {
   FETCH_TIMESLOTS,
   FETCH_TIMESLOTS_FAILURE,
   FETCH_TIMESLOTS_SUCCESS,
+  DELETE_TIMESLOT,
+  DELETE_TIMESLOT_FAILURE,
+  DELETE_TIMESLOT_SUCCESS,
 } from './constants';
 
 const initialState = {
@@ -57,6 +60,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         timeslots: action.payload.timeslots.slice(),
         timeslotsFetching: false,
+      };
+
+    case DELETE_TIMESLOT:
+      return {
+        ...state,
+        timeslotDeleting: true,
+        timeslotDeletingError: null,
+      };
+
+    case DELETE_TIMESLOT_FAILURE:
+      return {
+        ...state,
+        timeslotDeleting: false,
+        timeslotDeletingError: action.payload.error,
+      };
+
+    case DELETE_TIMESLOT_SUCCESS:
+      return {
+        ...state,
+        timeslotDeleting: false,
       };
 
     default:

@@ -1,18 +1,26 @@
 // Vendor
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/functions';
+
 import {
   takeEvery, takeLatest, fork, put,
 } from 'redux-saga/effects';
 
 // Application
+import { loadUserProfile } from 'shared/utils/helpers/loadUserInfo';
 import {
+  TIMESLOT_STATUS_NEEDS_APPROVE,
+  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
+  TIMESLOT_STATUS_HAS_MENTOR,
   TIMESLOT_STATUS_APPROVED,
+  TIMESLOT_STATUS_NEEDS_MENTOR,
 } from 'shared/constants/timeslots';
 
 import {
   APPROVE_TIMESLOTS,
   FETCH_TIMESLOTS,
+  DELETE_TIMESLOT,
 } from './constants';
 
 import {
@@ -20,26 +28,65 @@ import {
   approveTimeslotsSuccess,
   fetchTimeslotsFailure,
   fetchTimeslotsSuccess,
+  deleteTimeslotFailure,
+  deleteTimeslotSuccess,
 } from './actions';
 
-function* approveTimeslots({ payload: { timeslotIds } }) {
+function* approveTimeslot({ payload: { timeslotId } }) {
   try {
-    const collection = firebase.firestore().collection('timeslots');
-    const timeslots = yield Promise.all(
-      timeslotIds.map(id => firebase.firestore().collection('timeslots').doc(id).get()),
-    );
+    const timeslotRef = firebase.firestore().collection('timeslots').doc(timeslotId);
 
-    const existingTimeslots = timeslots.filter(t => t.exists);
+    yield firebase.firestore().runTransaction(async (transaction) => {
+      const doc = await transaction.get(timeslotRef);
 
-    const batch = firebase.firestore().batch();
-    existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { status: TIMESLOT_STATUS_APPROVED }));
+      if (!doc.exists) {
+        throw new Error('Timeslot does not exist!');
+      }
 
-    yield batch.commit();
+      const docData = doc.data();
 
+      let status;
+
+      if (docData.status === TIMESLOT_STATUS_NEEDS_APPROVE) {
+        status = TIMESLOT_STATUS_APPROVED;
+      }
+
+      if (docData.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE) {
+        status = TIMESLOT_STATUS_HAS_MENTOR;
+      }
+
+      return transaction.update(timeslotRef, { status });
+    });
 
     yield put(approveTimeslotsSuccess());
   } catch (error) {
     yield put(approveTimeslotsFailure(error));
+  }
+}
+
+function* deleteTimeslot({ payload: { timeslotId } }) {
+  try {
+    const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
+    yield deleteTimeslotsCallable(timeslotId);
+
+    // console.log(response);
+    // const response = firebas
+    // const collection = firebase.firestore().collection('timeslots');
+    // const timeslots = yield Promise.all(
+    //   timeslotIds.map(id => firebase.firestore().collection('timeslots').doc(id).get()),
+    // );
+
+    // const existingTimeslots = timeslots.filter(t => t.exists);
+
+    // const batch = firebase.firestore().batch();
+    // existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { status: TIMESLOT_STATUS_APPROVED }));
+
+    // yield batch.commit();
+
+
+    yield put(deleteTimeslotSuccess());
+  } catch (error) {
+    yield put(deleteTimeslotFailure(error));
   }
 }
 
@@ -62,7 +109,20 @@ function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
         startTime: timeslot.startTime.toDate(),
       }));
 
-    yield put(fetchTimeslotsSuccess(timeslots));
+    const mentorIds = timeslots.filter(t => t.mentorId).map(t => t.mentorId);
+
+    const mentors = yield Promise.all(mentorIds.map(uid => loadUserProfile(uid)));
+
+    const timeslotsAggregated = timeslots.map((t) => {
+      if (!t.mentorId) {
+        return t;
+      }
+
+      const mentor = mentors.find(m => m.uid === t.mentorId);
+      return { ...t, mentor };
+    });
+
+    yield put(fetchTimeslotsSuccess(timeslotsAggregated));
   } catch (error) {
     yield put(fetchTimeslotsFailure(error));
   }
@@ -73,7 +133,8 @@ function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
  */
 function* rootSaga() {
   yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
-  yield fork(takeEvery, APPROVE_TIMESLOTS, approveTimeslots);
+  yield fork(takeEvery, APPROVE_TIMESLOTS, approveTimeslot);
+  yield fork(takeEvery, DELETE_TIMESLOT, deleteTimeslot);
 }
 
 export default [

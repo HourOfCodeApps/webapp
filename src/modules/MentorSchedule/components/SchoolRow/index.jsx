@@ -6,8 +6,18 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 import TimeslotRow from '../TimeslotRow';
+
+const styles = theme => ({
+  root: {
+    // width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    // overflowX: 'auto',
+  },
+});
 
 class SchoolRow extends React.Component {
   shouldComponentUpdate() {
@@ -15,15 +25,25 @@ class SchoolRow extends React.Component {
   }
 
   render() {
-    const { onCancelTimeslot, school, timeslots } = this.props;
+    const {
+      onCancelTimeslot,
+      school,
+      timeslots,
+      classes,
+    } = this.props;
 
     return (
-      <React.Fragment>
-        {school.name}
+      <div className={classes.root}>
+        <Typography variant="subheading" gutterBottom>
+          {school.name}
+        </Typography>
+        <Typography variant="body" gutterBottom>
+          {school.teacher.phone} {school.teacher.firstName} {school.teacher.lastName}, {school.city} {school.addressStreet} {school.addressBuilding}
+        </Typography>
         <Paper>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow selected>
                 <TableCell>Час початку</TableCell>
                 <TableCell>Клас</TableCell>
                 <TableCell>Кількість учнів</TableCell>
@@ -43,7 +63,7 @@ class SchoolRow extends React.Component {
             </TableBody>
           </Table>
         </Paper>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -53,4 +73,4 @@ SchoolRow.propTypes = {
   onCancelTimeslot: PropTypes.func.isRequired,
 };
 
-export default SchoolRow;
+export default withStyles(styles)(SchoolRow);
