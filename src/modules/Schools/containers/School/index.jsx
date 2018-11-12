@@ -17,9 +17,12 @@ import { toast } from 'react-toastify';
 import Map, { Marker } from 'shared/components/Map';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
+import isEqual from 'lodash/isEqual';
+
 import {
   deleteSchool,
   fetchSchool,
+  fetchSchoolTimeslots,
 } from '../../actions';
 
 import {
@@ -28,7 +31,13 @@ import {
   selectSchoolDeletingError,
   selectSchoolFetching,
   selectSchoolFetchingError,
+  selectSchoolTimeslots,
+  selectSchoolTimeslotsFetching,
+  selectSchoolTimeslotsFetchingError,
 } from '../../selectors';
+import Timeslots from '../../components/Timeslots/index';
+import Loading from 'shared/components/Loading/index';
+
 
 class School extends React.Component {
   static propTypes = {
@@ -76,6 +85,10 @@ class School extends React.Component {
       }
       this.handleDeleteCancel();
     }
+
+    if (!isEqual(prevProps.school, this.props.school) && this.props.school) {
+      this.props.onFetchSchoolTimeslots(this.props.school.id);
+    }
   }
 
   handleDeleteClick = () => this.setState({
@@ -103,6 +116,9 @@ class School extends React.Component {
         school,
         schoolFetching,
         schoolFetchingError,
+        timeslots,
+        timeslotsFetching,
+        timeslotsFetchingError,
       },
     } = this;
 
@@ -175,6 +191,15 @@ class School extends React.Component {
             </Grid>
           </Grid>
         </Paper>
+
+        <Paper>
+          {timeslotsFetching && (<Loading />)}
+          {timeslotsFetchingError && (<div>{timeslotsFetchingError.message}</div>)}
+          {!timeslotsFetching && !timeslotsFetchingError && (
+            <Timeslots timeslots={timeslots} />
+          )}
+        </Paper>
+
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}
@@ -195,16 +220,34 @@ const mapStateToProps = createSelector(
   selectSchoolDeletingError(),
   selectSchoolFetching(),
   selectSchoolFetchingError(),
+  selectSchoolTimeslots(),
+  selectSchoolTimeslotsFetching(),
+  selectSchoolTimeslotsFetchingError(),
   (
-    school, schoolDeleting, schoolDeletingError, schoolFetching, schoolFetchingError,
+    school,
+    schoolDeleting,
+    schoolDeletingError,
+    schoolFetching,
+    schoolFetchingError,
+    timeslots,
+    timeslotsFetching,
+    timeslotsFetchingError,
   ) => ({
-    school, schoolDeleting, schoolDeletingError, schoolFetching, schoolFetchingError,
+    school,
+    schoolDeleting,
+    schoolDeletingError,
+    schoolFetching,
+    schoolFetchingError,
+    timeslots,
+    timeslotsFetching,
+    timeslotsFetchingError,
   }),
 );
 
 const mapDispatchToProps = {
   onDeleteSchool: deleteSchool,
   onFetchSchool: fetchSchool,
+  onFetchSchoolTimeslots: fetchSchoolTimeslots,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(School);
