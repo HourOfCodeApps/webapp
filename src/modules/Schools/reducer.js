@@ -14,6 +14,9 @@ import {
   UPDATE_SCHOOL,
   UPDATE_SCHOOL_FAILURE,
   UPDATE_SCHOOL_SUCCESS,
+  FETCH_SCHOOL_TIMESLOTS,
+  FETCH_SCHOOL_TIMESLOTS_FAILURE,
+  FETCH_SCHOOL_TIMESLOTS_SUCCESS,
 } from './constants';
 
 const initialState = {
@@ -26,6 +29,9 @@ const initialState = {
   schoolsFetching: false,
   schoolsFetchingError: null,
   schoolsMap: {},
+  schoolTimeslots: [],
+  schoolTimeslotsFetching: false,
+  schoolTimeslotsFetchingError: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -91,6 +97,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         school: action.payload.school,
         schoolFetching: false,
+      };
+
+    case FETCH_SCHOOL_TIMESLOTS:
+      return {
+        ...state,
+        schoolTimeslotsFetching: true,
+        schoolTimeslotsFetchingError: null,
+      };
+
+    case FETCH_SCHOOL_TIMESLOTS_FAILURE:
+      return {
+        ...state,
+        schoolTimeslotsFetching: false,
+        schoolTimeslotsFetchingError: action.payload.error,
+      };
+
+    case FETCH_SCHOOL_TIMESLOTS_SUCCESS:
+      return {
+        ...state,
+        schoolTimeslots: action.payload.timeslots,
+        schoolTimeslotsFetching: false,
       };
 
     case FETCH_SCHOOLS:
