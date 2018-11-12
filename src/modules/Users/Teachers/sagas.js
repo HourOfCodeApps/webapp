@@ -48,7 +48,7 @@ function* fetchTeachers({ payload: { start = 0, limit = 10 } }) {
       .get();
 
     const teachersIds = teachersSnaps.docs
-      .slice(start, start + limit)
+      // .slice(start, start + limit)
       .map(doc => doc.id);
 
     const teachers = yield Promise.all(teachersIds.map(uid => loadUserInfo(uid)));

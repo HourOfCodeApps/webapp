@@ -14,6 +14,9 @@ import {
   UPDATE_SCHOOL,
   UPDATE_SCHOOL_FAILURE,
   UPDATE_SCHOOL_SUCCESS,
+  FETCH_SCHOOL_TIMESLOTS,
+  FETCH_SCHOOL_TIMESLOTS_FAILURE,
+  FETCH_SCHOOL_TIMESLOTS_SUCCESS,
 } from './constants';
 
 /**
@@ -104,6 +107,36 @@ const fetchSchoolSuccess = school => ({
 });
 
 /**
+ * Fetch timeslots action
+ * @param {String} schoolId
+ * @returns {{ type: String }}
+ */
+const fetchSchoolTimeslots = schoolId => ({
+  type: FETCH_SCHOOL_TIMESLOTS,
+  payload: { schoolId },
+});
+
+/**
+ * Fetch timeslots failed action
+ * @param {Object} error
+ * @returns {{ type: String, payload: { error } }}
+ */
+const fetchSchoolTimeslotsFailure = error => ({
+  type: FETCH_SCHOOL_TIMESLOTS_FAILURE,
+  payload: { error },
+});
+
+/**
+ * Fetch timeslots success action
+ * @param {Array} timeslots
+ * @returns {{ type: String, payload: { timeslots } }}
+ */
+const fetchSchoolTimeslotsSuccess = timeslots => ({
+  type: FETCH_SCHOOL_TIMESLOTS_SUCCESS,
+  payload: { timeslots },
+});
+
+/**
  * Fetch schools action
  * @returns {{ type: String }}
  */
@@ -178,4 +211,7 @@ export {
   updateSchool,
   updateSchoolFailure,
   updateSchoolSuccess,
+  fetchSchoolTimeslots,
+  fetchSchoolTimeslotsFailure,
+  fetchSchoolTimeslotsSuccess,
 };

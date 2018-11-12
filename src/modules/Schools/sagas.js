@@ -6,12 +6,15 @@ import {
 } from 'redux-saga/effects';
 
 // Application
+import { loadUserProfile } from 'shared/utils/helpers/loadUserInfo';
+
 import {
   CREATE_SCHOOL,
   DELETE_SCHOOL,
   FETCH_SCHOOL,
   FETCH_SCHOOLS,
   UPDATE_SCHOOL,
+  FETCH_SCHOOL_TIMESLOTS,
 } from './constants';
 
 import {
@@ -25,6 +28,8 @@ import {
   fetchSchoolsSuccess,
   updateSchoolSuccess,
   updateSchoolFailure,
+  fetchSchoolTimeslotsFailure,
+  fetchSchoolTimeslotsSuccess,
 } from './actions';
 
 function* createSchool({ payload: { data } }) {
@@ -67,6 +72,40 @@ function* fetchSchool({ payload: { id } }) {
   }
 }
 
+function* fetchSchoolTimeslots({ payload: { schoolId } }) {
+  try {
+    const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
+      .where('schoolId', '==', schoolId)
+      .orderBy('startTime', 'asc')
+      .get();
+
+    const timeslots = timeslotsSnaps.docs
+      .map(doc => ({ ...doc.data(), id: doc.id }))
+      .map(timeslot => ({
+        ...timeslot,
+        startTime: timeslot.startTime.toDate(),
+        // endTime: timeslot.endTime.toDate(),
+      }));
+
+    const mentorIds = timeslots.filter(t => t.mentorId).map(t => t.mentorId);
+
+    const mentors = yield Promise.all(mentorIds.map(uid => loadUserProfile(uid)));
+
+    const timeslotsAggregated = timeslots.map((t) => {
+      if (!t.mentorId) {
+        return t;
+      }
+
+      const mentor = mentors.find(m => m.uid === t.mentorId);
+      return { ...t, mentor };
+    });
+
+    yield put(fetchSchoolTimeslotsSuccess(timeslotsAggregated));
+  } catch (error) {
+    yield put(fetchSchoolTimeslotsFailure(error));
+  }
+}
+
 function* fetchSchools() {
   try {
     const snapshots = yield firebase.firestore().collection('schools').get();
@@ -104,6 +143,7 @@ function* rootSaga() {
   yield fork(takeLatest, FETCH_SCHOOL, fetchSchool);
   yield fork(takeLatest, FETCH_SCHOOLS, fetchSchools);
   yield fork(takeEvery, UPDATE_SCHOOL, updateSchool);
+  yield fork(takeLatest, FETCH_SCHOOL_TIMESLOTS, fetchSchoolTimeslots);
 }
 
 export default [
