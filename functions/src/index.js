@@ -262,9 +262,18 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
     // console.log('Email sent');
   });
 
+const userCleanup = functions.auth.user().onDelete(async (user) => {
+  const { uid } = user;
+  await firestore.collection('teachers').doc(uid).delete();
+  await firestore.collection('mentors').doc(uid).delete();
+  await firestore.collection('admins').doc(uid).delete();
+  await firestore.collection('users').doc(uid).delete();
+});
+
 export {
   emailTeacherApproved,
   emailTeacherNeedsApprove,
   timeslotUpdated,
   updateSchoolsTimeslotsCount,
-}
+  userCleanup,
+};
