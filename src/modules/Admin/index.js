@@ -1,6 +1,10 @@
-// import container from './container';
-
 import { combineReducers } from 'redux';
+
+import Mentors,
+{
+  reducer as mentorsReducer,
+  sagas as mentorsSagas,
+} from './Mentors';
 
 import Timeslots,
 {
@@ -8,19 +12,17 @@ import Timeslots,
   sagas as timeslotsSagas,
 } from './Timeslots';
 
-// import sagas from './sagas';
-// import reducer from './reducer';
-
-
 export const reducer = combineReducers({
+  mentors: mentorsReducer,
   timeslots: timeslotsReducer,
 });
 
 export const sagas = [
+  ...mentorsSagas,
   ...timeslotsSagas,
 ];
 
-// export default container;
 export {
+  Mentors,
   Timeslots,
 };
