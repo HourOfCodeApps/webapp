@@ -8,7 +8,7 @@ import { DateTime, Settings } from 'luxon';
 import sendEmail from './lib/sendEmail';
 import renderTemplate from './lib/renderTemplate';
 import admin from './lib/firebase';
-import loadUserInfo from './lib/loadUserInfo';
+import loadUserInfo, { loadUserProfile } from './lib/loadUserInfo';
 import { sendEmailToAdmins } from './admin';
 
 import {
@@ -150,7 +150,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
     const { profile: teacher } = teachers[0];
 
     const { profile: mentor } = await loadUserInfo(timeslot.mentorId);
-    console.log(teachers);
+    // console.log(teachers);
 
     if (oldValue.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && newValue.status === TIMESLOT_STATUS_HAS_MENTOR) {
       // send email to mentor
@@ -266,7 +266,7 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
     if (oldValue && newValue && oldValue.status !== newValue.status) {
       // changed status
 
-      if (newValue.status === TIMESLOT_STATUS_APPROVED) {
+      if (oldValue.status === TIMESLOT_STATUS_NEEDS_APPROVE && newValue.status === TIMESLOT_STATUS_APPROVED) {
         console.log('Timeslot was approved');
         // timeslot was approved
 
@@ -407,6 +407,9 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
   const uid = context.auth.uid;
 
   const timeslotSnap = await firestore.collection('timeslots').doc(timeslotId).get();
+  if (!timeslotSnap.exists) {
+    throw new functions.https.HttpsError('not-found', 'Not Found');
+  }
   const timeslot = timeslotSnap.data();
 
   const schoolSnap = await firestore.collection('schools').doc(timeslot.schoolId).get();
@@ -469,7 +472,7 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
   }
 
   const teacherSnap = await firestore.collection('teachers').doc(uid).get();
-  if (teacherSnap.exists) {
+  if (teacherSnap.exists && teacherSnap.get('schoolId') === timeslot.schoolId) {
     await firestore.collection('timeslots').doc(timeslotId).delete();
 
     if (timeslot.mentorId) {
@@ -511,7 +514,141 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
     return;
   }
 
-  throw new functions.https.HttpsError('access-denied', 'Access Denied');
+  throw new functions.https.HttpsError('permission-denied', 'Access Denied');
+});
+
+const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, context) => {
+  const uid = context.auth.uid;
+
+  const timeslotSnap = await firestore.collection('timeslots').doc(timeslotId).get();
+  if (!timeslotSnap.exists) {
+    throw new functions.https.HttpsError('not-found', 'Not Found');
+  }
+  const timeslot = timeslotSnap.data();
+
+  const adminSnap = await firestore.collection('admins').doc(uid).get();
+  if (adminSnap.exists) {
+    // discard mentor from timeslot
+    // await firestore.collection('timeslots').doc(timeslotId).delete();
+
+    // if (timeslot.mentorId) {
+    //   // get mentor and send them email
+    //   const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
+    //   await sendEmail({
+    //     to: `${mentorUserRecord.displayName} <${mentorUserRecord.email}>`,
+    //     subject: 'Статус додавання уроків: видалено',
+    //     html: renderTemplate('emails/mentor/admin-deleted-timeslot', {
+    //       school,
+    //       mentor: mentorUserRecord,
+    //       timeslot: {
+    //         ...timeslot,
+    //         startTime: timeslot.startTime.toDate(),
+    //         startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+    //       },
+    //       url: `${functions.config().general.host}/schedule`,
+    //     })
+    //   });
+    // }
+
+    // // send email to teachers
+    // // get teachers profile data
+    // const teacherSnaps = await firestore.collection('teachers')
+    //   .where('schoolId', '==', timeslot.schoolId)
+    //   .get();
+    // const teachers = await Promise.all(
+    //   teacherSnaps.docs
+    //     .map(doc => doc.id)
+    //     .map(uid => admin.auth().getUser(uid))
+    // );
+
+    // await Promise.all(
+    //   teachers.map(
+    //     teacherUserRecord => sendEmail({
+    //       to: `${teacherUserRecord.displayName} <${teacherUserRecord.email}>`,
+    //       subject: 'Статус додавання уроків: видалено',
+    //       html: renderTemplate('emails/teacher/admin-deleted-timeslot', {
+    //         school,
+    //         teacher: teacherUserRecord,
+    //         timeslot: {
+    //           ...timeslot,
+    //           startTime: timeslot.startTime.toDate(),
+    //           startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+    //         },
+    //         url: `${functions.config().general.host}/schedule`,
+    //       })
+    //     }),
+    //   ),
+    // );
+
+    return;
+  }
+
+  const mentorSnap = await firestore.collection('mentors').doc(uid).get();
+  if (mentorSnap.exists && timeslot.mentorId === uid) {
+    // const mentor = await loadUserProfile(uid);
+
+    await firestore.collection('timeslots').doc(timeslotId).update({
+      mentorId: null,
+      status: TIMESLOT_STATUS_APPROVED,
+    });
+
+    const school = await getSchool(timeslot.schoolId);
+
+    const teachers = await getSchoolTeachers(timeslot.schoolId);
+    // const { profile: teacher } = teachers[0];
+
+    const mentor = await loadUserProfile(timeslot.mentorId);
+
+
+    if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) {
+      // send email to teacher
+      await Promise.all(
+        teachers.map(t => t.profile).map(
+          teacher => sendEmail({
+            to: `${teacher.firstName} ${teacher.lastName} <${teacher.email}>`,
+            subject: 'Ментор відхилив заявку',
+            html: renderTemplate('emails/admin/mentor-discarded-timeslot', {
+              school,
+              mentor,
+              reason,
+              teacher,
+              timeslot: {
+                ...timeslot,
+                startTime: timeslot.startTime.toDate(),
+                startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+              },
+              url: `${functions.config().general.host}/schedule`,
+            })
+          }),
+        ),
+      );
+
+      await sendEmailToAdmins(
+        'Ментор відмінив участь в уроці',
+        'emails/admin/mentor-discarded-timeslot',
+        {
+          school,
+          reason,
+          mentor,
+          timeslot: {
+            ...timeslot,
+            startTime: timeslot.startTime.toDate(),
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}/timeslots`,
+        }
+      );
+    }
+    // if (timeslot.mentorId) {
+    //   const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
+    //   const teacherUserRecord = await admin.auth().getUser(uid);
+
+
+
+    return;
+  }
+
+  throw new functions.https.HttpsError('permission-denied', 'Access Denied');
 });
 
 const applyTimeslot = functions.https.onCall(async (timeslotId, context) => {
@@ -519,7 +656,7 @@ const applyTimeslot = functions.https.onCall(async (timeslotId, context) => {
 
   const mentorSnap = await firestore.collection('mentors').doc(uid).get();
   if (!mentorSnap.exists) {
-    throw new functions.https.HttpsError('access-denied', 'Access Denied');
+    throw new functions.https.HttpsError('permission-denied', 'Access Denied');
   }
 
   const timeslotRef = firestore.collection('timeslots').doc(timeslotId);
@@ -556,4 +693,5 @@ export {
   updateSchoolsTimeslotsCount,
   userCleanup,
   deleteTimeslot,
+  discardTimeslot,
 };

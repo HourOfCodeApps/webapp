@@ -1,0 +1,27 @@
+p Вітаємо,
+p
+  | Ментор відмінив участь в уроці
+  br
+  | Причина: #{reason}
+
+p
+  strong Інформація про урок
+  br
+  | Ментор: #{mentor.firstName} #{mentor.lastName}
+  br
+  | Школа: #{school.name}
+  br
+  | Час проведення: #{timeslot.startTimeFormatted}
+  br
+  | Клас: #{timeslot.class}
+  br
+  | Кількість учнів: #{timeslot.pupilsCount}
+  br
+  | Коментар ментору: #{timeslot.notes}
+
+p
+  a(href=url) #{url}
+p
+  | З повагою,
+  br
+  | Команда Hour of Code Lviv
