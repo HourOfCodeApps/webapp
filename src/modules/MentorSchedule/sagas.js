@@ -1,6 +1,7 @@
 // Vendor
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/functions';
 import {
   takeEvery, takeLatest, fork, put, select,
 } from 'redux-saga/effects';
@@ -78,36 +79,39 @@ function* applyTimeslot({ payload: { timeslotId } }) {
   }
 }
 
-function* cancelTimeslot({ payload: { id } }) {
+function* cancelTimeslot({ payload: { id, reason } }) {
   try {
-    const firestore = firebase.firestore();
+    const deleteTimeslotsCallable = firebase.functions().httpsCallable('discardTimeslot');
+    yield deleteTimeslotsCallable({ timeslotId: id, reason });
 
-    const user = yield select(selectUser());
+    // const firestore = firebase.firestore();
 
-    const timeslotRef = firestore.collection('timeslots').doc(id);
+    // const user = yield select(selectUser());
 
-    yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
-      .then((doc) => {
-        if (!doc.exists) {
-          throw new Error('Timeslot does not exist!');
-        }
+    // const timeslotRef = firestore.collection('timeslots').doc(id);
 
-        const docData = doc.data();
+    // yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
+    //   .then((doc) => {
+    //     if (!doc.exists) {
+    //       throw new Error('Timeslot does not exist!');
+    //     }
 
-        if (docData.mentorId !== user.uid) {
-          throw new Error('Timeslot isn\t your');
-        }
+    //     const docData = doc.data();
 
-        if (
-          docData.status !== TIMESLOT_STATUS_HAS_MENTOR
-          && docData.status !== TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
-        ) {
-          throw new Error('You can\'t cancel at the moment');
-        }
+    //     if (docData.mentorId !== user.uid) {
+    //       throw new Error('Timeslot isn\t your');
+    //     }
 
-        // var newPopulation = sfDoc.data().population + 1;
-        return transaction.update(timeslotRef, { mentorId: null, status: TIMESLOT_STATUS_NEEDS_MENTOR });
-      }));
+    //     if (
+    //       docData.status !== TIMESLOT_STATUS_HAS_MENTOR
+    //       && docData.status !== TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
+    //     ) {
+    //       throw new Error('You can\'t cancel at the moment');
+    //     }
+
+    //     // var newPopulation = sfDoc.data().population + 1;
+    //     return transaction.update(timeslotRef, { mentorId: null, status: TIMESLOT_STATUS_NEEDS_MENTOR });
+    //   }));
 
     // const updatedSnapshot = yield timeslotRef.get();
 
