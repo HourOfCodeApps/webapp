@@ -51,9 +51,9 @@ const applyTimeslotSuccess = timeslot => ({
  * @param {String} id timeslot id to delete
  * @returns {{ type: String, payload: { id } }}
  */
-const cancelTimeslot = id => ({
+const cancelTimeslot = (id, reason) => ({
   type: CANCEL_TIMESLOT,
-  payload: { id },
+  payload: { id, reason },
 });
 
 /**

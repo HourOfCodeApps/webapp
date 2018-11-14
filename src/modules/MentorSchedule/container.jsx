@@ -69,9 +69,9 @@ class Schedule extends React.Component {
     cancelTimeslotId: null,
   });
 
-  handleCancelTimeslotConfirm = () => {
+  handleCancelTimeslotConfirm = (reason) => {
     const { cancelTimeslotId: timeslotId } = this.state;
-    this.props.onCancelTimeslot(timeslotId);
+    this.props.onCancelTimeslot(timeslotId, reason);
   }
 
   render() {
@@ -90,7 +90,6 @@ class Schedule extends React.Component {
         timeslotCanceling,
       },
     } = this;
-    console.log(myTimeslotsBySchool);
 
     return (
       <React.Fragment>
@@ -137,6 +136,8 @@ class Schedule extends React.Component {
             cancelLabel="Ні"
             title="Ви впевнені, що хочете відмінити цей урок?"
             loading={timeslotCanceling}
+            question="Вкажіть причину"
+            danger
           />
         )}
       </React.Fragment>
