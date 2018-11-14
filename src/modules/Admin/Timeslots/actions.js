@@ -44,9 +44,9 @@ const approveTimeslotsSuccess = () => ({
  * @param {String} teacherdId
  * @returns {{ type: String }}
  */
-const deleteTimeslot = timeslotId => ({
+const deleteTimeslot = (timeslotId, reason) => ({
   type: DELETE_TIMESLOT,
-  payload: { timeslotId },
+  payload: { timeslotId, reason },
 });
 
 /**

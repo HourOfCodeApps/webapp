@@ -64,10 +64,10 @@ function* approveTimeslot({ payload: { timeslotId } }) {
   }
 }
 
-function* deleteTimeslot({ payload: { timeslotId } }) {
+function* deleteTimeslot({ payload: { timeslotId, reason } }) {
   try {
     const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
-    yield deleteTimeslotsCallable(timeslotId);
+    yield deleteTimeslotsCallable({ timeslotId, reason });
 
     yield put(deleteTimeslotSuccess());
   } catch (error) {
@@ -79,7 +79,7 @@ function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .orderBy('status', 'asc')
-      .limit(10)
+      // .limit(10)
       .get();
 
     // const teachersIds = timeslotsSnaps.docs

@@ -45,9 +45,9 @@ const createTimeslotSuccess = timeslot => ({
  * @param {String} id timeslot id to delete
  * @returns {{ type: String, payload: { id } }}
  */
-const deleteTimeslot = id => ({
+const deleteTimeslot = (id, reason) => ({
   type: DELETE_TIMESLOT,
-  payload: { id },
+  payload: { id, reason },
 });
 
 /**
