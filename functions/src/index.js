@@ -150,12 +150,17 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
     const { profile: teacher } = teachers[0];
 
     const { profile: mentor } = await loadUserInfo(timeslot.mentorId);
-    // console.log(teachers);
 
     if (oldValue.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && newValue.status === TIMESLOT_STATUS_HAS_MENTOR) {
+      const approvedSnaps = await firestore.collection('timeslots')
+        .where('mentorId', '==', id)
+        .where('status', '==', TIMESLOT_STATUS_HAS_MENTOR)
+        .get();
+      const approvedTimeslotsCount = approvedSnaps.docs.length;
+
       // send email to mentor
       await sendEmail({
-        to: `${mentor.firstName} ${mentor.lasstName} <${mentor.email}>`,
+        to: `${mentor.firstName} ${mentor.lastName} <${mentor.email}>`,
         subject: 'Статус обраних уроків: підтверджено',
         html: renderTemplate('emails/mentor/timeslot-approved', {
           school,
@@ -167,7 +172,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
           url: `${functions.config().general.host}/schedule`,
-          approvedTimeslots: 'TODO',
+          approvedTimeslotsCount,
         })
       });
 
