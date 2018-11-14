@@ -25,8 +25,6 @@ const Map = compose(
     // defaultCenter={props.defaultCenter}
     // options={props.options}
     {...props}
-    // onCenterChanged={data => console.log('onCenterChanged', data)}
-    // onBoundsChanged={data => console.log('onBoundsChanged', data)}
   >
     {children}
   </GoogleMap>

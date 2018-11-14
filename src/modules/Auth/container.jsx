@@ -45,7 +45,6 @@ class Auth extends React.Component {
   };
 
   handleEmailPasswordLogin = (formData) => {
-    // console.log(formData);
     const { onSignIn } = this.props;
     onSignIn(SIGNIN_EMAILPASSWORD_PROVIDER, {
       email: formData.email,
