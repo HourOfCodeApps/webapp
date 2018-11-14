@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = {
   root: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    height: '200px',
+    minHeight: '150px',
+    height: '100%',
     width: '100%',
-    backgroundColor: theme.palette.background.default,
+    // backgroundColor: theme.palette.background.default,
   },
-});
+};
 
 const AppLoading = ({ classes }) => (
   <div className={classes.root}>

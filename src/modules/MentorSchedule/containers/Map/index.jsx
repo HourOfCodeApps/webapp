@@ -59,7 +59,7 @@ class Schedule extends React.Component {
 
     return (
       <React.Fragment>
-        <div style={{ height: 400 }}>
+        <div style={{ height: 300 }}>
           {userLocationFetching && <Loading />}
           {!userLocationFetching && (
             <Map
@@ -69,6 +69,65 @@ class Schedule extends React.Component {
               options={{
                 // disableDefaultUI: true,
                 // draggable: false,
+                styles: [
+                  {
+                    featureType: 'poi.attraction',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.business',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.government',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.medical',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.park',
+                    elementType: 'labels',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.place_of_worship',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                  {
+                    featureType: 'poi.sports_complex',
+                    stylers: [
+                      {
+                        visibility: 'off',
+                      },
+                    ],
+                  },
+                ],
               }}
               // onCenterChanged={data => console.log('onCenterChanged', data)}
               onBoundsChanged={handleBoundsChanged}
