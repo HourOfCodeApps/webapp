@@ -129,7 +129,6 @@ class Schedule extends React.Component {
                   },
                 ],
               }}
-              // onCenterChanged={data => console.log('onCenterChanged', data)}
               onBoundsChanged={handleBoundsChanged}
             >
               {userLocation && (

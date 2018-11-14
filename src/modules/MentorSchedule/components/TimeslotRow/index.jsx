@@ -29,7 +29,6 @@ const renderStatus = (timeslot) => {
     return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
   }
 
-  console.log(timeslot);
   if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) {
     return <span style={{ color: 'blue' }}>Підтверджено</span>;
   }
