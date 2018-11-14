@@ -87,6 +87,7 @@ class Schedule extends React.Component {
         myTimeslotsBySchool,
         myTimeslotsFetching,
         myTimeslotsFetchingError,
+        timeslotCanceling,
       },
     } = this;
     console.log(myTimeslotsBySchool);
@@ -135,6 +136,7 @@ class Schedule extends React.Component {
             confirmLabel="Так"
             cancelLabel="Ні"
             title="Ви впевнені, що хочете відмінити цей урок?"
+            loading={timeslotCanceling}
           />
         )}
       </React.Fragment>

@@ -140,6 +140,7 @@ class Schedule extends React.Component {
         timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
+        timeslotDeleting,
         user,
       },
     } = this;
@@ -188,6 +189,7 @@ class Schedule extends React.Component {
             confirmLabel="Так"
             cancelLabel="Ні"
             title="Ви впевнені, що хочете видалити цей урок?"
+            loading={timeslotDeleting}
           />
         )}
       </React.Fragment>

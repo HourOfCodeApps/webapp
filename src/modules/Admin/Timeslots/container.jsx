@@ -96,6 +96,7 @@ class Timeslots extends React.Component {
         onApproveTimeslots,
         onDeleteTimeslots,
         schoolsMap: schools,
+        timeslotDeleting,
       },
     } = this;
 
@@ -145,6 +146,7 @@ class Timeslots extends React.Component {
             confirmLabel="Так"
             cancelLabel="Ні"
             title="Ви впевнені, що хочете видалити цей урок?"
+            loading={timeslotDeleting}
           />
         )}
       </React.Fragment>

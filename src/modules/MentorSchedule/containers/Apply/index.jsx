@@ -199,7 +199,7 @@ class Schedule extends React.Component {
               Вибери школу та урок
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              Урок триває 45 хвилин, якщо ти раптом забув. Рекомендації як провести Годину Коду тут
+              Урок триває 45 хвилин. Рекомендації як провести Годину Коду тут
             </Typography>
           </Grid>
           <Grid item xs={12} md={3}>
@@ -219,8 +219,6 @@ class Schedule extends React.Component {
         <Grid container style={{ marginBottom: 20 }}>
           <Grid item xs={12} md={8}>
             Знайти школу поблизу
-            <br />
-            <span onClick={handleMapToggle}>Карта</span>
           </Grid>
           <Grid item xs={12} md={4}>
             <Range
