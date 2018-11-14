@@ -403,7 +403,7 @@ const userCleanup = functions.auth.user().onDelete(async (user) => {
   await firestore.collection('users').doc(uid).delete();
 });
 
-const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
+const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, context) => {
   const uid = context.auth.uid;
 
   const timeslotSnap = await firestore.collection('timeslots').doc(timeslotId).get();
@@ -428,6 +428,7 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
         html: renderTemplate('emails/mentor/admin-deleted-timeslot', {
           school,
           mentor: mentorUserRecord,
+          reason,
           timeslot: {
             ...timeslot,
             startTime: timeslot.startTime.toDate(),
@@ -457,6 +458,7 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
           html: renderTemplate('emails/teacher/admin-deleted-timeslot', {
             school,
             teacher: teacherUserRecord,
+            reason,
             timeslot: {
               ...timeslot,
               startTime: timeslot.startTime.toDate(),
@@ -485,6 +487,7 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
         html: renderTemplate('emails/mentor/teacher-deleted-timeslot', {
           school,
           mentor: mentorUserRecord,
+          reason,
           timeslot: {
             ...timeslot,
             startTime: timeslot.startTime.toDate(),
@@ -501,6 +504,7 @@ const deleteTimeslot = functions.https.onCall(async (timeslotId, context) => {
           school,
           mentor: mentorUserRecord,
           teacher: teacherUserRecord,
+          reason,
           timeslot: {
             ...timeslot,
             startTime: timeslot.startTime.toDate(),

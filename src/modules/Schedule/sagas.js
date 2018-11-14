@@ -55,10 +55,10 @@ function* createTimeslot({ payload: { data } }) {
   }
 }
 
-function* deleteTimeslot({ payload: { id } }) {
+function* deleteTimeslot({ payload: { id, reason } }) {
   try {
     const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
-    yield deleteTimeslotsCallable(id);
+    yield deleteTimeslotsCallable({ timeslotId: id, reason });
 
     yield put(deleteTimeslotSuccess());
   } catch (error) {

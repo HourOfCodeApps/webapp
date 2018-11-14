@@ -115,9 +115,9 @@ class Schedule extends React.Component {
     deleteTimeslotId: null,
   });
 
-  handleDeleteTimeslotConfirm = () => {
+  handleDeleteTimeslotConfirm = (reason) => {
     const { deleteTimeslotId: timeslotId } = this.state;
-    this.props.onDeleteTimeslot(timeslotId);
+    this.props.onDeleteTimeslot(timeslotId, reason);
   }
 
   handleChangeDay = (ev, day) => {
@@ -190,6 +190,8 @@ class Schedule extends React.Component {
             cancelLabel="Ні"
             title="Ви впевнені, що хочете видалити цей урок?"
             loading={timeslotDeleting}
+            question="Вкажіть причину"
+            danger
           />
         )}
       </React.Fragment>
