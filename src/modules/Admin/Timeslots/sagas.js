@@ -69,21 +69,6 @@ function* deleteTimeslot({ payload: { timeslotId } }) {
     const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
     yield deleteTimeslotsCallable(timeslotId);
 
-    // console.log(response);
-    // const response = firebas
-    // const collection = firebase.firestore().collection('timeslots');
-    // const timeslots = yield Promise.all(
-    //   timeslotIds.map(id => firebase.firestore().collection('timeslots').doc(id).get()),
-    // );
-
-    // const existingTimeslots = timeslots.filter(t => t.exists);
-
-    // const batch = firebase.firestore().batch();
-    // existingTimeslots.forEach(t => batch.update(collection.doc(t.id), { status: TIMESLOT_STATUS_APPROVED }));
-
-    // yield batch.commit();
-
-
     yield put(deleteTimeslotSuccess());
   } catch (error) {
     yield put(deleteTimeslotFailure(error));

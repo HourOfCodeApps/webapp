@@ -48,37 +48,6 @@ const renderStatus = (timeslot) => {
   return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
 };
 
-// const renderStatus = (timeslot) => {
-//   if (!timeslot.status || timeslot.status === TIMESLOT_STATUS_NEEDS_APPROVE) {
-//     return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
-//   }
-
-//   if (timeslot.status === TIMESLOT_STATUS_NEEDS_MENTOR) {
-//     return <span style={{ color: 'green' }}>Очікує ментора</span>;
-//   }
-
-//   if (
-//     timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
-//   ) {
-//     return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
-//   }
-
-//   console.log(timeslot);
-//   if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) {
-//     return <span style={{ color: 'blue' }}>Підтверджено</span>;
-//   }
-
-//   if (timeslot.status === TIMESLOT_STATUS_REJECTED) {
-//     return <span style={{ color: 'red' }}>Відхилено</span>;
-//   }
-
-//   // if (timeslot.mentorId && timeslot.mentor) {
-//   //   return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
-//   // }
-
-//   return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
-// };
-
 class Timeslot extends React.Component {
   handleApprove = () => {
     this.props.onApprove(this.props.timeslot.id);
