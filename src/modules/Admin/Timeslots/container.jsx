@@ -74,9 +74,9 @@ class Timeslots extends React.Component {
     deleteTimeslotId: null,
   });
 
-  handleDeleteTimeslotConfirm = () => {
+  handleDeleteTimeslotConfirm = (reason) => {
     const { deleteTimeslotId } = this.state;
-    this.props.onDeleteTimeslot(deleteTimeslotId);
+    this.props.onDeleteTimeslot(deleteTimeslotId, reason);
   }
 
   render() {
@@ -147,6 +147,8 @@ class Timeslots extends React.Component {
             cancelLabel="Ні"
             title="Ви впевнені, що хочете видалити цей урок?"
             loading={timeslotDeleting}
+            question="Вкажіть причину"
+            danger
           />
         )}
       </React.Fragment>
