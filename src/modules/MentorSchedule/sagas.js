@@ -106,7 +106,7 @@ function* cancelTimeslot({ payload: { id } }) {
         }
 
         // var newPopulation = sfDoc.data().population + 1;
-        return transaction.update(timeslotRef, { mentorId: null });
+        return transaction.update(timeslotRef, { mentorId: null, status: TIMESLOT_STATUS_NEEDS_MENTOR });
       }));
 
     // const updatedSnapshot = yield timeslotRef.get();
