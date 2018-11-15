@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import Mentors,
 {
+  Mentor,
   reducer as mentorsReducer,
   sagas as mentorsSagas,
 } from './Mentors';
@@ -23,6 +24,7 @@ export const sagas = [
 ];
 
 export {
+  Mentor,
   Mentors,
   Timeslots,
 };
