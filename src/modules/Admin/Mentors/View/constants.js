@@ -1,0 +1,7 @@
+export const FETCH_MENTOR = 'app/Admin/Mentors/FETCH_MENTOR';
+export const FETCH_MENTOR_FAILURE = 'app/Admin/Mentors/FETCH_MENTOR_FAILURE';
+export const FETCH_MENTOR_SUCCESS = 'app/Admin/Mentors/FETCH_MENTOR_SUCCESS';
+
+export const FETCH_MENTOR_TIMESLOTS = 'app/Admin/Mentors/FETCH_MENTOR_TIMESLOTS';
+export const FETCH_MENTOR_TIMESLOTS_FAILURE = 'app/Admin/Mentors/FETCH_MENTOR_TIMESLOTS_FAILURE';
+export const FETCH_MENTOR_TIMESLOTS_SUCCESS = 'app/Admin/Mentors/FETCH_MENTOR_TIMESLOTS_SUCCESS';
