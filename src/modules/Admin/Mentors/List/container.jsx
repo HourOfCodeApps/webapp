@@ -49,7 +49,7 @@ class Mentors extends React.Component {
             <Table>
               <TableHead>
                 <TableRow selected>
-                  <TableCell>Ім'я</TableCell>
+                  <TableCell>Ім&apos;я</TableCell>
                   <TableCell>Пошта</TableCell>
                   <TableCell>Телефон</TableCell>
                   <TableCell number>Кількість уроків</TableCell>
