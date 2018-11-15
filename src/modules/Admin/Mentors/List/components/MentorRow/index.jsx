@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -14,9 +15,11 @@ const MentorRow = ({ mentor }) => (
     }}
   >
     <TableCell>
-      {mentor.profile.firstName}
-      &nbsp;
-      {mentor.profile.lastName}
+      <Link to={`/mentor/${mentor.uid}`}>
+        {mentor.profile.firstName}
+        &nbsp;
+        {mentor.profile.lastName}
+      </Link>
     </TableCell>
     <TableCell>
       {mentor.profile.email}

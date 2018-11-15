@@ -23,6 +23,7 @@ import Schedule from 'modules/Schedule';
 import MentorSchedule, { MentorScheduleApply } from 'modules/MentorSchedule';
 import Profile from 'modules/Profile';
 import {
+  Mentor as AdminMentor,
   Mentors as AdminMentors,
   Timeslots as AdminTimeslots,
 } from 'modules/Admin';
@@ -80,6 +81,7 @@ const Private = ({ user }) => (
           <Route path="/teachers" exact component={Teachers} />,
           <Route path="/timeslots" exact component={AdminTimeslots} />,
           <Route path="/mentors" exact component={AdminMentors} />,
+          <Route path="/mentor/:id" exact component={AdminMentor} />,
         ]}
         {user.teacher && (
           <Route path="/" exact component={Schedule} />
