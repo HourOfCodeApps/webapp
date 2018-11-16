@@ -52,7 +52,11 @@ class Mentors extends React.Component {
                   <TableCell>Ім&apos;я</TableCell>
                   <TableCell>Пошта</TableCell>
                   <TableCell>Телефон</TableCell>
-                  <TableCell number>Кількість уроків</TableCell>
+                  <TableCell>
+                    Кількість уроків
+                    <br />
+                    (підтверджено / всього)
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
