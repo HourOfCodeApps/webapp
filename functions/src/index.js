@@ -44,6 +44,43 @@ const updateSchoolsTimeslotsCount = functions.firestore.document('timeslots/{tim
     }, { merge: true });
   });
 
+const updateMentorTimeslotsCount = functions.firestore.document('timeslots/{timeslotId}')
+  .onWrite(async (change, context) => {
+    const oldValue = change.before.exists ? change.before.data() : null;
+    const newValue = change.after.exists ? change.after.data() : null;
+
+    const mentorId = (oldValue && oldValue.mentorId) || (newValue && newValue.mentorId);
+    console.log('mentorId', mentorId);
+
+    if (!mentorId) {
+      return;
+    }
+
+    const statuses = [
+      TIMESLOT_STATUS_HAS_MENTOR,
+      TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
+    ];
+
+    if (
+      (oldValue && statuses.includes(oldValue.status))
+      || (newValue && statuses.includes(newValue.status))
+    ) {
+      const mentorRef = firestore.collection('mentors').doc(mentorId);
+      const query = firestore.collection('timeslots').where('mentorId', '==', mentorId);
+
+      await firestore.runTransaction(async (transaction) => {
+        const slots = await transaction.get(query);
+
+        return transaction.update(mentorRef, {
+          timeslotsCount: slots.docs.length,
+          approvedTimeslotsCount: slots.docs
+            .filter(d => d.get('status') === 20)
+            .length
+        });
+      });
+    }
+  });
+
 const emailTeacherApproved = functions.firestore.document('teachers/{uid}')
   .onUpdate(async (change, context) => {
     const newValue = change.after.data();
@@ -703,4 +740,5 @@ export {
   userCleanup,
   deleteTimeslot,
   discardTimeslot,
+  updateMentorTimeslotsCount,
 };

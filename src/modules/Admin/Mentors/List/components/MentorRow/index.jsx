@@ -27,7 +27,11 @@ const MentorRow = ({ mentor }) => (
     <TableCell>
       {mentor.profile.phone}
     </TableCell>
-    <TableCell number />
+    <TableCell>
+      {mentor.mentor.approvedTimeslotsCount || 0}
+      &nbsp;/&nbsp;
+      {mentor.mentor.timeslotsCount || 0}
+    </TableCell>
   </TableRow>
 );
 
