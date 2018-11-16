@@ -22,7 +22,7 @@ import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
 import Range from 'shared/components/Range';
-
+import Loading from 'shared/components/Loading';
 
 import {
   applyTimeslot,
@@ -254,7 +254,7 @@ class Schedule extends React.Component {
           </Tabs>
         </AppBar>
 
-        {timeslotsFetching && <div>Loading</div>}
+        {timeslotsFetching && <Loading />}
 
         {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
 

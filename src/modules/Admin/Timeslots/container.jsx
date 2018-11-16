@@ -105,7 +105,7 @@ class Timeslots extends React.Component {
         <Typography variant="display1" gutterBottom>
           Уроки
         </Typography>
-        {timeslotsFetching && <div>Loading</div>}
+        {timeslotsFetching && <Loading />}
 
         {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
 

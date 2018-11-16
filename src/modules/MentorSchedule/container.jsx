@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 
 import { withSchools } from 'modules/Schools';
 
@@ -116,7 +117,7 @@ class Schedule extends React.Component {
           </Grid>
         </Grid>
 
-        {myTimeslotsFetching && <div>Loading</div>}
+        {myTimeslotsFetching && <Loading />}
 
         {myTimeslotsFetchingError && <div>{myTimeslotsFetchingError.message}</div>}
 
