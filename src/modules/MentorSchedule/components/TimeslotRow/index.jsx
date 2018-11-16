@@ -58,7 +58,7 @@ class Timeslot extends React.Component {
     return (
       <TableRow>
         <TableCell>
-          {DateTime.fromJSDate(timeslot.startTime).toLocaleString(DateTime.TIME_24_SIMPLE)}
+          {DateTime.fromJSDate(timeslot.startTime).toFormat('dd LLL yyyy, HH:mm')}
         </TableCell>
         <TableCell>{timeslot.class}</TableCell>
         <TableCell>{timeslot.pupilsCount}</TableCell>
