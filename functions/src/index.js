@@ -208,7 +208,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
           approvedTimeslotsCount,
         })
       });
@@ -228,7 +228,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
                 startTime: timeslot.startTime.toDate(),
                 startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
               },
-              url: `${functions.config().general.host}/schedule`,
+              url: `${functions.config().general.host}`,
             })
           }),
         ),
@@ -335,7 +335,7 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
                   startTime: newValue.startTime.toDate(),
                   startTimeFormatted: DateTime.fromJSDate(newValue.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
                 },
-                url: `${functions.config().general.host}/schedule`,
+                url: `${functions.config().general.host}`,
               })
             }),
           ),
@@ -476,7 +476,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
         })
       });
     }
@@ -506,7 +506,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
               startTime: timeslot.startTime.toDate(),
               startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
             },
-            url: `${functions.config().general.host}/schedule`,
+            url: `${functions.config().general.host}`,
           })
         }),
       ),
@@ -535,7 +535,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
         })
       });
 
@@ -591,7 +591,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
     //         startTime: timeslot.startTime.toDate(),
     //         startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
     //       },
-    //       url: `${functions.config().general.host}/schedule`,
+    //       url: `${functions.config().general.host}`,
     //     })
     //   });
     // }
@@ -620,7 +620,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
     //           startTime: timeslot.startTime.toDate(),
     //           startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
     //         },
-    //         url: `${functions.config().general.host}/schedule`,
+    //         url: `${functions.config().general.host}`,
     //       })
     //     }),
     //   ),
@@ -663,7 +663,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
                 startTime: timeslot.startTime.toDate(),
                 startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
               },
-              url: `${functions.config().general.host}/schedule`,
+              url: `${functions.config().general.host}`,
             })
           }),
         ),
