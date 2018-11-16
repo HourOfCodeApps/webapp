@@ -106,12 +106,11 @@ class Schedule extends React.Component {
       if (this.props.timeslotApplyingError) {
         toast.error(this.props.timeslotApplyingError.message);
       } else {
-        toast.success('Урок успішно створено');
+        toast.success('Вашу заявку прийнято!');
 
         this.props.onFetchMyTimeslots();
         this.handleLoadDay();
       }
-      // this.handleApplyCancel();
     }
 
     if (

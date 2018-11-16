@@ -52,7 +52,7 @@ class Schedule extends React.Component {
       if (this.props.timeslotCancelingError) {
         toast.error(this.props.timeslotCancelingError.message);
       } else {
-        toast.success('Урок успішно відмінено');
+        toast.success('Вашу заявку успішно відмінено!');
 
         this.props.onFetchMyTimeslots();
       }
@@ -135,7 +135,7 @@ class Schedule extends React.Component {
             onConfirm={handleCancelTimeslotConfirm}
             confirmLabel="Так"
             cancelLabel="Ні"
-            title="Ви впевнені, що хочете відмінити цей урок?"
+            title="Ви впевнені, що хочете відмінити заявку на цей урок?"
             loading={timeslotCanceling}
             question="Вкажіть причину"
             danger
