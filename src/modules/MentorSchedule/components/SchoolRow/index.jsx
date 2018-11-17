@@ -38,7 +38,7 @@ class SchoolRow extends React.Component {
           {school.name}
         </Typography>
         <Typography variant="body" gutterBottom>
-          {school.teacher.phone} {school.teacher.firstName} {school.teacher.lastName}, {school.city} {school.addressStreet} {school.addressBuilding}
+          {school.teacher.phone} {school.teacher.firstName} {school.teacher.lastName}, {school.city} {school.addressStreet}, {school.addressBuilding}
         </Typography>
         <Paper>
           <Table>

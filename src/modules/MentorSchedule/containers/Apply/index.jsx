@@ -80,6 +80,11 @@ const days = [
   '2018-12-08',
 ];
 
+const dayLabels = days.reduce((acc, curr) => ({
+  ...acc,
+  [curr]: DateTime.fromISO(curr).setLocale('uk').toFormat('EEEE, dd MMMM'),
+}), {});
+
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -248,7 +253,7 @@ class Schedule extends React.Component {
               <Tab
                 value={day}
                 // label={`${day} (${(timeslotsByDays[day] || []).length})`}
-                label={day}
+                label={dayLabels[day]}
                 key={day}
               />
             ))}
