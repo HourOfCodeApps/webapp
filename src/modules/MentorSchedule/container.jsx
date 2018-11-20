@@ -32,6 +32,7 @@ import {
   // selectTimeslotCreatingError,
   selectTimeslotCanceling,
   selectTimeslotCancelingError,
+  selectMyTimeslotsGrouped,
 } from './selectors';
 
 import SchoolRow from './components/SchoolRow';
@@ -85,6 +86,7 @@ class Schedule extends React.Component {
       },
       props: {
         schoolsMap,
+        myTimeslotsGrouped,
         myTimeslotsBySchool,
         myTimeslotsFetching,
         myTimeslotsFetchingError,
@@ -100,7 +102,9 @@ class Schedule extends React.Component {
               Обрані уроки
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              Урок триває 45 хвилин, якщо ти раптом забув. Рекомендації як провести Годину Коду тут
+              Урок триває 45 хвилин, якщо ти раптом забув. Рекомендації як провести Годину Коду
+              &nbsp;
+              <a href="https://docs.google.com/document/d/1AXSIO9AG9KXh-PUdTZa8v-xzWJXhy0SdQPP0Abnz0PU/edit">тут</a>
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -121,10 +125,19 @@ class Schedule extends React.Component {
 
         {myTimeslotsFetchingError && <div>{myTimeslotsFetchingError.message}</div>}
 
-        {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
+        {/* {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
           <SchoolRow
             school={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].school) || {}}
             timeslots={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].timeslots) || []}
+            onCancelTimeslot={handleCancelClick}
+          />
+        ))} */}
+
+        {!myTimeslotsFetching && !myTimeslotsFetchingError && myTimeslotsGrouped.map(group => (
+          <SchoolRow
+            date={group.date}
+            school={group.school || {}}
+            timeslots={group.timeslots || []}
             onCancelTimeslot={handleCancelClick}
           />
         ))}
@@ -176,6 +189,7 @@ const mapStateToProps = createSelector(
   // selectTimeslotsFetching(),
   // selectTimeslotsFetchingError(),
   selectMyTimeslots(),
+  selectMyTimeslotsGrouped(),
   selectMyTimeslotsBySchool(),
   selectMyTimeslotsFetching(),
   selectMyTimeslotsFetchingError(),
@@ -185,6 +199,7 @@ const mapStateToProps = createSelector(
     timeslotCanceling,
     timeslotCancelingError,
     myTimeslots,
+    myTimeslotsGrouped,
     myTimeslotsBySchool,
     myTimeslotsFetching,
     myTimeslotsFetchingError,
@@ -195,6 +210,7 @@ const mapStateToProps = createSelector(
     timeslotCanceling,
     timeslotCancelingError,
     myTimeslots,
+    myTimeslotsGrouped,
     myTimeslotsBySchool,
     myTimeslotsFetching,
     myTimeslotsFetchingError,

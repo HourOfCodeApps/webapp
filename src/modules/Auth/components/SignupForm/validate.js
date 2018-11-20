@@ -5,7 +5,7 @@ const validate = (values) => {
   const errors = {};
 
   if (!values.role) {
-    errors.role = 'Required';
+    errors.role = 'Обов\'язково';
   }
 
   if (!values.firstName) {
@@ -17,11 +17,15 @@ const validate = (values) => {
   }
 
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = 'Обов\'язково';
   }
 
   if (values.email && !isEmail(values.email)) {
-    errors.email = 'Invalid email address';
+    errors.email = 'Некоректна поштова скринька';
+  }
+
+  if (!values.password) {
+    errors.password = 'Обов\'язково';
   }
 
   if (!values.phone) {
@@ -34,6 +38,10 @@ const validate = (values) => {
 
   if (!values.school) {
     errors.school = 'Required';
+  }
+
+  if (!values.policyAgreed) {
+    errors.policyAgreed = 'Обов\'язково';
   }
 
   return errors;

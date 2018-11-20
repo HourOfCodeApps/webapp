@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import Map, { Marker, MarkerClusterer } from 'shared/components/Map';
+import Map, { InfoWindow, Marker, MarkerClusterer } from 'shared/components/Map';
 import Loading from 'shared/components/Loading';
 
 import PersonPin from 'assets/img/person-pin.svg';
+import RedPin from 'assets/img/pin-red.svg';
+import GreenPin from 'assets/img/pin-green.svg';
 
 import {
   getUserGeolocation,
@@ -28,6 +30,10 @@ const getCenter = (userLocation) => {
 
 
 class Schedule extends React.Component {
+  state = {
+    hoveredPin: null,
+  };
+
   componentDidMount() {
     this.props.onGetUserGeolocation();
   }
@@ -44,14 +50,33 @@ class Schedule extends React.Component {
     this.props.onBoundsChanged(bounds.getSouthWest().toJSON(), bounds.getNorthEast().toJSON());
   }
 
+  handleMouseOver = id => () => {
+    // this.props.onHover(id);
+    this.setState({ hoveredPin: id });
+  }
+
+  handleMouseOut = () => {
+    this.setState({ hoveredPin: null });
+  }
+
   render() {
     const {
       handleBoundsChanged,
+      handleMouseOver,
+      handleMouseOut,
       setMapRef,
       props: {
+        schoolIds,
+        schoolsMap,
         timeslots,
+        timeslotsBySchool,
         userLocation,
         userLocationFetching,
+        zoom,
+        hoveredPin: highlightedPin,
+      },
+      state: {
+        hoveredPin,
       },
     } = this;
 
@@ -65,8 +90,11 @@ class Schedule extends React.Component {
             <Map
               forwardedRef={setMapRef}
               defaultCenter={getCenter(userLocation)}
-              defaultZoom={15}
+              // defaultZoom={zoom}
+              zoom={zoom}
               options={{
+                // maxZoom: zoom,
+                gestureHandling: 'cooperative',
                 // disableDefaultUI: true,
                 // draggable: false,
                 styles: [
@@ -138,7 +166,39 @@ class Schedule extends React.Component {
                 />
               )}
 
-              <MarkerClusterer
+              {(schoolIds || []).map(id => schoolsMap[id]).filter(v => v).map(school => (
+                <Marker
+                  key={school.id}
+                  position={{ lat: school.latitude, lng: school.longitude }}
+                  onMouseOver={handleMouseOver(school.id)}
+                  onMouseOut={handleMouseOver(null)}
+                  label={timeslotsBySchool[school.id].length.toString()}
+                  icon={{
+                    labelOrigin: { x: 13.75, y: 15 },
+                    url: (hoveredPin === school.id || highlightedPin === school.id) ? GreenPin : RedPin,
+                  }}
+                >
+                  {/* {this.state.hoveredPin === school.id && ( */}
+                  {hoveredPin === school.id && (
+                    <InfoWindow>
+                      <div>
+                        <div>{school.name}</div>
+                        <p>
+                          {school.addressStreet}
+                          ,&nbsp;
+                          {school.addressBuilding}
+                        </p>
+                        <div>
+                          Доступних уроків:&nbsp;
+                          {timeslotsBySchool[school.id].length}
+                        </div>
+                      </div>
+                    </InfoWindow>
+                  )}
+                </Marker>
+              ))}
+
+              {/* <MarkerClusterer
                 // onClick={props.onMarkerClustererClick}
                 averageCenter
                 enableRetinaIcons
@@ -151,7 +211,7 @@ class Schedule extends React.Component {
                     position={{ lat: t.geo.latitude, lng: t.geo.longitude }}
                   />
                 ))}
-              </MarkerClusterer>
+              </MarkerClusterer> */}
             </Map>
           )}
         </div>

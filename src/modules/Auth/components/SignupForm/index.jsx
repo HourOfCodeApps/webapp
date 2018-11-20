@@ -56,6 +56,22 @@ const SignupForm = (
       required
       type="password"
     />
+
+    <Field
+      component={CheckBoxField}
+      label={(
+        <p>
+          Реєструючись на сайті Ви погоджуєтеся з його&nbsp;
+          <a href="https://docs.google.com/document/d/19r8X00ld8fIJCXf9LNDaywiXSZM97UAQX93sodZCJCs">Правилами користування</a>
+          &nbsp;та&nbsp;
+          <a href="https://docs.google.com/document/d/1uBtF7_TPH9KZBxMbFtFKKGORXCDkG0wQF2bBDm9Mbak">Політикою приватності</a>
+        </p>
+      )}
+      name="policyAgreed"
+      required
+      color="primary"
+    />
+
     {formError && (
       <FlexBox margin="10px 0 10px 0">
         <HeadingSm error fontSize="14px">{formError.message}</HeadingSm>

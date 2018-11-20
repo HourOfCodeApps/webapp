@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
+import { withStyles } from '@material-ui/core/styles';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,13 +19,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import TimeslotRow from '../TimeslotRow';
 
+const styles = {
+  selected: {
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  },
+};
+
 class School extends React.Component {
   static propTypes = {
+    selected: PropTypes.bool,
     school: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
     timeslots: PropTypes.instanceOf(Array).isRequired,
     onApply: PropTypes.func.isRequired,
+    onHover: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    selected: false,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -43,11 +56,27 @@ class School extends React.Component {
     return false;
   }
 
+  hoverOn = () => {
+    this.props.onHover(this.props.school.id);
+  }
+
+  hoverOff = () => {
+    this.props.onHover(null);
+  }
+
   render() {
-    const { school, timeslots, onApply } = this.props;
+    const {
+      classes, school, selected, timeslots, onApply,
+    } = this.props;
 
     return (
-      <ExpansionPanel>
+      <ExpansionPanel
+        onMouseEnter={this.hoverOn}
+        onMouseLeave={this.hoverOff}
+        classes={{
+          root: selected && classes.selected,
+        }}
+      >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>{school.name}</Typography>
         </ExpansionPanelSummary>
@@ -78,4 +107,4 @@ class School extends React.Component {
   }
 }
 
-export default School;
+export default withStyles(styles)(School);

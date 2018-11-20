@@ -21,6 +21,7 @@ import {
 const initialState = {
   myTimeslots: [],
   myTimeslotsByDays: {},
+  myTimeslotsGrouped: [],
   myTimeslotsBySchool: [],
   myTimeslotsFetching: false,
   myTimeslotsFetchingError: null,
@@ -141,6 +142,35 @@ const reducer = (state = initialState, action) => {
       };
 
     case FETCH_MY_TIMESLOTS_SUCCESS: {
+      // const group = {
+      //   groupId: date-schoolId,
+      //   schoolId,
+      //   startTime
+      // }
+
+
+      const timeslotsGrouped = action.payload.timeslots.slice()
+        .reduce((acc, curr) => {
+          const groupId = `${curr.date}-${curr.schoolId}`;
+          const group = acc[groupId] || {
+            date: curr.date,
+            schoolId: curr.schoolId,
+            school: curr.school,
+            startTime: curr.startTime,
+            timeslots: [],
+          };
+
+          group.timeslots.push(curr);
+          group.startTime = group.startTime < curr.startTime ? group.startTime : curr.startTime;
+          // console.log(group.startTime - curr.startTime);
+
+          return { ...acc, [groupId]: group };
+        }, {});
+
+      // console.log(timeslotsGrouped);
+      // console.log(Object.values(timeslotsGrouped));
+
+
       const myTimeslotsByDays = action.payload.timeslots.slice()
         .reduce((acc, curr) => {
           const day = DateTime.fromJSDate(curr.startTime).toFormat('yyyy-MM-dd');
@@ -172,6 +202,8 @@ const reducer = (state = initialState, action) => {
         myTimeslotsBySchool,
         myTimeslotsByDays,
         myTimeslotsFetching: false,
+        myTimeslotsGrouped: Object.values(timeslotsGrouped)
+          .sort((a, b) => a.startTime - b.startTime),
       };
     }
 
