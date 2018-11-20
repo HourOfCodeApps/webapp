@@ -22,7 +22,9 @@ import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
 import Range from 'shared/components/Range';
+import Loading from 'shared/components/Loading';
 
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 import {
   applyTimeslot,
@@ -80,6 +82,11 @@ const days = [
   '2018-12-08',
 ];
 
+const dayLabels = days.reduce((acc, curr) => ({
+  ...acc,
+  [curr]: DateTime.fromISO(curr).setLocale('uk').toFormat('EEEE, dd MMMM'),
+}), {});
+
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -90,6 +97,9 @@ class Schedule extends React.Component {
       marks: pick(defaultMarks, [0, 16]),
       selectedDay: days[0],
       isMapShown: false,
+      zoom: 15,
+      autoZoomFinished: false,
+      selectedSchoolId: null,
     };
 
     this.handleLoadDayDebounced = debounce(this.handleLoadDay, 300);
@@ -106,12 +116,11 @@ class Schedule extends React.Component {
       if (this.props.timeslotApplyingError) {
         toast.error(this.props.timeslotApplyingError.message);
       } else {
-        toast.success('Урок успішно створено');
+        toast.success('Вашу заявку прийнято!');
 
         this.props.onFetchMyTimeslots();
         this.handleLoadDay();
       }
-      // this.handleApplyCancel();
     }
 
     if (
@@ -124,6 +133,20 @@ class Schedule extends React.Component {
     if (prevState.selectedDay !== this.state.selectedDay) {
       this.handleLoadDay();
     }
+
+    if (
+      prevProps.timeslotsFetching && !this.props.timeslotsFetching
+      && !this.props.timeslotsFetchingError
+    ) {
+      if (
+        !this.state.autoZoomFinished && this.state.zoom > 10
+        && Object.keys(this.props.timeslotsBySchool).length < 5
+      ) {
+        this.setState({ zoom: this.state.zoom - 1 });
+      } else {
+        this.setState({ autoZoomFinished: true });
+      }
+    }
   }
 
   handleLoadDay = () => {
@@ -133,6 +156,10 @@ class Schedule extends React.Component {
     const to = DateTime.fromISO(`${this.state.selectedDay}T${range[1]}`).toJSDate();
 
     this.props.onFetchTimeslots(from, to, { southWest, northEast });
+  }
+
+  handleSelectSchool = (id) => {
+    this.setState({ selectedSchoolId: id });
   }
 
   handleSubmit = (formData) => {
@@ -155,7 +182,7 @@ class Schedule extends React.Component {
   }
 
   handleChangeDay = (ev, day) => {
-    this.setState({ selectedDay: day });
+    this.setState({ selectedDay: day, zoom: 15, autoZoomFinished: false });
   }
 
   handleMapToggle = () => this.setState(({ isMapShown }) => ({ isMapShown: !isMapShown }));
@@ -176,9 +203,12 @@ class Schedule extends React.Component {
         selectedDay,
         timeRangeValue,
         marks,
+        zoom,
+        selectedSchoolId,
       },
       props: {
         schoolsMap,
+        timeslotApplying,
         timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
@@ -199,7 +229,9 @@ class Schedule extends React.Component {
               Вибери школу та урок
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              Урок триває 45 хвилин. Рекомендації як провести Годину Коду тут
+              Урок триває 45 хвилин. Рекомендації як провести Годину Коду
+              &nbsp;
+              <a href="https://docs.google.com/document/d/1AXSIO9AG9KXh-PUdTZa8v-xzWJXhy0SdQPP0Abnz0PU/edit">тут</a>
             </Typography>
           </Grid>
           <Grid item xs={12} md={3}>
@@ -218,7 +250,9 @@ class Schedule extends React.Component {
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
           <Grid item xs={12} md={8}>
-            Знайти школу поблизу
+            <Typography variant="subheading">
+              Знайти школу поблизу
+            </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
             <Range
@@ -234,37 +268,68 @@ class Schedule extends React.Component {
             />
           </Grid>
         </Grid>
-        {/* {isMapShown && ( */}
+
         <Map
           onBoundsChanged={handleBoundsChanged}
           timeslots={timeslots}
+          schoolIds={Object.keys(timeslotsBySchool)}
+          schoolsMap={schoolsMap}
+          timeslotsBySchool={timeslotsBySchool}
+          zoom={zoom}
+          hoveredPin={selectedSchoolId}
+          onHover={this.handleSelectSchool}
         />
-        {/* )} */}
 
         <AppBar position="static">
           <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
             {days.map(day => (
               <Tab
                 value={day}
-                // label={`${day} (${(timeslotsByDays[day] || []).length})`}
-                label={day}
+                label={dayLabels[day]}
                 key={day}
               />
             ))}
           </Tabs>
         </AppBar>
 
-        {timeslotsFetching && <div>Loading</div>}
+        {timeslotsFetching && (
+          <div style={{ height: 150 }}>
+            <Loading />
+          </div>
+        )}
 
         {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
 
-        {!timeslotsFetching && !timeslotsFetchingError && Object.keys(timeslotsBySchool).map(schoolId => (
+        {!timeslotsFetching && !timeslotsFetchingError && (
+          <React.Fragment>
+            {Object.keys(timeslotsBySchool).map(schoolId => (
+              <SchoolRow
+                school={schoolsMap[schoolId] || {}}
+                timeslots={timeslotsBySchool[schoolId] || []}
+                onApply={handleApply}
+                onHover={this.handleSelectSchool}
+                // isSelected={selectedSchoolId === schoolId}
+              />
+            ))}
+
+            {!Object.keys(timeslotsBySchool).length && (
+              <Typography variant="subheading">
+                Уроків на обраній території не знайдено.
+              </Typography>
+            )}
+
+          </React.Fragment>
+        )}
+
+        {timeslotApplying && <LoadingOverlay />}
+
+        {/* {!timeslotsFetching && !timeslotsFetchingError && Object.keys(timeslotsBySchool).map(schoolId => (
           <SchoolRow
             school={schoolsMap[schoolId] || {}}
             timeslots={timeslotsBySchool[schoolId] || []}
             onApply={handleApply}
           />
-        ))}
+        ))} */}
       </React.Fragment>
     );
   }

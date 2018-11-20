@@ -27,11 +27,11 @@ class SignUp extends React.Component {
   }
 
   handleSubmit = ({
-    email, password, role, wasMentorBefore,
+    email, password, role, wasMentorBefore, policyAgreed,
   }) => {
     const { onSignUp } = this.props;
     onSignUp({
-      email, password, role, wasMentorBefore,
+      email, password, role, wasMentorBefore, policyAgreed,
     });
   }
 

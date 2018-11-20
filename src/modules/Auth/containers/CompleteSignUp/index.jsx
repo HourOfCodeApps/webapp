@@ -7,6 +7,7 @@ import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import { withSchools } from 'modules/Schools';
 
@@ -95,9 +96,19 @@ class CompleteSignUp extends React.Component {
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <div>
-            Завершення реєстрації — Представник школи, будь ласка, введіть вірні дані
-          </div>
+          <Typography variant="title" align="center">
+            Завершення реєстрації
+          </Typography>
+          <Typography variant="subheading" align="center">
+            {initialValues.role && (
+              <React.Fragment>
+                {initialValues.role === 'mentor' ? 'Ментор' : 'Представник школи'}
+                , будь
+              </React.Fragment>
+            )}
+            {!initialValues.role && 'Будь'}
+            &nbsp;ласка, введіть вірні дані
+          </Typography>
           <CompleteSignUpForm
             initialValues={initialValues}
             // onSubmit={onCompleteSignUp}

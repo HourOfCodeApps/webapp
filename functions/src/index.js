@@ -14,6 +14,7 @@ import { sendEmailToAdmins } from './admin';
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_APPROVED,
+  TIMESLOT_STATUS_NEEDS_MENTOR,
   TIMESLOT_STATUS_HAS_MENTOR,
   TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
 } from './constants/timeslots';
@@ -96,7 +97,7 @@ const emailTeacherApproved = functions.firestore.document('teachers/{uid}')
     await sendEmail({
       to: userRecord.email,
       subject: 'Ваш доступ підтверджено',
-      text: 'Ваш доступ було підтверджено адміністратором',
+      // text: 'Ваш доступ було підтверджено адміністратором',
       html: renderTemplate('email-teacher-approved', {
         displayName: userRecord.displayName,
       })
@@ -190,7 +191,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
 
     if (oldValue.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && newValue.status === TIMESLOT_STATUS_HAS_MENTOR) {
       const approvedSnaps = await firestore.collection('timeslots')
-        .where('mentorId', '==', id)
+        .where('mentorId', '==', timeslot.mentorId)
         .where('status', '==', TIMESLOT_STATUS_HAS_MENTOR)
         .get();
       const approvedTimeslotsCount = approvedSnaps.docs.length;
@@ -208,7 +209,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
           approvedTimeslotsCount,
         })
       });
@@ -218,7 +219,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
         teachers.map(t => t.profile).map(
           t => sendEmail({
             to: `${t.firstName} ${t.lastName} <${t.email}>`,
-            subject: 'На ваш урок записався ментор!',
+            subject: 'На Ваш урок записався ментор!',
             html: renderTemplate('emails/teacher/timeslot-mentor-approved', {
               school,
               teacher: t,
@@ -228,7 +229,7 @@ const timeslotMentorApproved = functions.firestore.document('timeslots/{id}')
                 startTime: timeslot.startTime.toDate(),
                 startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
               },
-              url: `${functions.config().general.host}/schedule`,
+              url: `${functions.config().general.host}`,
             })
           }),
         ),
@@ -335,7 +336,7 @@ const timeslotUpdated = functions.firestore.document('timeslots/{id}')
                   startTime: newValue.startTime.toDate(),
                   startTimeFormatted: DateTime.fromJSDate(newValue.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
                 },
-                url: `${functions.config().general.host}/schedule`,
+                url: `${functions.config().general.host}`,
               })
             }),
           ),
@@ -466,7 +467,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
       const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
       await sendEmail({
         to: `${mentorUserRecord.displayName} <${mentorUserRecord.email}>`,
-        subject: 'Статус додавання уроків: видалено',
+        subject: 'Статус обраних уроків: відхилено',
         html: renderTemplate('emails/mentor/admin-deleted-timeslot', {
           school,
           mentor: mentorUserRecord,
@@ -476,7 +477,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
         })
       });
     }
@@ -496,7 +497,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
       teachers.map(
         teacherUserRecord => sendEmail({
           to: `${teacherUserRecord.displayName} <${teacherUserRecord.email}>`,
-          subject: 'Статус додавання уроків: видалено',
+          subject: 'Статус додавання уроків: відхилено',
           html: renderTemplate('emails/teacher/admin-deleted-timeslot', {
             school,
             teacher: teacherUserRecord,
@@ -506,7 +507,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
               startTime: timeslot.startTime.toDate(),
               startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
             },
-            url: `${functions.config().general.host}/schedule`,
+            url: `${functions.config().general.host}`,
           })
         }),
       ),
@@ -525,7 +526,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
 
       await sendEmail({
         to: `${mentorUserRecord.displayName} <${mentorUserRecord.email}>`,
-        subject: 'Статус додавання уроків: видалено',
+        subject: 'Статус обраних уроків: урок скасовано',
         html: renderTemplate('emails/mentor/teacher-deleted-timeslot', {
           school,
           mentor: mentorUserRecord,
@@ -535,7 +536,7 @@ const deleteTimeslot = functions.https.onCall(async ({ timeslotId, reason }, con
             startTime: timeslot.startTime.toDate(),
             startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
           },
-          url: `${functions.config().general.host}/schedule`,
+          url: `${functions.config().general.host}`,
         })
       });
 
@@ -591,7 +592,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
     //         startTime: timeslot.startTime.toDate(),
     //         startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
     //       },
-    //       url: `${functions.config().general.host}/schedule`,
+    //       url: `${functions.config().general.host}`,
     //     })
     //   });
     // }
@@ -620,7 +621,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
     //           startTime: timeslot.startTime.toDate(),
     //           startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
     //         },
-    //         url: `${functions.config().general.host}/schedule`,
+    //         url: `${functions.config().general.host}`,
     //       })
     //     }),
     //   ),
@@ -653,7 +654,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
           teacher => sendEmail({
             to: `${teacher.firstName} ${teacher.lastName} <${teacher.email}>`,
             subject: 'Ментор відхилив заявку',
-            html: renderTemplate('emails/admin/mentor-discarded-timeslot', {
+            html: renderTemplate('emails/teacher/mentor-discarded-timeslot', {
               school,
               mentor,
               reason,
@@ -663,7 +664,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
                 startTime: timeslot.startTime.toDate(),
                 startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
               },
-              url: `${functions.config().general.host}/schedule`,
+              url: `${functions.config().general.host}`,
             })
           }),
         ),
@@ -721,17 +722,18 @@ const applyTimeslot = functions.https.onCall(async (timeslotId, context) => {
     }
 
     if (docData.status !== TIMESLOT_STATUS_NEEDS_MENTOR) {
-      throw new functions.https.HttpsError('cant-apply', 'You can\'t apply at the moment!');
+      throw new functions.https.HttpsError('aborted', 'You can\'t apply at the moment!');
     }
 
     return transaction.update(timeslotRef, {
-      mentorId: user.uid,
+      mentorId: uid,
       status: TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
     });
   });
 });
 
 export {
+  applyTimeslot,
   emailTeacherApproved,
   emailTeacherNeedsApprove,
   timeslotUpdated,

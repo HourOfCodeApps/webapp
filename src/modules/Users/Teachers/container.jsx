@@ -10,8 +10,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
-import { withSchools } from 'modules/Schools';
 import { compose } from 'redux';
+
+import { withSchools } from 'modules/Schools';
+import Loading from 'shared/components/Loading';
 
 import {
   approveTeachers,
@@ -79,7 +81,7 @@ class Teachers extends React.Component {
     } = this;
 
     if (teachersFetching) {
-      return <div>Loading</div>;
+      return <Loading />;
     }
 
     if (teachersFetchingError) {

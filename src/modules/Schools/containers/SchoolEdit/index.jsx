@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 
 import Map, { Marker } from 'shared/components/Map';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 
 import {
   deleteSchool,
@@ -151,7 +152,7 @@ class School extends React.Component {
     }
 
     if (!school || schoolFetching) {
-      return <div>Loading</div>;
+      return <Loading />;
     }
 
     return (
