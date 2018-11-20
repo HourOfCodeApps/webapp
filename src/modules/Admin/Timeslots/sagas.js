@@ -79,6 +79,7 @@ function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .orderBy('status', 'asc')
+      .orderBy('schoolId', 'asc')
       // .limit(10)
       .get();
 

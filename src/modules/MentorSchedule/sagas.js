@@ -43,34 +43,13 @@ import {
 
 function* applyTimeslot({ payload: { timeslotId } }) {
   try {
+    const applyTimeslotCallable = firebase.functions().httpsCallable('applyTimeslot');
+    yield applyTimeslotCallable(timeslotId);
+
     const firestore = firebase.firestore();
-
-    const user = yield select(selectUser());
-
     const timeslotRef = firestore.collection('timeslots').doc(timeslotId);
 
-    yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
-      .then((doc) => {
-        if (!doc.exists) {
-          throw new Error('Document does not exist!');
-        }
-
-        const docData = doc.data();
-
-        if (docData.mentorId) {
-          throw new Error('Timeslot already has a mentor');
-        }
-
-        if (docData.status !== TIMESLOT_STATUS_NEEDS_MENTOR) {
-          throw new Error('You can\'t apply at the moment');
-        }
-
-        // var newPopulation = sfDoc.data().population + 1;
-        return transaction.update(timeslotRef, { mentorId: user.uid });
-      }));
-
     const updatedSnapshot = yield timeslotRef.get();
-
     const updatedTimeslot = { ...updatedSnapshot.data(), id: updatedSnapshot.id };
 
     yield put(applyTimeslotSuccess(updatedTimeslot));
@@ -83,42 +62,6 @@ function* cancelTimeslot({ payload: { id, reason } }) {
   try {
     const deleteTimeslotsCallable = firebase.functions().httpsCallable('discardTimeslot');
     yield deleteTimeslotsCallable({ timeslotId: id, reason });
-
-    // const firestore = firebase.firestore();
-
-    // const user = yield select(selectUser());
-
-    // const timeslotRef = firestore.collection('timeslots').doc(id);
-
-    // yield firestore.runTransaction(transaction => transaction.get(timeslotRef)
-    //   .then((doc) => {
-    //     if (!doc.exists) {
-    //       throw new Error('Timeslot does not exist!');
-    //     }
-
-    //     const docData = doc.data();
-
-    //     if (docData.mentorId !== user.uid) {
-    //       throw new Error('Timeslot isn\t your');
-    //     }
-
-    //     if (
-    //       docData.status !== TIMESLOT_STATUS_HAS_MENTOR
-    //       && docData.status !== TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
-    //     ) {
-    //       throw new Error('You can\'t cancel at the moment');
-    //     }
-
-    //     // var newPopulation = sfDoc.data().population + 1;
-    //     return transaction.update(timeslotRef, { mentorId: null, status: TIMESLOT_STATUS_NEEDS_MENTOR });
-    //   }));
-
-    // const updatedSnapshot = yield timeslotRef.get();
-
-    // const updatedTimeslot = { ...updatedSnapshot.data(), id: updatedSnapshot.id };
-
-
-    // yield firebase.firestore().collection('timeslots').doc(id).cancel();
 
     yield put(cancelTimeslotSuccess());
   } catch (error) {

@@ -12,7 +12,7 @@
     "lint": "eslint --ext .jsx,.js src",
     "prebuild": "rimraf ./dist",
     "start": "webpack-dev-server --config ./internals/webpack.config.js --mode development",
-    "start:prod": "NODE_ENV=production webpack-dev-server --config ./internals/webpack.config.js --mode development",
+    "start:prod": "NODE_ENV=production webpack-dev-server --config ./internals/webpack.config.js --mode production",
     "test": "jest"
   },
   "jest": {

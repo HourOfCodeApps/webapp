@@ -40,7 +40,7 @@ Map.propTypes = {
 };
 
 Map.defaultProps = {
-  defaultZoom: 8,
+  // defaultZoom: 8,
   defaultCenter: { lat: 0, lng: 0 },
   options: {},
 };

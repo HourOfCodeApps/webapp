@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 
 import { withSchools } from 'modules/Schools';
 
@@ -31,6 +32,7 @@ import {
   // selectTimeslotCreatingError,
   selectTimeslotCanceling,
   selectTimeslotCancelingError,
+  selectMyTimeslotsGrouped,
 } from './selectors';
 
 import SchoolRow from './components/SchoolRow';
@@ -51,7 +53,7 @@ class Schedule extends React.Component {
       if (this.props.timeslotCancelingError) {
         toast.error(this.props.timeslotCancelingError.message);
       } else {
-        toast.success('Урок успішно відмінено');
+        toast.success('Вашу заявку успішно відмінено!');
 
         this.props.onFetchMyTimeslots();
       }
@@ -84,6 +86,7 @@ class Schedule extends React.Component {
       },
       props: {
         schoolsMap,
+        myTimeslotsGrouped,
         myTimeslotsBySchool,
         myTimeslotsFetching,
         myTimeslotsFetchingError,
@@ -99,7 +102,9 @@ class Schedule extends React.Component {
               Обрані уроки
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              Урок триває 45 хвилин, якщо ти раптом забув. Рекомендації як провести Годину Коду тут
+              Урок триває 45 хвилин, якщо ти раптом забув. Рекомендації як провести Годину Коду
+              &nbsp;
+              <a href="https://docs.google.com/document/d/1AXSIO9AG9KXh-PUdTZa8v-xzWJXhy0SdQPP0Abnz0PU/edit">тут</a>
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -116,14 +121,23 @@ class Schedule extends React.Component {
           </Grid>
         </Grid>
 
-        {myTimeslotsFetching && <div>Loading</div>}
+        {myTimeslotsFetching && <Loading />}
 
         {myTimeslotsFetchingError && <div>{myTimeslotsFetchingError.message}</div>}
 
-        {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
+        {/* {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
           <SchoolRow
             school={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].school) || {}}
             timeslots={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].timeslots) || []}
+            onCancelTimeslot={handleCancelClick}
+          />
+        ))} */}
+
+        {!myTimeslotsFetching && !myTimeslotsFetchingError && myTimeslotsGrouped.map(group => (
+          <SchoolRow
+            date={group.date}
+            school={group.school || {}}
+            timeslots={group.timeslots || []}
             onCancelTimeslot={handleCancelClick}
           />
         ))}
@@ -134,7 +148,7 @@ class Schedule extends React.Component {
             onConfirm={handleCancelTimeslotConfirm}
             confirmLabel="Так"
             cancelLabel="Ні"
-            title="Ви впевнені, що хочете відмінити цей урок?"
+            title="Ви впевнені, що хочете відмінити заявку на цей урок?"
             loading={timeslotCanceling}
             question="Вкажіть причину"
             danger
@@ -175,6 +189,7 @@ const mapStateToProps = createSelector(
   // selectTimeslotsFetching(),
   // selectTimeslotsFetchingError(),
   selectMyTimeslots(),
+  selectMyTimeslotsGrouped(),
   selectMyTimeslotsBySchool(),
   selectMyTimeslotsFetching(),
   selectMyTimeslotsFetchingError(),
@@ -184,6 +199,7 @@ const mapStateToProps = createSelector(
     timeslotCanceling,
     timeslotCancelingError,
     myTimeslots,
+    myTimeslotsGrouped,
     myTimeslotsBySchool,
     myTimeslotsFetching,
     myTimeslotsFetchingError,
@@ -194,6 +210,7 @@ const mapStateToProps = createSelector(
     timeslotCanceling,
     timeslotCancelingError,
     myTimeslots,
+    myTimeslotsGrouped,
     myTimeslotsBySchool,
     myTimeslotsFetching,
     myTimeslotsFetchingError,

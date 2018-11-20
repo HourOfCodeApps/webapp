@@ -127,7 +127,7 @@ class School extends React.Component {
     }
 
     if (!school || schoolFetching) {
-      return <div>Loading</div>;
+      return <Loading />;
     }
 
     return (

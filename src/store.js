@@ -27,8 +27,11 @@ const reducer = combineReducers({
   users: usersReducer,
 });
 
-// ToDo: skip if prod
-const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose; // eslint-disable-line
+let composeEnhancers = compose;
+
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose; // eslint-disable-line
+}
 
 const sagaMiddleware = createSagaMiddleware();
 

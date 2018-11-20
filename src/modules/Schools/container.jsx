@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { toast } from 'react-toastify';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import Loading from 'shared/components/Loading';
 
 import {
   deleteSchool,
@@ -121,7 +122,7 @@ class Schools extends React.Component {
     } = this;
 
     if (schoolsFetching) {
-      return <div>Loading</div>;
+      return <Loading />;
     }
 
     if (schoolsFetchingError) {

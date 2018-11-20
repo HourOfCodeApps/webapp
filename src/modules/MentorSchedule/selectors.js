@@ -52,6 +52,11 @@ const selectMyTimeslots = () => createSelector(
   substate => substate.myTimeslots,
 );
 
+const selectMyTimeslotsGrouped = () => createSelector(
+  selectMentorScheduleDomain(),
+  substate => substate.myTimeslotsGrouped,
+);
+
 const selectMyTimeslotsBySchool = () => createSelector(
   selectMentorScheduleDomain(),
   substate => substate.myTimeslotsBySchool,
@@ -88,6 +93,7 @@ export {
   selectTimeslotCanceling,
   selectTimeslotCancelingError,
   selectTimeslots,
+  selectMyTimeslotsGrouped,
   selectTimeslotsByDays,
   selectTimeslotsBySchool,
   selectTimeslotsFetching,

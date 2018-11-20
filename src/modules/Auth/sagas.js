@@ -79,7 +79,7 @@ function* forgotPassword({ payload: { email } }) {
 function* signUp({ payload: { userData } }) {
   try {
     const {
-      email, password, role, wasMentorBefore,
+      email, password, role, wasMentorBefore, policyAgreed,
     } = userData;
     const result = yield firebase.auth().createUserWithEmailAndPassword(email, password);
 
@@ -94,6 +94,7 @@ function* signUp({ payload: { userData } }) {
 
     yield userDocRef.set({
       email,
+      policyAgreed,
     });
 
     if (role === 'mentor') {

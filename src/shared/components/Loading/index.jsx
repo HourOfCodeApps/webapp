@@ -12,6 +12,7 @@ const styles = {
     minHeight: '150px',
     height: '100%',
     width: '100%',
+    userSelect: 'none',
     // backgroundColor: theme.palette.background.default,
   },
 };
