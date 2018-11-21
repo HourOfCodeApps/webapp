@@ -1,4 +1,11 @@
 import {
+  TIMESLOT_STATUS_NEEDS_APPROVE,
+  TIMESLOT_STATUS_NEEDS_MENTOR,
+  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
+  TIMESLOT_STATUS_HAS_MENTOR,
+} from 'shared/constants/timeslots';
+
+import {
   APPROVE_TIMESLOTS,
   APPROVE_TIMESLOTS_FAILURE,
   APPROVE_TIMESLOTS_SUCCESS,
@@ -10,7 +17,18 @@ import {
   DELETE_TIMESLOT_SUCCESS,
 } from './constants';
 
+const keyMapping = {
+  [TIMESLOT_STATUS_NEEDS_APPROVE]: 'waitForApprove',
+  [TIMESLOT_STATUS_NEEDS_MENTOR]: 'waitForMentor',
+  [TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE]: 'mentorWaitsForApprove',
+  [TIMESLOT_STATUS_HAS_MENTOR]: 'haveMentor',
+};
+
 const initialState = {
+  timeslotsWaitForApprove: 0,
+  timeslotsWaitForMentor: 0,
+  timeslotsMentorWaitsForApprove: 0,
+  timeslotsHaveMentor: 0,
   timeslots: [],
   timeslotsApproving: false,
   timeslotsApprovingError: null,
@@ -55,12 +73,28 @@ const reducer = (state = initialState, action) => {
         timeslotsFetchingError: action.payload.error,
       };
 
-    case FETCH_TIMESLOTS_SUCCESS:
+    case FETCH_TIMESLOTS_SUCCESS: {
+      const counts = action.payload.timeslots.reduce((acc, t) => {
+        const key = keyMapping[t.status];
+
+        if (!key) return acc;
+
+        return { ...acc, [key]: acc[key] + 1 };
+      },
+      {
+        waitForApprove: 0, waitForMentor: 0, mentorWaitsForApprove: 0, haveMentor: 0,
+      });
+
       return {
         ...state,
         timeslots: action.payload.timeslots.slice(),
         timeslotsFetching: false,
+        timeslotsWaitForApprove: counts.waitForApprove,
+        timeslotsWaitForMentor: counts.waitForMentor,
+        timeslotsMentorWaitsForApprove: counts.mentorWaitsForApprove,
+        timeslotsHaveMentor: counts.haveMentor,
       };
+    }
 
     case DELETE_TIMESLOT:
       return {
