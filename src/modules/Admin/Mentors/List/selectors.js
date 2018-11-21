@@ -17,7 +17,19 @@ const selectMentorsFetchingError = () => createSelector(
   substate => substate.mentorsFetchingError,
 );
 
+const selectApprovedTimeslotsCount = () => createSelector(
+  selectMentorsListDomain(),
+  substate => substate.approvedTimeslotsCount,
+);
+
+const selectAllTimeslotsCount = () => createSelector(
+  selectMentorsListDomain(),
+  substate => substate.allTimeslotsCount,
+);
+
 export {
+  selectApprovedTimeslotsCount,
+  selectAllTimeslotsCount,
   selectMentors,
   selectMentorsListDomain,
   selectMentorsFetching,

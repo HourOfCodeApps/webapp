@@ -5,6 +5,8 @@ import {
 } from './constants';
 
 const initialState = {
+  approvedTimeslotsCount: 0,
+  allTimeslotsCount: 0,
   mentors: [],
   mentorsFetching: false,
   mentorsFetchingError: null,
@@ -27,12 +29,21 @@ const reducer = (state = initialState, action) => {
         mentorsFetchingError: action.payload.error,
       };
 
-    case FETCH_MENTORS_SUCCESS:
+    case FETCH_MENTORS_SUCCESS: {
+      const { all, approved } = action.payload.mentors.reduce((acc, m) => ({
+        all: acc.all + (m.mentor.timeslotsCount || 0),
+        approved: acc.approved + (m.mentor.approvedTimeslotsCount || 0),
+      }),
+      { all: 0, approved: 0 });
+
       return {
         ...state,
         mentors: action.payload.mentors.slice(),
         mentorsFetching: false,
+        approvedTimeslotsCount: approved,
+        allTimeslotsCount: all,
       };
+    }
 
     default:
       return state;
