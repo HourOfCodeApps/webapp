@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import ApproveIcon from '@material-ui/icons/Done';
-import RejectIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
@@ -27,23 +26,40 @@ const renderStatus = (timeslot) => {
     return <span style={{ color: 'green' }}>Очікує ментора</span>;
   }
 
-  if (timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE) { // && timeslot.mentorId && timeslot.mentor) {
-    return <span style={{ color: 'blue' }}>Ментор очікує на підтвердження: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+  if (timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE) {
+    return (
+      <span style={{ color: 'blue' }}>
+        Ментор очікує на підтвердження:
+        {timeslot.mentor.firstName}
+        {' '}
+        {timeslot.mentor.lastName}
+        {' '}
+(
+        {timeslot.mentor.phone}
+)
+      </span>
+    );
     // return <span style={{ color: 'blue' }}>Ментор очікує на підтвердження</span>;
   }
 
-  if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) { // && timeslot.mentorId && timeslot.mentor) {
-    return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
-    // return <span style={{ color: 'blue' }}>Ментор</span>;
+  if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) {
+    return (
+      <span style={{ color: 'blue' }}>
+        Ментор:
+        {timeslot.mentor.firstName}
+        {' '}
+        {timeslot.mentor.lastName}
+        {' '}
+        (
+        {timeslot.mentor.phone}
+        )
+      </span>
+    );
   }
 
   if (timeslot.status === TIMESLOT_STATUS_REJECTED) {
     return <span style={{ color: 'red' }}>Відхилено</span>;
   }
-
-  // if (timeslot.mentorId && timeslot.mentor) {
-  //   return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
-  // }
 
   return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
 };
@@ -53,10 +69,6 @@ class Timeslot extends React.Component {
     this.props.onApprove(this.props.timeslot.id);
   }
 
-  handleReject = () => {
-    this.props.onReject(this.props.timeslot.id);
-  }
-
   handleDelete = () => {
     this.props.onDelete(this.props.timeslot.id);
   }
@@ -64,7 +76,6 @@ class Timeslot extends React.Component {
   render() {
     const {
       handleApprove,
-      handleReject,
       props: { school, timeslot },
     } = this;
 
@@ -81,18 +92,18 @@ class Timeslot extends React.Component {
         <TableCell>{timeslot.pupilsCount}</TableCell>
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell>{renderStatus(timeslot)}</TableCell>
-        <TableCell number>
-          {
-            (timeslot.status === TIMESLOT_STATUS_NEEDS_APPROVE || timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE)
-            && (
+        <TableCell numeric>
+          {(
+            timeslot.status === TIMESLOT_STATUS_NEEDS_APPROVE
+            || timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
+          ) && (
             <IconButton
               onClick={handleApprove}
               aria-label="Approve"
             >
               <ApproveIcon />
             </IconButton>
-            )
-          }
+          )}
           {/* {!timeslot.isApproved && (
             <IconButton
               onClick={handleReject}
@@ -119,7 +130,7 @@ Timeslot.propTypes = {
   timeslot: PropTypes.shape(PropTypes.object).isRequired,
   school: PropTypes.shape(PropTypes.object).isRequired,
   onApprove: PropTypes.func.isRequired,
-  onReject: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default Timeslot;

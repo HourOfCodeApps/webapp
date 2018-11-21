@@ -64,7 +64,7 @@ class Timeslot extends React.Component {
         <TableCell>{timeslot.pupilsCount}</TableCell>
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell>{renderStatus(timeslot)}</TableCell>
-        <TableCell number>
+        <TableCell numeric>
           <Button onClick={handleCancel} variant="outlined">
             Відмінити
           </Button>
