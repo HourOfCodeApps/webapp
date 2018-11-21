@@ -15,7 +15,6 @@ import Loading from 'shared/components/Loading';
 import { fetchMentors } from './actions';
 
 import {
-  selectApprovedTimeslotsCount,
   selectAllTimeslotsCount,
   selectMentors,
   selectMentorsFetching,
@@ -93,7 +92,6 @@ class Mentors extends React.Component {
 }
 
 Mentors.propTypes = {
-  approvedTimeslotsCount: PropTypes.number.isRequired,
   allTimeslotsCount: PropTypes.number.isRequired,
   onFetchMentors: PropTypes.func.isRequired,
   mentors: PropTypes.instanceOf(Array),
@@ -107,19 +105,16 @@ Mentors.defaultProps = {
 };
 
 const mapStateToProps = createSelector(
-  selectApprovedTimeslotsCount(),
   selectAllTimeslotsCount(),
   selectMentors(),
   selectMentorsFetching(),
   selectMentorsFetchingError(),
   (
-    approvedTimeslotsCount,
     allTimeslotsCount,
     mentors,
     mentorsFetching,
     mentorsFetchingError,
   ) => ({
-    approvedTimeslotsCount,
     allTimeslotsCount,
     mentors,
     mentorsFetching,
