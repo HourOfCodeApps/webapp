@@ -27,7 +27,6 @@ const selectTimeslotDeletingError = () => createSelector(
   substate => substate.timeslotDeletingError,
 );
 
-
 const selectTimeslotsFetching = () => createSelector(
   selectTimeslotsDomain(),
   substate => substate.timeslotsFetching,
@@ -36,6 +35,26 @@ const selectTimeslotsFetching = () => createSelector(
 const selectTimeslotsFetchingError = () => createSelector(
   selectTimeslotsDomain(),
   substate => substate.timeslotsFetchingError,
+);
+
+const selectTimeslotsWaitForApproveCount = () => createSelector(
+  selectTimeslotsDomain(),
+  substate => substate.timeslotsWaitForApprove,
+);
+
+const selectTimeslotsWaitForMentorCount = () => createSelector(
+  selectTimeslotsDomain(),
+  substate => substate.timeslotsWaitForMentor,
+);
+
+const selectTimeslotsMentorWaitsForApproveCount = () => createSelector(
+  selectTimeslotsDomain(),
+  substate => substate.timeslotsMentorWaitsForApprove,
+);
+
+const selectTimeslotsHaveMentorCount = () => createSelector(
+  selectTimeslotsDomain(),
+  substate => substate.timeslotsHaveMentor,
 );
 
 export {
@@ -47,4 +66,8 @@ export {
   selectTimeslotDeletingError,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
+  selectTimeslotsWaitForApproveCount,
+  selectTimeslotsWaitForMentorCount,
+  selectTimeslotsMentorWaitsForApproveCount,
+  selectTimeslotsHaveMentorCount,
 };

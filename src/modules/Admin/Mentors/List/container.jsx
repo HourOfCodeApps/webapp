@@ -9,11 +9,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import Loading from 'shared/components/Loading';
 import { fetchMentors } from './actions';
 
 import {
+  selectAllTimeslotsCount,
   selectMentors,
   selectMentorsFetching,
   selectMentorsFetchingError,
@@ -29,6 +31,7 @@ class Mentors extends React.Component {
   render() {
     const {
       props: {
+        allTimeslotsCount,
         mentors,
         mentorsFetching,
         mentorsFetchingError,
@@ -37,9 +40,22 @@ class Mentors extends React.Component {
 
     return (
       <React.Fragment>
-        <Typography variant="display1" gutterBottom>
-          Ментори
-        </Typography>
+        <Grid container justify="space-between" alignItems="flex-end">
+          <Grid item xs={12} md={6}>
+            <Typography variant="display1" gutterBottom>
+              Ментори
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subheading" gutterBottom align="right">
+              Кількість менторів:&nbsp;
+              {mentors.length}
+              ,&nbsp;Кількість уроків:&nbsp;
+              {allTimeslotsCount}
+            </Typography>
+          </Grid>
+        </Grid>
+
         {mentorsFetching && <Loading />}
 
         {mentorsFetchingError && <div>{mentorsFetchingError.message}</div>}
@@ -76,6 +92,7 @@ class Mentors extends React.Component {
 }
 
 Mentors.propTypes = {
+  allTimeslotsCount: PropTypes.number.isRequired,
   onFetchMentors: PropTypes.func.isRequired,
   mentors: PropTypes.instanceOf(Array),
   mentorsFetching: PropTypes.bool.isRequired,
@@ -88,14 +105,17 @@ Mentors.defaultProps = {
 };
 
 const mapStateToProps = createSelector(
+  selectAllTimeslotsCount(),
   selectMentors(),
   selectMentorsFetching(),
   selectMentorsFetchingError(),
   (
+    allTimeslotsCount,
     mentors,
     mentorsFetching,
     mentorsFetchingError,
   ) => ({
+    allTimeslotsCount,
     mentors,
     mentorsFetching,
     mentorsFetchingError,
