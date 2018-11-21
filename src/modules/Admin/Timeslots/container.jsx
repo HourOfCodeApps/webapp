@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import { withSchools } from 'modules/Schools';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
@@ -29,6 +30,10 @@ import {
   selectTimeslotsFetchingError,
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
+  selectTimeslotsWaitForApproveCount,
+  selectTimeslotsWaitForMentorCount,
+  selectTimeslotsMentorWaitsForApproveCount,
+  selectTimeslotsHaveMentorCount,
 } from './selectors';
 
 import TimeslotRow from './components/TimeslotRow';
@@ -97,14 +102,41 @@ class Timeslots extends React.Component {
         onDeleteTimeslots,
         schoolsMap: schools,
         timeslotDeleting,
+        timeslotsWaitForApproveCount,
+        timeslotsWaitForMentorCount,
+        timeslotsMentorWaitsForApproveCount,
+        timeslotsHaveMentorCount,
       },
     } = this;
 
     return (
       <React.Fragment>
-        <Typography variant="display1" gutterBottom>
-          Уроки
-        </Typography>
+        <Grid container justify="space-between" alignItems="flex-end">
+          <Grid item xs={12} md={6}>
+            <Typography variant="display1" gutterBottom>
+              Уроки
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subheading" align="right">
+              Кількість уроків:&nbsp;
+              {timeslots.length}
+            </Typography>
+            <Typography variant="subheading" align="right">
+              Очікує підтвердження:&nbsp;
+              {timeslotsWaitForApproveCount}
+              ,&nbsp;Очікує ментора:&nbsp;
+              {timeslotsWaitForMentorCount}
+            </Typography>
+            <Typography variant="subheading" align="right">
+              Ментор очікує підтвердження:&nbsp;
+              {timeslotsMentorWaitsForApproveCount}
+              ,&nbsp;Має ментора:&nbsp;
+              {timeslotsHaveMentorCount}
+            </Typography>
+          </Grid>
+        </Grid>
+
         {timeslotsFetching && <Loading />}
 
         {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
@@ -159,6 +191,10 @@ class Timeslots extends React.Component {
 Timeslots.propTypes = {
   onApproveTimeslots: PropTypes.func.isRequired,
   onFetchTimeslots: PropTypes.func.isRequired,
+  timeslotsWaitForApproveCount: PropTypes.number.isRequired,
+  timeslotsWaitForMentorCount: PropTypes.number.isRequired,
+  timeslotsMentorWaitsForApproveCount: PropTypes.number.isRequired,
+  timeslotsHaveMentorCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = createSelector(
@@ -169,6 +205,10 @@ const mapStateToProps = createSelector(
   selectTimeslotsFetchingError(),
   selectTimeslotDeleting(),
   selectTimeslotDeletingError(),
+  selectTimeslotsWaitForApproveCount(),
+  selectTimeslotsWaitForMentorCount(),
+  selectTimeslotsMentorWaitsForApproveCount(),
+  selectTimeslotsHaveMentorCount(),
   (
     timeslots,
     timeslotsApproving,
@@ -177,6 +217,10 @@ const mapStateToProps = createSelector(
     timeslotsFetchingError,
     timeslotDeleting,
     timeslotDeletingError,
+    timeslotsWaitForApproveCount,
+    timeslotsWaitForMentorCount,
+    timeslotsMentorWaitsForApproveCount,
+    timeslotsHaveMentorCount,
   ) => ({
     timeslots,
     timeslotsApproving,
@@ -185,6 +229,10 @@ const mapStateToProps = createSelector(
     timeslotsFetchingError,
     timeslotDeleting,
     timeslotDeletingError,
+    timeslotsWaitForApproveCount,
+    timeslotsWaitForMentorCount,
+    timeslotsMentorWaitsForApproveCount,
+    timeslotsHaveMentorCount,
   }),
 );
 
