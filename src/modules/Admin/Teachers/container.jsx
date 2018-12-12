@@ -103,7 +103,7 @@ class Teachers extends React.Component {
           <TableBody>
             {teachers.map(t => (
               <TeacherRow
-                key={t.id}
+                key={t.uid}
                 teacher={t}
                 onApprove={handleApproveTeacherClick}
                 school={(t.teacher.schoolId && schoolsMap[t.teacher.schoolId]) || {}}

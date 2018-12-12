@@ -29,7 +29,7 @@ const SignupForm = (
       name="role"
       options={[
         { value: 'mentor', label: 'Ментором' },
-        { value: 'teacher', label: 'Представником школи' },
+        // { value: 'teacher', label: 'Представником школи' },
       ]}
       horizontal
       color="primary"

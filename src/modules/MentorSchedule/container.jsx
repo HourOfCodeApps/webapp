@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
+import EmptyState from 'shared/components/EmptyState';
 import Loading from 'shared/components/Loading';
 
 import { withSchools } from 'modules/Schools';
@@ -94,6 +95,11 @@ class Schedule extends React.Component {
       },
     } = this;
 
+    const addMoreLabel = !myTimeslotsFetching && !myTimeslotsFetchingError
+      && !!myTimeslotsGrouped.length
+      ? 'Мало? Візьми ще урок!'
+      : 'Обрати урок';
+
     return (
       <React.Fragment>
         <Grid container>
@@ -116,7 +122,7 @@ class Schedule extends React.Component {
               size="large"
               component={props => <Link to="/apply" {...props} />}
             >
-              Мало тобі? – Візьми ще
+              {addMoreLabel}
             </Button>
           </Grid>
         </Grid>

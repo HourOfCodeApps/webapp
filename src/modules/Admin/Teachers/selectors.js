@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const selectTeachersDomain = () => state => state.users.teachers;
+const selectTeachersDomain = () => state => state.admin.teachers;
 
 const selectTeachers = () => createSelector(
   selectTeachersDomain(),

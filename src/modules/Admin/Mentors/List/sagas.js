@@ -26,7 +26,18 @@ function* fetchMentors() {
 
     const mentors = yield Promise.all(mentorsIds.map(uid => loadUserInfo(uid)));
 
-    yield put(fetchMentorsSuccess(mentors));
+    const mentorsSorted = mentors
+      .map(mentor => ({
+        ...mentor,
+        mentor: {
+          ...mentor.mentor,
+          approvedTimeslotsCount: mentor.mentor.approvedTimeslotsCount || 0,
+          timeslotsCount: mentor.mentor.timeslotsCount || 0,
+        },
+      }))
+      .sort((a, b) => a.mentor.timeslotsCount - b.mentor.timeslotsCount);
+
+    yield put(fetchMentorsSuccess(mentorsSorted));
   } catch (error) {
     yield put(fetchMentorsFailure(error));
   }
