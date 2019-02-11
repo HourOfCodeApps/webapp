@@ -19,6 +19,7 @@ import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
 import isEqual from 'lodash/isEqual';
 
+import Loading from 'shared/components/Loading/index';
 import {
   deleteSchool,
   fetchSchool,
@@ -36,7 +37,6 @@ import {
   selectSchoolTimeslotsFetchingError,
 } from '../../selectors';
 import Timeslots from '../../components/Timeslots/index';
-import Loading from 'shared/components/Loading/index';
 
 
 class School extends React.Component {

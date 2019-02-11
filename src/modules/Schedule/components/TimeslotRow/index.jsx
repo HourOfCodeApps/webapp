@@ -25,11 +25,33 @@ const renderStatus = (timeslot) => {
   }
 
   if (timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && timeslot.mentorId && timeslot.mentor) {
-    return <span style={{ color: 'blue' }}>Ментор очікує на підтвердження: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+    return (
+      <span style={{ color: 'blue' }}>
+Ментор очікує на підтвердження:
+        {timeslot.mentor.firstName}
+        {' '}
+        {timeslot.mentor.lastName}
+        {' '}
+(
+        {timeslot.mentor.phone}
+)
+      </span>
+    );
   }
 
   if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR && timeslot.mentorId && timeslot.mentor) {
-    return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+    return (
+      <span style={{ color: 'blue' }}>
+Ментор:
+        {timeslot.mentor.firstName}
+        {' '}
+        {timeslot.mentor.lastName}
+        {' '}
+(
+        {timeslot.mentor.phone}
+)
+      </span>
+    );
   }
 
   if (timeslot.status === TIMESLOT_STATUS_REJECTED) {

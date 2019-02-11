@@ -11,27 +11,27 @@ import TimeslotRow from '../TimeslotRow';
 
 const Timeslots = ({ onDeleteTimeslot, timeslots }) => (
   // <Paper>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Час початку</TableCell>
-          <TableCell>Клас</TableCell>
-          <TableCell>Кількість учнів</TableCell>
-          <TableCell>Коментар</TableCell>
-          <TableCell>Статус</TableCell>
-          <TableCell>Дії</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {timeslots.map(t => (
-          <TimeslotRow
-            key={t.id}
-            timeslot={t}
-            onDelete={onDeleteTimeslot}
-          />
-        ))}
-      </TableBody>
-    </Table>
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>Час початку</TableCell>
+        <TableCell>Клас</TableCell>
+        <TableCell>Кількість учнів</TableCell>
+        <TableCell>Коментар</TableCell>
+        <TableCell>Статус</TableCell>
+        <TableCell>Дії</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {timeslots.map(t => (
+        <TimeslotRow
+          key={t.id}
+          timeslot={t}
+          onDelete={onDeleteTimeslot}
+        />
+      ))}
+    </TableBody>
+  </Table>
   // </Paper>
 );
 
