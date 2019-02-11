@@ -31,14 +31,12 @@ import {
   selectTimeslotCreatingError,
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
-  selectTimeslots,
   selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
 } from './selectors';
 
 import Timeslots from './components/Timeslots';
-import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 const days = [
   '2018-12-03',

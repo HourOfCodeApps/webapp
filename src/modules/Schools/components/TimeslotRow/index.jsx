@@ -4,8 +4,6 @@ import { DateTime } from 'luxon';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
@@ -55,10 +53,7 @@ class Timeslot extends React.Component {
   }
 
   render() {
-    const {
-      handleDelete,
-      props: { timeslot },
-    } = this;
+    const { timeslot } = this.props;
 
     return (
       <TableRow>

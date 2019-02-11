@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ViewIcon from '@material-ui/icons/Visibility';
 import { toast } from 'react-toastify';
 
 import Map, { Marker } from 'shared/components/Map';

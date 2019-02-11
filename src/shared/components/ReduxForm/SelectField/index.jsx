@@ -6,9 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from 'shared/components/Select';
 
-const getOptionLabel = option => option.name;
-const getOptionValue = option => option.id;
-
 const SelectField = ({
   disabled,
   input,

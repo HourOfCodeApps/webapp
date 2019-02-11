@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import Map, { InfoWindow, Marker, MarkerClusterer } from 'shared/components/Map';
+import Map, { InfoWindow, Marker } from 'shared/components/Map';
 import Loading from 'shared/components/Loading';
 
 import PersonPin from 'assets/img/person-pin.svg';
@@ -63,12 +63,11 @@ class Schedule extends React.Component {
     const {
       handleBoundsChanged,
       handleMouseOver,
-      handleMouseOut,
+      // handleMouseOut,
       setMapRef,
       props: {
         schoolIds,
         schoolsMap,
-        timeslots,
         timeslotsBySchool,
         userLocation,
         userLocationFetching,
