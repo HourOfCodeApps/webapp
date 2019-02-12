@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ViewIcon from '@material-ui/icons/Visibility';
 import { toast } from 'react-toastify';
 
 import Map, { Marker } from 'shared/components/Map';
@@ -19,6 +18,7 @@ import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
 import isEqual from 'lodash/isEqual';
 
+import Loading from 'shared/components/Loading/index';
 import {
   deleteSchool,
   fetchSchool,
@@ -36,7 +36,6 @@ import {
   selectSchoolTimeslotsFetchingError,
 } from '../../selectors';
 import Timeslots from '../../components/Timeslots/index';
-import Loading from 'shared/components/Loading/index';
 
 
 class School extends React.Component {

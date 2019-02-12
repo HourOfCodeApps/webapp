@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 import TextField from 'shared/components/ReduxForm/TextField';
 import TimePickerField from 'shared/components/ReduxForm/TimePickerField';
-import DateTimePickerField from 'shared/components/ReduxForm/DateTimePickerField';
 
 import { CREATE_TIMESLOT_FORM_ID } from '../../constants';
 import validate from './validate';

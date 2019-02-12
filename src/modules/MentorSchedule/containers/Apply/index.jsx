@@ -87,6 +87,8 @@ const dayLabels = days.reduce((acc, curr) => ({
   [curr]: DateTime.fromISO(curr).setLocale('uk').toFormat('EEEE, dd MMMM'),
 }), {});
 
+const todayISO = DateTime.local().toISODate();
+
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -95,7 +97,7 @@ class Schedule extends React.Component {
       bounds: null,
       timeRangeValue: [0, 16],
       marks: pick(defaultMarks, [0, 16]),
-      selectedDay: days[0],
+      selectedDay: todayISO < days[0] ? days[0] : todayISO,
       isMapShown: false,
       zoom: 15,
       autoZoomFinished: false,
@@ -287,6 +289,7 @@ class Schedule extends React.Component {
                 value={day}
                 label={dayLabels[day]}
                 key={day}
+                disabled={day < todayISO}
               />
             ))}
           </Tabs>

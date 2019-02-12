@@ -102,7 +102,7 @@ const Option = props => (
       fontWeight: props.isSelected ? 500 : 400,
       whiteSpace: 'pre-wrap',
       fontSize: 14,
-      height: 'auto'
+      height: 'auto',
     }}
     {...props.innerProps}
   >

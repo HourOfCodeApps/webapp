@@ -1,0 +1,24 @@
+p Привіт, #{mentor.displayName}
+p Завтра на тебе чекають учні!
+
+p
+  strong Інформація про урок
+  br
+  | Час проведення: #{timeslot.startTimeFormatted}
+  br
+  | Школа: #{school.name}
+  br
+  | Клас: #{timeslot.class}
+  br
+  | Кількість учнів: #{timeslot.pupilsCount}
+  br
+  | Коментар ментору: #{timeslot.notes}
+
+p
+  | Щоб увійти у свій кабінет та переглянути уроки, натисни тут:
+  br
+  a(href=url) #{url}
+p
+  | З повагою,
+  br
+  | команда Година коду у Львові
