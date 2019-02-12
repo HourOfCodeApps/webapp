@@ -36,7 +36,7 @@ class Teacher extends React.Component {
         <TableCell>
           {teacher.profile.phone}
         </TableCell>
-        <TableCell number>
+        <TableCell numeric>
           {!teacher.teacher.isApproved && (
             <IconButton
               onClick={handleApprove}
@@ -52,6 +52,7 @@ class Teacher extends React.Component {
 }
 
 Teacher.propTypes = {
+  school: PropTypes.shape(PropTypes.object).isRequired,
   teacher: PropTypes.shape(PropTypes.object).isRequired,
   onApprove: PropTypes.func.isRequired,
 };

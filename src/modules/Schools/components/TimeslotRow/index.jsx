@@ -4,8 +4,6 @@ import { DateTime } from 'luxon';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
@@ -24,7 +22,18 @@ const renderStatus = (timeslot) => {
   }
 
   if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR && timeslot.mentorId && timeslot.mentor) {
-    return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+    return (
+      <span style={{ color: 'blue' }}>
+Ментор:
+        {timeslot.mentor.firstName}
+        {' '}
+        {timeslot.mentor.lastName}
+        {' '}
+(
+        {timeslot.mentor.phone}
+)
+      </span>
+    );
   }
 
   if (timeslot.status === TIMESLOT_STATUS_REJECTED) {
@@ -44,10 +53,7 @@ class Timeslot extends React.Component {
   }
 
   render() {
-    const {
-      handleDelete,
-      props: { timeslot },
-    } = this;
+    const { timeslot } = this.props;
 
     return (
       <TableRow>
@@ -58,7 +64,7 @@ class Timeslot extends React.Component {
         <TableCell>{timeslot.pupilsCount}</TableCell>
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell>{renderStatus(timeslot)}</TableCell>
-        <TableCell number>
+        <TableCell numeric>
           {/* <IconButton
             onClick={handleDelete}
             aria-label="Delete"

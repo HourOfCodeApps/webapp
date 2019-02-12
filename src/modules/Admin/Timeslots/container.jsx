@@ -89,8 +89,6 @@ class Timeslots extends React.Component {
       handleDeleteClick,
       handleDeleteCancel,
       handleDeleteTimeslotConfirm,
-      handleSubmit,
-      handleChangeDay,
       state: {
         deleteConfirmationDialogShown,
       },
@@ -99,7 +97,6 @@ class Timeslots extends React.Component {
         timeslotsFetching,
         timeslotsFetchingError,
         onApproveTimeslots,
-        onDeleteTimeslots,
         schoolsMap: schools,
         timeslotDeleting,
         timeslotsWaitForApproveCount,
@@ -189,12 +186,34 @@ class Timeslots extends React.Component {
 }
 
 Timeslots.propTypes = {
+  timeslotsApproving: PropTypes.bool.isRequired,
+  timeslotsApprovingError: PropTypes.shape({
+    message: PropTypes.string,
+  }),
+  timeslotDeletingError: PropTypes.shape({
+    message: PropTypes.string,
+  }),
+  timeslotsFetchingError: PropTypes.shape({
+    message: PropTypes.string,
+  }),
+  timeslotDeleting: PropTypes.bool.isRequired,
+  timeslotsFetching: PropTypes.bool.isRequired,
   onApproveTimeslots: PropTypes.func.isRequired,
   onFetchTimeslots: PropTypes.func.isRequired,
+  onDeleteTimeslot: PropTypes.func.isRequired,
   timeslotsWaitForApproveCount: PropTypes.number.isRequired,
   timeslotsWaitForMentorCount: PropTypes.number.isRequired,
   timeslotsMentorWaitsForApproveCount: PropTypes.number.isRequired,
   timeslotsHaveMentorCount: PropTypes.number.isRequired,
+  timeslots: PropTypes.instanceOf(Array),
+  schoolsMap: PropTypes.instanceOf(Object).isRequired,
+};
+
+Timeslots.defaultProps = {
+  timeslotsApprovingError: null,
+  timeslotDeletingError: null,
+  timeslotsFetchingError: null,
+  timeslots: [],
 };
 
 const mapStateToProps = createSelector(

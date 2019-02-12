@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from '@material-ui/core/Modal';
 
@@ -14,9 +14,9 @@ const styles = theme => ({
     top: '50vh',
     marginLeft: -75,
     marginTop: -75,
-  //   -webkit-user-select: none;  /* Chrome all / Safari all */
-  // -moz-user-select: none;     /* Firefox all */
-  // -ms-user-select: none;      /* IE 10+ */
+    //   -webkit-user-select: none;  /* Chrome all / Safari all */
+    // -moz-user-select: none;     /* Firefox all */
+    // -ms-user-select: none;      /* IE 10+ */
     userSelect: 'none',
     outlineStyle: 'none',
   },

@@ -43,7 +43,19 @@ class SchoolRow extends React.Component {
           {school.name}
         </Typography>
         <Typography variant="subheading" style={{ marginBottom: 20 }}>
-          {school.teacher.phone} {school.teacher.firstName} {school.teacher.lastName}, {school.city} {school.addressStreet}, {school.addressBuilding}
+          {school.teacher.phone}
+          {' '}
+          {school.teacher.firstName}
+          {' '}
+          {school.teacher.lastName}
+,
+          {' '}
+          {school.city}
+          {' '}
+          {school.addressStreet}
+,
+          {' '}
+          {school.addressBuilding}
         </Typography>
         <Paper>
           <Table>

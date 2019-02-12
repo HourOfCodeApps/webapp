@@ -4,6 +4,7 @@ import * as functions from 'firebase-functions';
 // import admin from 'firebase-admin';
 
 import { DateTime, Settings } from 'luxon';
+import rp from 'request-promise';
 
 import sendEmail from './lib/sendEmail';
 import renderTemplate from './lib/renderTemplate';
@@ -648,6 +649,9 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
 
 
     if (timeslot.status === TIMESLOT_STATUS_HAS_MENTOR) {
+      // const startTimeFormatted = DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT);
+      const startTimeFormatted = DateTime.fromJSDate(timeslot.startTime.toDate()).toFormat('dd-MM-yyyy HH:mm');
+
       // send email to teacher
       await Promise.all(
         teachers.map(t => t.profile).map(
@@ -662,7 +666,7 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
               timeslot: {
                 ...timeslot,
                 startTime: timeslot.startTime.toDate(),
-                startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+                startTimeFormatted,
               },
               url: `${functions.config().general.host}`,
             })
@@ -680,11 +684,41 @@ const discardTimeslot = functions.https.onCall(async ({ timeslotId, reason }, co
           timeslot: {
             ...timeslot,
             startTime: timeslot.startTime.toDate(),
-            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime.toDate()).toLocaleString(DateTime.DATETIME_SHORT),
+            startTimeFormatted,
           },
           url: `${functions.config().general.host}/timeslots`,
         }
       );
+
+
+      const slackTimeLimit = DateTime.local().plus({ days: 2 });
+      if (timeslot.startTime.toDate() <= slackTimeLimit.toJSDate()) {
+        const slackWebhookUrl = functions.config().slack['mentor-discarded-timeslot'];
+        await rp({
+          url: slackWebhookUrl,
+          method: 'POST',
+          body: {
+            attachments: [
+              {
+                fallback: '[УВАГА] Ментор відмінив участь в уроці',
+                pretext: '[УВАГА] Ментор відмінив участь в уроці',
+                color: '#f44336',
+                title: 'Інформація про урок',
+                text: [
+                  `Школа: ${school.name}`,
+                  `Адреса: ${school.city} ${school.addressStreet}, ${school.addressBuilding}`,
+                  `Час проведення: ${startTimeFormatted}`,
+                  `Клас: ${timeslot.class}`,
+                  `Кількість учнів: ${timeslot.pupilsCount}`,
+                  timeslot.notes ? `Коментар ментору: ${timeslot.notes}` : '',
+                ].filter(v => v).join('\n'),
+                // text: 'Школа: №60 СЗШ\nЧас проведення: 12/4/2018, 12:30 PM\nКлас: 7В\nКількість учнів: 27',
+              },
+            ],
+          },
+          json: true,
+        });
+      }
     }
     // if (timeslot.mentorId) {
     //   const mentorUserRecord = await admin.auth().getUser(timeslot.mentorId);
@@ -732,6 +766,73 @@ const applyTimeslot = functions.https.onCall(async (timeslotId, context) => {
   });
 });
 
+const sendTimeslotReminders = functions.pubsub.topic('sendTimeslotReminders').onPublish(async (message) => {
+  const time = DateTime.utc();
+  const timeFrom = time.set({ seconds: 0, milliseconds: 0 }).plus({ days: 1 });
+  const timeTo = timeFrom.plus({ minutes: 5 });
+
+  const from = admin.firestore.Timestamp.fromDate(timeFrom.toJSDate());
+  const to = admin.firestore.Timestamp.fromDate(timeTo.toJSDate());
+
+  const timeslotsSnaps = await firestore.collection('timeslots')
+    .where('status', '==', TIMESLOT_STATUS_HAS_MENTOR)
+    .where('startTime', '>=', from)
+    .where('startTime', '<', to)
+    .get();
+
+  const timeslots = timeslotsSnaps.docs
+    .map(snap => ({ ...snap.data(), id: snap.id }))
+    .filter(t => t.mentorId)
+    .map(timeslot => ({
+      ...timeslot,
+      startTime: timeslot.startTime.toDate(),
+    }));
+
+  const mentorIds = timeslots.filter(t => t.mentorId).map(t => t.mentorId);
+  const mentors = await Promise.all(mentorIds.map(uid => loadUserProfile(uid)));
+
+  const schoolIds = timeslots.map(t => t.schoolId);
+  const schools = await Promise.all(schoolIds.map(id => getSchool(id)));
+
+  const timeslotsAggregated = timeslots.map((t) => {
+    if (!t.mentorId) {
+      return t;
+    }
+
+    const mentor = mentors.find(m => m.uid === t.mentorId);
+    const school = schools.find(s => s.id === t.schoolId);
+
+    return { ...t, mentor, school };
+  });
+
+  // console.log(timeslotsAggregated);
+
+  await Promise.all(
+    timeslotsAggregated.map(
+      timeslot => sendEmail({
+        to: `${timeslot.mentor.firstName} ${timeslot.mentor.lastName} <${timeslot.mentor.email}>`,
+        // to: `${timeslot.mentor.firstName} ${timeslot.mentor.lastName} <oleksandr.pidlisnyi@gmail.com>`,
+        subject: 'Ментор, не проґав урок!',
+        html: renderTemplate('emails/mentor/timeslot-reminder-24h', {
+          school: timeslot.school,
+          // teacher: teacherUserRecord,
+          mentor: {
+            ...timeslot.mentor,
+            displayName: `${timeslot.mentor.firstName} ${timeslot.mentor.lastName}`,
+          },
+          timeslot: {
+            ...timeslot,
+            startTimeFormatted: DateTime.fromJSDate(timeslot.startTime).toLocaleString(DateTime.DATETIME_SHORT),
+          },
+          url: `${functions.config().general.host}`,
+        })
+      }),
+    ),
+  );
+
+  return true;
+});
+
 export {
   applyTimeslot,
   emailTeacherApproved,
@@ -743,4 +844,6 @@ export {
   deleteTimeslot,
   discardTimeslot,
   updateMentorTimeslotsCount,
+  // sendTimeslotReminders,
+  sendTimeslotReminders,
 };

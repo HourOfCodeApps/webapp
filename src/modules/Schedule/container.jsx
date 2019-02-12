@@ -10,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import { DateTime } from 'luxon';
+import red from '@material-ui/core/colors/red';
 
 import { toast } from 'react-toastify';
 
@@ -30,14 +31,12 @@ import {
   selectTimeslotCreatingError,
   selectTimeslotDeleting,
   selectTimeslotDeletingError,
-  selectTimeslots,
   selectTimeslotsByDays,
   selectTimeslotsFetching,
   selectTimeslotsFetchingError,
 } from './selectors';
 
 import Timeslots from './components/Timeslots';
-import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 const days = [
   '2018-12-03',
@@ -179,9 +178,19 @@ class Schedule extends React.Component {
             />
           )}
         </Paper>
-        {!timeslotsFetching && !timeslotsFetchingError && (
+        {/* {!timeslotsFetching && !timeslotsFetchingError && (
           <CreateTimeslotForm onSubmit={handleSubmit} />
-        )}
+        )} */}
+        <Paper
+          style={{
+            marginTop: 20,
+            padding: 20,
+          }}
+        >
+          <Typography variant="title" align="center" style={{ color: red[500] }}>
+            Час реєстрації нових уроків вичерпано. До зустрічі наступного року.
+          </Typography>
+        </Paper>
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}

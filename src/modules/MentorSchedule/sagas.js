@@ -104,6 +104,8 @@ function* fetchTimeslots({ payload: { bounds, ...payload } }) {
 
     const timeslotsSnaps = yield query.get();
 
+    const from = Math.max(payload.from, new Date());
+
     const timeslots = timeslotsSnaps.docs
       .map(doc => ({ ...doc.data(), id: doc.id }))
       .map(timeslot => ({
@@ -115,7 +117,7 @@ function* fetchTimeslots({ payload: { bounds, ...payload } }) {
         && geo.longitude >= bounds.southWest.lng
         && geo.latitude <= bounds.northEast.lat
         && geo.longitude <= bounds.northEast.lng
-        && startTime >= payload.from
+        && startTime >= from
         && startTime <= payload.to
       ));
 

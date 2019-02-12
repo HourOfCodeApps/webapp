@@ -16,7 +16,9 @@
     "firebase-functions": "^2.0.3",
     "luxon": "^1.4.4",
     "nodemailer": "^4.6.8",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
   },
   "engines": {
     "node": "8"

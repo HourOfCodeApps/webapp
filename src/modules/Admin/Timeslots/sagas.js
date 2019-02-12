@@ -14,7 +14,6 @@ import {
   TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
   TIMESLOT_STATUS_HAS_MENTOR,
   TIMESLOT_STATUS_APPROVED,
-  TIMESLOT_STATUS_NEEDS_MENTOR,
 } from 'shared/constants/timeslots';
 
 import {
@@ -75,7 +74,7 @@ function* deleteTimeslot({ payload: { timeslotId, reason } }) {
   }
 }
 
-function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
+function* fetchTimeslots() {
   try {
     const timeslotsSnaps = yield firebase.firestore().collection('timeslots')
       .orderBy('status', 'asc')
@@ -83,11 +82,6 @@ function* fetchTimeslots({ payload: { start = 0, limit = 10 } }) {
       // .limit(10)
       .get();
 
-    // const teachersIds = timeslotsSnaps.docs
-    //   .slice(start, start + limit)
-    //   .map(doc => doc.id);
-
-    // const teachers = yield Promise.all(teachersIds.map(uid => loadUserInfo(uid)));
     const timeslots = timeslotsSnaps.docs
       .map(snap => ({ ...snap.data(), id: snap.id }))
       .map(timeslot => ({

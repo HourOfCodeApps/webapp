@@ -17,9 +17,6 @@ import {
   updateUser,
 } from '../../actions';
 
-// import withAuth from '../../HoCs/withAuth';
-import withUser from '../../HoCs/withUser';
-
 const styles = theme => ({
   paper: {
     width: '500px',
@@ -66,8 +63,6 @@ class CompleteSignUp extends React.Component {
     const {
       handleSubmit,
       props: {
-        onCompleteSignUp,
-        auth,
         classes,
         schools,
         schoolsFetching,

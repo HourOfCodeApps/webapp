@@ -10,7 +10,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
 import { reducer as mentorScheduleReducer, sagas as mentorScheduleSagas } from 'modules/MentorSchedule';
-import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
+// import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
 import { reducer as schoolsReducer, sagas as schoolsSagas } from 'modules/Schools';
 import { reducer as scheduleReducer, sagas as scheduleSagas } from 'modules/Schedule';
 import { reducer as profileReducer, sagas as profileSagas } from 'modules/Profile';
@@ -24,7 +24,7 @@ const reducer = combineReducers({
   profile: profileReducer,
   schedule: scheduleReducer,
   schools: schoolsReducer,
-  users: usersReducer,
+  // users: usersReducer,
 });
 
 let composeEnhancers = compose;
@@ -48,7 +48,7 @@ const store = createStore(
   ...mentorScheduleSagas,
   ...scheduleSagas,
   ...schoolsSagas,
-  ...usersSagas,
+  // ...usersSagas,
   ...profileSagas,
 ].map(sagaMiddleware.run);
 
