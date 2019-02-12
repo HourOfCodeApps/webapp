@@ -93,7 +93,7 @@ class Teachers extends React.Component {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Ім'я</TableCell>
+              <TableCell>{'Ім\'я'}</TableCell>
               <TableCell>Школа</TableCell>
               <TableCell>Пошта</TableCell>
               <TableCell>Телефон</TableCell>
@@ -121,10 +121,18 @@ Teachers.propTypes = {
   classes: PropTypes.shape(PropTypes.object).isRequired,
   onApproveTeachers: PropTypes.func.isRequired,
   onFetchTeachers: PropTypes.func.isRequired,
+  schoolsMap: PropTypes.shape(PropTypes.object).isRequired,
+  teachers: PropTypes.shape(PropTypes.array).isRequired,
+  teachersApproving: PropTypes.bool.isRequired,
+  teachersApprovingError: PropTypes.shape(PropTypes.object),
+  teachersFetching: PropTypes.bool.isRequired,
+  teachersFetchingError: PropTypes.shape(PropTypes.object),
 };
 
-// export default withStyles(styles)(Teachers);
-
+Teachers.defaultProps = {
+  teachersApprovingError: null,
+  teachersFetchingError: null,
+};
 
 const mapStateToProps = createSelector(
   selectTeachers(),

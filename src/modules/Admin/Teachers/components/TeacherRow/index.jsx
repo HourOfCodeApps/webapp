@@ -52,6 +52,7 @@ class Teacher extends React.Component {
 }
 
 Teacher.propTypes = {
+  school: PropTypes.shape(PropTypes.object).isRequired,
   teacher: PropTypes.shape(PropTypes.object).isRequired,
   onApprove: PropTypes.func.isRequired,
 };
