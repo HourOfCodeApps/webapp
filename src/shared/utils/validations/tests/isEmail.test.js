@@ -9,7 +9,7 @@ describe('isEmail', () => {
   });
 
   it('invalid emails return `false`', () => {
-    expect(isEmail('john-doe.com')).toEqual(false);
+    expect(isEmail('john-doe@com')).toEqual(false);
     expect(isEmail('john-doe@.com')).toEqual(false);
     expect(isEmail('john-doe@gmail')).toEqual(false);
     expect(isEmail('john doe@gmail.com')).toEqual(false);
