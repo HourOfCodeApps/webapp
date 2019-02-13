@@ -13,8 +13,6 @@ import { selectUser } from 'modules/Auth';
 
 import {
   TIMESLOT_STATUS_NEEDS_MENTOR,
-  TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE,
-  TIMESLOT_STATUS_HAS_MENTOR,
 } from 'shared/constants/timeslots';
 
 import getUserPosition from 'shared/utils/helpers/getUserLocation';

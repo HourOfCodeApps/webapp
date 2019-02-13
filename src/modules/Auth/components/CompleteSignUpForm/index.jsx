@@ -14,16 +14,14 @@ import PhoneInput from 'shared/components/ReduxForm/PhoneInput';
 import { COMPLETE_SIGNUP_FORM_ID } from '../../constants';
 import validate from './validate';
 
-const SignupForm = (
-  {
-    handleSubmit,
-    initialValues,
-    pristine,
-    role,
-    schools,
-    schoolsLoading,
-  },
-) => (
+const SignupForm = ({
+  handleSubmit,
+  initialValues,
+  pristine,
+  role,
+  schools,
+  schoolsLoading,
+}) => (
   <form onSubmit={handleSubmit}>
     {!initialValues.role && (
       <Field
@@ -98,9 +96,12 @@ const SignupForm = (
 );
 
 SignupForm.propTypes = {
+  initialValues: PropTypes.instanceOf(Object).isRequired,
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
+  schools: PropTypes.instanceOf(Array).isRequired,
+  schoolsLoading: PropTypes.bool.isRequired,
 };
 
 SignupForm.defaultProps = {

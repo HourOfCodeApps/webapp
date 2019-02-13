@@ -134,6 +134,13 @@ function ValueContainer(props) {
   return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
 }
 
+ValueContainer.propTypes = {
+  selectProps: PropTypes.shape({
+    classes: PropTypes.instanceOf(Object).isRequired,
+  }).isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 function MultiValue(props) {
   return (
     <Chip

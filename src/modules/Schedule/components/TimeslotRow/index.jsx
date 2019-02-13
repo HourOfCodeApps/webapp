@@ -24,7 +24,10 @@ const renderStatus = (timeslot) => {
     return <span style={{ color: 'green' }}>Очікує ментора</span>;
   }
 
-  if (timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE && timeslot.mentorId && timeslot.mentor) {
+  if (
+    timeslot.status === TIMESLOT_STATUS_MENTOR_NEEDS_APPROVE
+    && timeslot.mentorId && timeslot.mentor
+  ) {
     return (
       <span style={{ color: 'blue' }}>
 Ментор очікує на підтвердження:
@@ -59,7 +62,11 @@ const renderStatus = (timeslot) => {
   }
 
   // if (timeslot.mentorId && timeslot.mentor) {
-  //   return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
+  //   return (
+  //     <span style={{ color: 'blue' }}>
+  //       Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})
+  //     </span>
+  //   );
   // }
 
   return <span style={{ color: 'red' }}>Очікує підтвердження</span>;

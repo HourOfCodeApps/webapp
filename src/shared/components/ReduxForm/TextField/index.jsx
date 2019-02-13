@@ -1,7 +1,10 @@
+// Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import MuiTextField from '@material-ui/core/TextField';
+
+// Application
+import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
 
 const TextField = ({
   compact,
@@ -23,7 +26,7 @@ const TextField = ({
     onChange={input.onChange}
     name={input.name}
     margin="normal"
-    helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
+    helperText={getInputHelperText(touched && error, required)}
     variant="outlined"
     type={type}
     placeholder={placeholder}
@@ -41,6 +44,7 @@ TextField.propTypes = {
   required: PropTypes.bool,
   compact: PropTypes.bool,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 TextField.defaultProps = {
@@ -48,6 +52,7 @@ TextField.defaultProps = {
   required: false,
   type: 'text',
   compact: false,
+  placeholder: '',
 };
 
 export default TextField;

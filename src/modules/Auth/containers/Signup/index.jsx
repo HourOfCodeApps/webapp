@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { FlexBox } from 'shared/components/LayoutStyled';
-import SignUpForm from '../../components/SignUpForm';
+import SignUpForm from '../../components/SignupForm';
 
 import {
   signUp,
