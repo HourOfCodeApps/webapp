@@ -2,6 +2,7 @@ language: node_js
 node_js: 8
 install:
   - yarn
+  – cd functions && yarn && cd ..
 
 # cache:
 #   directories:
