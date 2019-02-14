@@ -15,6 +15,8 @@ export function getColor(prop) {
       return colors.dark;
     case 'grey':
       return colors.grey;
+    default:
+      return null;
   }
 }
 

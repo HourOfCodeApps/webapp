@@ -41,7 +41,7 @@ function* approveTeachers({ payload: { teacherIds } }) {
   }
 }
 
-function* fetchTeachers({ payload: { start = 0, limit = 10 } }) {
+function* fetchTeachers() {
   try {
     const teachersSnaps = yield firebase.firestore().collection('teachers')
       .orderBy('isApproved', 'asc')

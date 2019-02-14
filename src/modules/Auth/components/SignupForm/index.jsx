@@ -95,9 +95,11 @@ SignupForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
+  formError: PropTypes.instanceOf(Object),
 };
 
 SignupForm.defaultProps = {
+  formError: null,
 };
 
 const form = reduxForm({

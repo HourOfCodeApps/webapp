@@ -1,26 +1,10 @@
-import TimePicker from 'shared/components/TimePicker';
-
-
-// export default () => (
-// <FormControl fullWidth margin="normal">
-//           <TimePicker />
-//         </FormControl>
-
-//   <MuiPickersUtilsProvider utils={LuxonUtils}>
-//     <TimePicker
-//       clearable
-//       ampm={false}
-//       label="24 hours"
-//       variant="outlined"
-//       // value={selectedDate}
-//       // onChange={this.handleDateChange}
-//     />
-//   </MuiPickersUtilsProvider>
-// );
-
-
+// Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Application
+import TimePicker from 'shared/components/TimePicker';
+import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
 
 const TimePickerField = ({
   compact,
@@ -43,7 +27,8 @@ const TimePickerField = ({
     margin="normal"
     fullWidth={!compact}
     error={touched && error}
-    helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
+    helperText={getInputHelperText(touched && error, required)}
+    placeholder={placeholder}
   />
   // <MuiTextField
   //   // required={required}
@@ -72,14 +57,14 @@ TimePickerField.propTypes = {
   }).isRequired,
   required: PropTypes.bool,
   compact: PropTypes.bool,
-  type: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 TimePickerField.defaultProps = {
   disabled: false,
   required: false,
-  type: 'text',
   compact: false,
+  placeholder: '',
 };
 
 export default TimePickerField;

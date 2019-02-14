@@ -13,15 +13,6 @@ import TextField from '@material-ui/core/TextField';
 
 import Loading from 'shared/components/Loading';
 
-// const theme = createMuiTheme({
-//   palette: {
-//     // type: 'dark',
-//     primary: {
-//       main: 'rgb(22, 150, 160)',
-//     },
-//   },
-// });
-
 const dangerTheme = outerTheme => ({
   ...outerTheme,
   palette: {
@@ -79,7 +70,7 @@ class ConfirmationDialog extends React.Component {
       handleAnswerChange,
       handleConfirm,
       props: {
-        cancelLabel, confirmLabel, description, loading, onCancel, onConfirm, title,
+        cancelLabel, confirmLabel, description, loading, onCancel, title,
         question, classes,
         danger,
       },
@@ -154,6 +145,7 @@ class ConfirmationDialog extends React.Component {
 }
 
 ConfirmationDialog.propTypes = {
+  classes: PropTypes.shape(PropTypes.object).isRequired,
   cancelLabel: PropTypes.string,
   confirmLabel: PropTypes.string,
   description: PropTypes.string,

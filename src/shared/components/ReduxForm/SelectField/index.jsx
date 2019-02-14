@@ -1,9 +1,10 @@
+// Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Select from 'react-select';
-
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
+
+// Application
 import Select from 'shared/components/Select';
 
 const SelectField = ({
@@ -55,13 +56,21 @@ SelectField.propTypes = {
     error: PropTypes.string,
   }).isRequired,
   required: PropTypes.bool,
+  placeholder: PropTypes.string,
+  loading: PropTypes.bool,
+  multi: PropTypes.bool,
+  searchable: PropTypes.bool,
+  options: PropTypes.instanceOf(Array),
 };
 
 SelectField.defaultProps = {
   disabled: false,
   required: false,
-  // getOptionLabel: undefined,
-  // getOptionValue: undefined,
+  placeholder: '',
+  loading: false,
+  multi: false,
+  searchable: false,
+  options: [],
 };
 
 export default SelectField;
