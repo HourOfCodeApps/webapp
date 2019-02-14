@@ -52,17 +52,23 @@ class School extends React.Component {
     }).isRequired,
     onDeleteSchool: PropTypes.func.isRequired,
     onFetchSchool: PropTypes.func.isRequired,
-    school: PropTypes.instanceOf(Array),
+    onFetchSchoolTimeslots: PropTypes.func.isRequired,
+    school: PropTypes.instanceOf(Object),
     schoolDeleting: PropTypes.bool.isRequired,
     schoolDeletingError: PropTypes.instanceOf(Object),
     schoolFetching: PropTypes.bool.isRequired,
     schoolFetchingError: PropTypes.instanceOf(Object),
+    timeslots: PropTypes.instanceOf(Array),
+    timeslotsFetching: PropTypes.bool.isRequired,
+    timeslotsFetchingError: PropTypes.instanceOf(Object),
   }
 
   static defaultProps = {
     school: null,
     schoolDeletingError: null,
     schoolFetchingError: null,
+    timeslots: [],
+    timeslotsFetchingError: null,
   }
 
   state = {

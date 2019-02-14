@@ -1,6 +1,10 @@
+// Vendor
 import React from 'react';
 import MuiTextField from '@material-ui/core/TextField';
 import PhoneInput from 'react-phone-number-input';
+
+// Application
+import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
 
 class Phone extends React.Component {
   Wrapper = ({ onChange, ...props }) => {
@@ -21,7 +25,7 @@ class Phone extends React.Component {
         error={touched && error}
         label={label}
         name={input.name}
-        helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
+        helperText={getInputHelperText(touched && error, required)}
         placeholder={placeholder}
       />
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DateTimePicker from 'shared/components/DateTimePicker';
+import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
 
 const DateTimePickerField = ({
   compact,
@@ -20,7 +21,7 @@ const DateTimePickerField = ({
     margin="normal"
     fullWidth={!compact}
     error={touched && error}
-    helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
+    helperText={getInputHelperText(touched && error, required)}
     {...props}
   />
 );
