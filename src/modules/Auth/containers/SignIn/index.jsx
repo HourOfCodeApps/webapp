@@ -1,11 +1,12 @@
+// Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-
 import { withTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+// Application
 import { FlexBox } from 'shared/components/LayoutStyled';
 import { HeadingSm } from 'shared/components/TypographyStyled';
 
@@ -25,7 +26,7 @@ import {
   SIGNIN_GOOGLE_PROVIDER,
 } from '../../constants';
 
-import SigninForm from '../../components/SignInForm';
+import SigninForm from '../../components/SigninForm';
 import ForgotPasswordDialog from '../ForgotPasswordDialog';
 
 class SignIn extends React.Component {

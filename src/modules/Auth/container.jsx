@@ -1,11 +1,13 @@
+// Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+// Application
 import {
   signIn,
 } from './actions';
@@ -21,7 +23,7 @@ import {
   SIGNIN_GOOGLE_PROVIDER,
 } from './constants';
 
-import SignInForm from './components/SignInForm';
+import SignInForm from './components/SigninForm';
 
 const styles = theme => ({
   root: {
