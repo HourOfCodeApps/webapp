@@ -225,10 +225,16 @@ Schedule.propTypes = {
   userLocation: PropTypes.instanceOf(Object),
   userLocationFetching: PropTypes.bool.isRequired,
   userLocationFetchingError: PropTypes.instanceOf(Object),
+  schoolIds: PropTypes.instanceOf(Array),
+  schoolsMap: PropTypes.instanceOf(Object),
+  timeslotsBySchool: PropTypes.instanceOf(Object),
 };
 
 Schedule.defaultProps = {
   onBoundsChanged: () => {},
+  schoolIds: [],
+  schoolsMap: {},
+  timeslotsBySchool: {},
   userLocation: null,
   userLocationFetchingError: null,
 };
