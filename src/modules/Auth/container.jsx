@@ -23,7 +23,7 @@ import {
   SIGNIN_GOOGLE_PROVIDER,
 } from './constants';
 
-import SignInForm from './components/SigninForm';
+import SignInForm from './components/SignInForm';
 
 const styles = theme => ({
   root: {

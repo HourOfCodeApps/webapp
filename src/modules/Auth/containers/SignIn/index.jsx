@@ -26,7 +26,7 @@ import {
   SIGNIN_GOOGLE_PROVIDER,
 } from '../../constants';
 
-import SigninForm from '../../components/SigninForm';
+import SigninForm from '../../components/SignInForm';
 import ForgotPasswordDialog from '../ForgotPasswordDialog';
 
 class SignIn extends React.Component {
