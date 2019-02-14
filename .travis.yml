@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-- 8
+  - 8
 install:
-- yarn
+  - yarn
 env:
   secure: QQYzYwWpv8WSnScsM8V6fnYMT7A4EWAFHkX8AFl1lDhArY7WtuJozs9Uy9937yR6SzEwkifUQvRoIud/wsYbRuXfzhgwKW0VA0DlW0CnGH9DVPHw9PkKfDjyq89FybD2K0QGWUsZbHQ5AYCbbiql0OhX2MPQi8mj9QlHlA8ftd1KaPHwx5suDIrE9qH9aBarVWrJzNtqetRxj8F60Hq/oG9FmeYD7NLi/rUo+xI0k6/C1wwEF7rHq/u3FCCFaZ9fCh6D09Vz0SBzhami4PZAnhCajY2iqdg33uT8O4W87yQcHScZbeZQiq09FPlA1RibnCC1ImnVOaZmyT+hge7/ndU/tJYzAif6FIrFjNqrF/QdmbH+ZKS2nunfD8iAmJ1vs8+ZsmEholSc7yK70ZvyfRWU1l5ZqIsbm6EUloXAazMAB7FirG5vMSvZThQt0Qu4yVXY5QqqcCXfoPylpeO2+IO/+C/8fVALxYP78HlzJinm5/T3ur6HQkpikEuhtFnMH/xaSoUWHXYPiVA23nmnVOYXwgQaJmYtXjU/zo2GcdKQ920sDIben0LfXgeFSpwrsASLNXYqnHvEh6qcisF93z/3VmBz/NSdpSpbKsOfuqpdLFlqynr/8VI9DjELrQBU0f2PSaFTLrjUsK/NwfSLnB68c7iQWTyAc9ZetM/24So=
 
@@ -12,9 +12,11 @@ script:
   - echo "Pushing coverage to Codacy!"
   - yarn codacy
 
-# jobs:
-#   include:
-#     - stage: Test
-#       script: yarn test
-#     - stage: Push coverage to Codacy
-#       script: yarn codacy
+deploy:
+  - provider: firebase
+    token:
+      secure: TRjHL2h5/Kn0MPRMVLLgtk4HC/mWkublEJmMr6V3FyxvkWYMRcE24PqN1mHpqYAUpFW+Ex5N+G2zn/4EHysuYUhHK+n6/I2NmxS2NGK7APKzMlf7IQ6kA+lpln/nPBtK/ehHD8tOfo5aj9N3v4Oys38/5wxRVRb4/cTE3LHlYgIIOcAH2iWImezFZ5+8g9Q9AL1IX0nxiFbgZPhggj8ocuUngf/zEzLwnVnu0IY4e0LMGyaAl7vb61CaEInj1Dl3AfMWqZiurSdgmEVd/1+1MYGuP+P7hhy+uq6swhsEPfOVGj9EhGZwCq8+w2AFnpz7oi81x3ZZ8z1Rz7yJCs3xZ304WNJafAhAxehXrWI5NxCxLSQnnxiiTTWASZpwppewqqM/q/QjatoTJoE77Juyh0OfvBKSjr9SWZDfMLLMQbe6c/pLvj3dnu4h82Nfjv5yOkFS8HaNmBuCYoLnU4mYA9mBKhfUw0F3br0h1hRPCM4wYqhxUk3hvLs1OpeXrgbThkoikbZNkCZq4sT6AK8WxCBiqOQb3XWJ6P+KXjEyF3QDF0mWM8Dd9CrWDcF+Rzi611fbgX/9iQrRvTIoDLMXnz38+ruWflmYeTh5/PTFCA26/705WWMw3vMyQtaTkuYO85vSnLaRwSTCkdRNZmaT+xn7FuJoNzkCf+iGchy9s6Q=
+    project: "hourofcodeua-dev"
+    skip_cleanup: true
+    on:
+      branch: travis-deployment
