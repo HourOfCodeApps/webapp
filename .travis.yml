@@ -15,8 +15,9 @@ jobs:
   include:
     - stage: eslint
       script: yarn lint
-    - stage: unit tests
-      script: yarn test
+    # - stage: unit tests
+    #   script: yarn test
+    - script: yarn test
     - stage: Codacy
       script: yarn test && yarn codacy
     - stage: Build
