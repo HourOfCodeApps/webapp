@@ -16,15 +16,16 @@ env:
 
 jobs:
   include:
-  - stage: test
-    script:
-    - yarn lint
-    - yarn test
+  # - stage: test
+  #   script:
+  #   - yarn lint
+  #   - yarn test
   - stage: Codacy
     script: yarn test && yarn codacy
   - stage: Build
     script: yarn build
-    env: SpEBtQzY6JrzifQ88+fc7gnbmvbNQBkSGvnbsQm/E5JPX6NUUc9FLNRbLQSxBIhK37IAJa4eSL+kivQKxZESAMQxSM7wxaAGxfxcdrx+94JKFVO2MQpoombqvKqhObJ6n27c0K8JPWvYyQUAbtI6TxCOJxoE511qDjBMxN+b+Cx2k1MZOj1A5rmq1v7Sko8U/A8EJd1mShU6hovns207QfrXzxZlrApUehMX3d3Pcj5JqHYJ7NJzY5hKkxCuVLNpyNQfwmpEjqfe1tBanjpl0Tdacu2Geix77QfQOy5xMstv2g+1URxqGnrb7Tr5K0KA3sog1Kpr662NmBsL91MKUk7UcKFPhVv9nDmmHcU2pKQszNsZCoPKl4zgbgvAfrJngwYBAriVyu4s0uQj7DHNKCOXtTM+ly6bthOX+DRHhsTeXVaaqZe+NsRU66tifdzdaDUgjSiwg3mtHc+L9FcKQBZFkqDU6H+RcY7YeIJXTPYvFaJzIdnC8uTQYBiR9hykFD0MOYud9GsB6WoZ2BC2jqSvvbCi80tvrwiOGNYgNRQPLFUo9QGQGZWA11q4jDn/U6ibKyhjP0LzboiWZjTBPqRyfI77Dd+wdj+q7bJpMKLCwgCt87flN94rS2SLAdAcA9dFBCqBZJkWuFGC/yuLRATJcG1+clxAdg0y7QAS85A=
+    env:
+      secure: SpEBtQzY6JrzifQ88+fc7gnbmvbNQBkSGvnbsQm/E5JPX6NUUc9FLNRbLQSxBIhK37IAJa4eSL+kivQKxZESAMQxSM7wxaAGxfxcdrx+94JKFVO2MQpoombqvKqhObJ6n27c0K8JPWvYyQUAbtI6TxCOJxoE511qDjBMxN+b+Cx2k1MZOj1A5rmq1v7Sko8U/A8EJd1mShU6hovns207QfrXzxZlrApUehMX3d3Pcj5JqHYJ7NJzY5hKkxCuVLNpyNQfwmpEjqfe1tBanjpl0Tdacu2Geix77QfQOy5xMstv2g+1URxqGnrb7Tr5K0KA3sog1Kpr662NmBsL91MKUk7UcKFPhVv9nDmmHcU2pKQszNsZCoPKl4zgbgvAfrJngwYBAriVyu4s0uQj7DHNKCOXtTM+ly6bthOX+DRHhsTeXVaaqZe+NsRU66tifdzdaDUgjSiwg3mtHc+L9FcKQBZFkqDU6H+RcY7YeIJXTPYvFaJzIdnC8uTQYBiR9hykFD0MOYud9GsB6WoZ2BC2jqSvvbCi80tvrwiOGNYgNRQPLFUo9QGQGZWA11q4jDn/U6ibKyhjP0LzboiWZjTBPqRyfI77Dd+wdj+q7bJpMKLCwgCt87flN94rS2SLAdAcA9dFBCqBZJkWuFGC/yuLRATJcG1+clxAdg0y7QAS85A=
     # env: FIREBASE_API_KEY=AIzaSyBwBtareu_jsCdeRK4S2LP-QFxHUWKygnU FIREBASE_AUTH_DOMAIN=hoc-org-dev.firebaseapp.com
     #   FIREBASE_DATABASE_URL=https://hoc-org-dev.firebaseio.com FIREBASE_PROJECT_ID=hoc-org-dev
     #   FIREBASE_STORAGE_BUCKET=hoc-org-dev.appspot.com FIREBASE_MESSAGING_SENDER_ID=281059038812
