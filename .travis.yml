@@ -10,9 +10,9 @@ cache:
 
 jobs:
   include:
-    - stage: Tests
-      name: Eslint
-      script: yarn lint
+    # - stage: Tests
+    #   name: Eslint
+    #   script: yarn lint
     - stage: Tests
       name: Unit tests
       script: yarn test && yarn codacy
