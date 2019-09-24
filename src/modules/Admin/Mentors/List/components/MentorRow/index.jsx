@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import yellow from '@material-ui/core/colors/yellow';
-
+import { yellow } from 'shared/colors';
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 import {
   TableCell, TableRow,
@@ -12,7 +11,7 @@ import {
 const MentorRow = ({ mentor }) => (
   <TableRow
     style={{
-      backgroundColor: isEnoughUserData(mentor) ? 'transparent' : yellow[500],
+      backgroundColor: isEnoughUserData(mentor) ? 'transparent' : yellow,
     }}
   >
     <TableCell>
