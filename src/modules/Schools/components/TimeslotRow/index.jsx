@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_NEEDS_MENTOR,
   TIMESLOT_STATUS_HAS_MENTOR,
   TIMESLOT_STATUS_REJECTED,
 } from 'shared/constants/timeslots';
+
+import {
+  TableCell, TableRow,
+} from 'shared/components/Table';
 
 const renderStatus = (timeslot) => {
   if (!timeslot.status || timeslot.status === TIMESLOT_STATUS_NEEDS_APPROVE) {

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ViewIcon from '@material-ui/icons/Visibility';
-// import EditIcon from 'material-ui-icons/Edit';
 
+import {
+  TableCell, TableRow,
+} from 'shared/components/Table';
 
 class School extends React.Component {
   handleDelete = () => {
