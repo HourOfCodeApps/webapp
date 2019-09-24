@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
 import ApproveIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import { IconButton } from 'shared/components/Buttons';
 import { TableCell, TableRow } from 'shared/components/Table';
 
 import {

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@material-ui/core/IconButton';
 import ApproveIcon from '@material-ui/icons/Done';
 
+import { IconButton } from 'shared/components/Buttons';
 import { TableCell, TableRow } from 'shared/components/Table';
 
 class Teacher extends React.Component {

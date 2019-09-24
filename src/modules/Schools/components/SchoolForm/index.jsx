@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from 'shared/components/ReduxForm/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { Button } from 'shared/components/Buttons';
+import { Button, IconButton } from 'shared/components/Buttons';
 
 
 import { SCHOOL_FORM_ID } from '../../constants';
