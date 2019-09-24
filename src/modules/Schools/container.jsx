@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+
 import AddIcon from '@material-ui/icons/Add';
 import { toast } from 'react-toastify';
 
@@ -15,6 +15,8 @@ import Loading from 'shared/components/Loading';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';
+import { Button } from 'shared/components/Buttons';
+
 
 import {
   deleteSchool,

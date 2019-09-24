@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
@@ -12,6 +11,7 @@ import { toast } from 'react-toastify';
 
 import { withUser } from 'modules/Auth';
 
+import { Button } from 'shared/components/Buttons';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import EmptyState from 'shared/components/EmptyState';
 import Loading from 'shared/components/Loading';

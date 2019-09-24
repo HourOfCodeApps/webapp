@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
+import { Button } from 'shared/components/Buttons';
 import Range from 'shared/components/Range';
 import Loading from 'shared/components/Loading';
 

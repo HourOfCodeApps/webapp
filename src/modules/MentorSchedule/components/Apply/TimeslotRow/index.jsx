@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 
-import Button from '@material-ui/core/Button';
-
+import { Button } from 'shared/components/Buttons';
 import {
   TableCell, TableRow,
 } from 'shared/components/Table';
