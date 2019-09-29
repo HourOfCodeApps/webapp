@@ -6,9 +6,6 @@ import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
 import { DateTime } from 'luxon';
 
 import { toast } from 'react-toastify';
@@ -19,6 +16,8 @@ import { withSchools } from 'modules/Schools';
 import { red } from 'shared/colors';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
+import { Tabs, Tab } from 'shared/components/Tabs';
 
 import {
   createTimeslot,

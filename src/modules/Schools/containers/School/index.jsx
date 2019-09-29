@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
@@ -19,6 +18,7 @@ import isEqual from 'lodash/isEqual';
 
 import { IconButton } from 'shared/components/Buttons';
 import Loading from 'shared/components/Loading/index';
+import Paper from 'shared/components/Paper';
 import {
   deleteSchool,
   fetchSchool,

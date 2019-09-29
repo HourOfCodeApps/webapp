@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { DateTime } from 'luxon';
 import upperFirst from 'lodash/upperFirst';
 
+import Paper from 'shared/components/Paper';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';

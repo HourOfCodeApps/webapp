@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import pick from 'lodash/pick';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { toast } from 'react-toastify';
 
+import Paper from 'shared/components/Paper';
 
 import {
   createSchool,

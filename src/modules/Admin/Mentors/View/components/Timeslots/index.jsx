@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
 
+import Paper from 'shared/components/Paper';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';

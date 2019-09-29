@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 
 import { withSchools } from 'modules/Schools';
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';

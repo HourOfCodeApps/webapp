@@ -6,7 +6,6 @@ import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import isEqual from 'lodash/isEqual';
 
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 
@@ -18,6 +17,7 @@ import { IconButton } from 'shared/components/Buttons';
 import Map, { Marker } from 'shared/components/Map';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
 
 import {
   deleteSchool,

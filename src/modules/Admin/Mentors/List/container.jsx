@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';

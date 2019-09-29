@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { withSchools } from 'modules/Schools';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
 import Table, {
   TableBody, TableCell, TableHead, TableRow,
 } from 'shared/components/Table';
