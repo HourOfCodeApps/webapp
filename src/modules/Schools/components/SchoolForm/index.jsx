@@ -5,7 +5,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from 'shared/components/ReduxForm/TextField';
-import Typography from '@material-ui/core/Typography';
+import Typography from 'shared/components/Typography';
 
 import { Button, IconButton } from 'shared/components/Buttons';
 

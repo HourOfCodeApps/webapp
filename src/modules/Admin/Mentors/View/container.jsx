@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Grid from 'shared/components/Grid';
+import Typography from 'shared/components/Typography';
 import isEqual from 'lodash/isEqual';
 
 import Loading from 'shared/components/Loading/index';

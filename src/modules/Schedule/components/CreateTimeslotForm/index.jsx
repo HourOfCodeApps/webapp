@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from 'shared/components/Grid';
 import FormControl from '@material-ui/core/FormControl';
 
 import { Button } from 'shared/components/Buttons';

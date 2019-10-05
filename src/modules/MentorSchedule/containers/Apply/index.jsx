@@ -4,10 +4,10 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
-import Grid from '@material-ui/core/Grid';
+import Grid from 'shared/components/Grid';
 import AppBar from '@material-ui/core/AppBar';
 
-import Typography from '@material-ui/core/Typography';
+import Typography from 'shared/components/Typography';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';

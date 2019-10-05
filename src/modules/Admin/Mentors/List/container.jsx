@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import Typography from 'shared/components/Typography';
+import Grid from 'shared/components/Grid';
 
 import Loading from 'shared/components/Loading';
 import Paper from 'shared/components/Paper';

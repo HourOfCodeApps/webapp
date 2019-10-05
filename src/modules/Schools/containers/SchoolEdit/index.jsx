@@ -6,7 +6,7 @@ import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import isEqual from 'lodash/isEqual';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from 'shared/components/Grid';
 import { Link } from 'react-router-dom';
 
 import DeleteIcon from '@material-ui/icons/Delete';

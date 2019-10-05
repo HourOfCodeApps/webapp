@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
-import Typography from '@material-ui/core/Typography';
+import Typography from 'shared/components/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import { DateTime } from 'luxon';
 

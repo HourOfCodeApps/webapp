@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Grid from 'shared/components/Grid';
+import Typography from 'shared/components/Typography';
 import { Link } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
