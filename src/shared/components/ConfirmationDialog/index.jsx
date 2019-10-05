@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import red from '@material-ui/core/colors/red';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import withStyles from '@material-ui/core/styles/withStyles';
 import TextField from '@material-ui/core/TextField';
 
+import { red } from 'shared/colors';
 import Loading from 'shared/components/Loading';
+import { Button } from 'shared/components/Buttons';
+
 
 const dangerTheme = outerTheme => ({
   ...outerTheme,
@@ -20,7 +22,7 @@ const dangerTheme = outerTheme => ({
     primary:
     {
       ...outerTheme.palette.primary,
-      main: red[500],
+      main: red,
     },
   },
 });

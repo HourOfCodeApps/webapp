@@ -6,18 +6,18 @@ import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import isEqual from 'lodash/isEqual';
 
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Grid from 'shared/components/Grid';
 import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ViewIcon from '@material-ui/icons/Visibility';
 import { toast } from 'react-toastify';
 
+import { IconButton } from 'shared/components/Buttons';
 import Map, { Marker } from 'shared/components/Map';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
+import Paper from 'shared/components/Paper';
 
 import {
   deleteSchool,

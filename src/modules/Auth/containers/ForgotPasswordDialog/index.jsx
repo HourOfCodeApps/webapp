@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'shared/components/Dialog';
 import TextField from '@material-ui/core/TextField';
 import { HeadingSm } from 'shared/components/TypographyStyled';
 import { FlexBox } from 'shared/components/LayoutStyled';
 import { toast } from 'react-toastify';
 
-
+import { Button } from 'shared/components/Buttons';
 import isEmail from 'shared/utils/validations/isEmail';
 
 import {

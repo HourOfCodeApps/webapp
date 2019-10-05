@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Grid from 'shared/components/Grid';
+import Typography from 'shared/components/Typography';
 import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { toast } from 'react-toastify';
@@ -18,7 +16,9 @@ import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 
 import isEqual from 'lodash/isEqual';
 
+import { IconButton } from 'shared/components/Buttons';
 import Loading from 'shared/components/Loading/index';
+import Paper from 'shared/components/Paper';
 import {
   deleteSchool,
   fetchSchool,

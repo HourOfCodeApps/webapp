@@ -6,10 +6,11 @@ import pick from 'lodash/pick';
 import get from 'lodash/get';
 
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+
+import Typography from 'shared/components/Typography';
 
 import { withSchools } from 'modules/Schools';
+import Paper from 'shared/components/Paper';
 
 import CompleteSignUpForm from '../../components/CompleteSignUpForm';
 

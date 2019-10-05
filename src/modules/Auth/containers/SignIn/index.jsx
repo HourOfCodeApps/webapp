@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { withTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Typography from 'shared/components/Typography';
 
 // Application
 import { FlexBox } from 'shared/components/LayoutStyled';

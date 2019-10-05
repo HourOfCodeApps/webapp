@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+
+import {
+  TableCell, TableRow,
+} from 'shared/components/Table';
 
 const getUserRoles = (roles = {}) => Object.keys(roles)
   .filter(role => roles[role]);
