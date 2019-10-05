@@ -12,6 +12,8 @@ import admin from './lib/firebase';
 import loadUserInfo, { loadUserProfile } from './lib/loadUserInfo';
 import { sendEmailToAdmins } from './admin';
 
+import getUsers from './functions/getUsers';
+
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_APPROVED,
@@ -846,4 +848,6 @@ export {
   updateMentorTimeslotsCount,
   // sendTimeslotReminders,
   sendTimeslotReminders,
+
+  getUsers,
 };

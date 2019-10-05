@@ -1,5 +1,12 @@
 import { combineReducers } from 'redux';
 
+import Users,
+{
+  User,
+  reducer as usersReducer,
+  sagas as usersSagas,
+} from './Users';
+
 import Mentors,
 {
   Mentor,
@@ -23,12 +30,14 @@ export const reducer = combineReducers({
   mentors: mentorsReducer,
   teachers: teachersReducer,
   timeslots: timeslotsReducer,
+  users: usersReducer,
 });
 
 export const sagas = [
   ...mentorsSagas,
   ...teachersSagas,
   ...timeslotsSagas,
+  ...usersSagas,
 ];
 
 export {
@@ -36,4 +45,6 @@ export {
   Mentors,
   Teachers,
   Timeslots,
+  User,
+  Users,
 };

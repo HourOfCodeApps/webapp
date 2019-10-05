@@ -27,6 +27,8 @@ import {
   Mentors as AdminMentors,
   Teachers as AdminTeachers,
   Timeslots as AdminTimeslots,
+  User as AdminUser,
+  Users as AdminUsers,
 } from 'modules/Admin';
 
 import {
@@ -83,6 +85,8 @@ const Private = ({ user }) => (
           <Route path="/timeslots" exact component={AdminTimeslots} />,
           <Route path="/mentors" exact component={AdminMentors} />,
           <Route path="/mentor/:id" exact component={AdminMentor} />,
+          <Route path="/users" exact component={AdminUsers} />,
+          <Route path="/users/:id" exact component={AdminUser} />,
         ]}
         {user.teacher && (
           <Route path="/" exact component={Schedule} />
@@ -154,6 +158,7 @@ class App extends React.Component {
 
     // some special cases when user isn't completely registeted
     if (auth && (!user || !isEnoughUserData(user))) {
+      console.log(user, userLoading, isEnoughUserData(user));
       return <CompleteSignUp user={user || { email: auth.email }} />;
     }
 

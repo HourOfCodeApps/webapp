@@ -21,7 +21,7 @@
     "request-promise": "^4.2.2"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
