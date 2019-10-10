@@ -3,10 +3,10 @@
 
 ## Built using Firebase
 1. [Authentication](https://firebase.google.com/products/auth/)
-1. [Cloud Firestore](https://firebase.google.com/products/firestore/)
-1. [Hosting](https://firebase.google.com/products/hosting/)
-1. [Cloud Functions](https://firebase.google.com/products/functions/)
-1. [Remote Config](https://firebase.google.com/products/remote-config/)
+2. [Cloud Firestore](https://firebase.google.com/products/firestore/)
+3. [Hosting](https://firebase.google.com/products/hosting/)
+4. [Cloud Functions](https://firebase.google.com/products/functions/)
+5. [Remote Config](https://firebase.google.com/products/remote-config/)
 
 ## 3rd party tools we are using
 We are using Browserstack to test our web app in browsers like IE or Edge
