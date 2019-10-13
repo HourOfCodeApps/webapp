@@ -1,6 +1,7 @@
 // Vendor
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
+import firebase from 'firebase/app';
+import 'firebase/remote-config';
+
 import {
   takeLatest, fork, put,
 } from 'redux-saga/effects';
@@ -19,10 +20,14 @@ import {
 
 function* fetchConfig() {
   try {
+    const remoteConfig = firebase.remoteConfig();
+    yield remoteConfig.fetchAndActivate();
+
     const config = {
-      days: ['2018-12-03', '2018-12-04', '2018-12-05', '2018-12-06', '2018-12-07', '2018-12-08'],
-      // days: ['2019-12-09', '2019-12-10', '2019-12-11', '2019-12-12', '2019-12-13', '2019-12-14'],
-      timeslotCreationEnabled: true,
+      days: JSON.parse(remoteConfig.getString('days')),
+      timeslotCreationEnabled: remoteConfig.getBoolean('timeslotCreationEnabled'),
+      mentorSignupEnabled: remoteConfig.getBoolean('mentorSignupEnabled'),
+      teacherSignupEnabled: remoteConfig.getBoolean('teacherSignupEnabled'),
     };
 
     yield put(fetchConfigSuccess(config));
