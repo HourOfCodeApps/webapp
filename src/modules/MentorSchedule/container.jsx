@@ -37,7 +37,6 @@ import {
 } from './selectors';
 
 import SchoolRow from './components/SchoolRow';
-// import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 class Schedule extends React.Component {
   state = {

@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { reducer as formReducer } from 'redux-form';
 
+import { reducer as configReducer, sagas as configSagas } from 'modules/Config';
 import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
 import { reducer as mentorScheduleReducer, sagas as mentorScheduleSagas } from 'modules/MentorSchedule';
 // import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
@@ -17,6 +18,7 @@ import { reducer as profileReducer, sagas as profileSagas } from 'modules/Profil
 import { reducer as adminReducer, sagas as adminSagas } from 'modules/Admin';
 
 const reducer = combineReducers({
+  config: configReducer,
   admin: adminReducer,
   auth: authReducer,
   form: formReducer,
@@ -43,6 +45,7 @@ const store = createStore(
 );
 
 [
+  ...configSagas,
   ...adminSagas,
   ...authSagas,
   ...mentorScheduleSagas,

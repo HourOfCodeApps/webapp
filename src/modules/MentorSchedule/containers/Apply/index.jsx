@@ -18,6 +18,7 @@ import Tab from '@material-ui/core/Tab';
 
 import { toast } from 'react-toastify';
 
+import { withConfig } from 'modules/Config';
 import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
@@ -73,25 +74,18 @@ const defaultMarks = {
   16: '16:00',
 };
 
-const days = [
-  '2018-12-03',
-  '2018-12-04',
-  '2018-12-05',
-  '2018-12-06',
-  '2018-12-07',
-  '2018-12-08',
-];
-
-const dayLabels = days.reduce((acc, curr) => ({
-  ...acc,
-  [curr]: DateTime.fromISO(curr).setLocale('uk').toFormat('EEEE, dd MMMM'),
-}), {});
+// const dayLabels = days.reduce((acc, curr) => ({
+//   ...acc,
+//   [curr]: DateTime.fromISO(curr).setLocale('uk').toFormat('EEEE, dd MMMM'),
+// }), {});
 
 const todayISO = DateTime.local().toISODate();
 
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
+
+    const { days } = props.config;
 
     this.state = {
       bounds: null,
@@ -209,6 +203,7 @@ class Schedule extends React.Component {
         selectedSchoolId,
       },
       props: {
+        config,
         schoolsMap,
         timeslotApplying,
         timeslots,
@@ -284,10 +279,11 @@ class Schedule extends React.Component {
 
         <AppBar position="static">
           <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
-            {days.map(day => (
+            {config.days.map(day => (
               <Tab
                 value={day}
-                label={dayLabels[day]}
+                // label={dayLabels[day]}
+                label={day}
                 key={day}
                 disabled={day < todayISO}
               />
@@ -410,6 +406,7 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withConfig,
   withSchools,
   withUser,
 )(Schedule);
