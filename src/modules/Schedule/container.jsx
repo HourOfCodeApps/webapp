@@ -14,6 +14,7 @@ import red from '@material-ui/core/colors/red';
 
 import { toast } from 'react-toastify';
 
+import { withConfig } from 'modules/Config';
 import { withUser } from 'modules/Auth';
 import { withSchools } from 'modules/Schools';
 
@@ -38,22 +39,16 @@ import {
 
 import Timeslots from './components/Timeslots';
 
-const days = [
-  '2018-12-03',
-  '2018-12-04',
-  '2018-12-05',
-  '2018-12-06',
-  '2018-12-07',
-  '2018-12-08',
-];
-
-
 class Schedule extends React.Component {
-  state = {
-    deleteConfirmationDialogShown: false,
-    deleteTimeslotId: null,
-    selectedDay: days[0],
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      deleteConfirmationDialogShown: false,
+      deleteTimeslotId: null,
+      selectedDay: props.config.days[0],
+    };
+  }
 
   componentDidMount() {
     const { teacher } = this.props.user;
@@ -135,6 +130,7 @@ class Schedule extends React.Component {
         selectedDay,
       },
       props: {
+        config,
         schoolsMap,
         timeslots,
         timeslotsFetching,
@@ -156,7 +152,7 @@ class Schedule extends React.Component {
         <Paper>
           <AppBar position="static">
             <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
-              {days.map(day => (
+              {config.days.map(day => (
                 <Tab
                   value={day}
                   label={`${day} (${(timeslots[day] || []).length})`}
@@ -179,18 +175,23 @@ class Schedule extends React.Component {
           )}
         </Paper>
         {/* {!timeslotsFetching && !timeslotsFetchingError && (
-          <CreateTimeslotForm onSubmit={handleSubmit} />
-        )} */}
-        <Paper
-          style={{
-            marginTop: 20,
-            padding: 20,
-          }}
-        >
-          <Typography variant="title" align="center" style={{ color: red[500] }}>
-            Час реєстрації нових уроків вичерпано. До зустрічі наступного року.
-          </Typography>
-        </Paper>
+            <CreateTimeslotForm onSubmit={handleSubmit} />
+          )} */}
+        {config.timeslotCreationEnabled ? (
+          <Paper>Hello</Paper>
+        ) : (
+          <Paper
+            style={{
+              marginTop: 20,
+              padding: 20,
+            }}
+          >
+            <Typography variant="title" align="center" style={{ color: red[500] }}>
+              Час реєстрації нових уроків вичерпано. До зустрічі наступного року.
+            </Typography>
+          </Paper>
+        )}
+
         {deleteConfirmationDialogShown && (
           <ConfirmationDialog
             onCancel={handleDeleteCancel}
@@ -209,6 +210,9 @@ class Schedule extends React.Component {
 }
 
 Schedule.propTypes = {
+  config: PropTypes.shape({
+    days: PropTypes.array.isRequired,
+  }).isRequired,
   onCreateTimeslot: PropTypes.func.isRequired,
   onDeleteTimeslot: PropTypes.func.isRequired,
   onFetchTimeslots: PropTypes.func.isRequired,
@@ -266,6 +270,7 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withConfig,
   withUser,
   withSchools,
 )(Schedule);

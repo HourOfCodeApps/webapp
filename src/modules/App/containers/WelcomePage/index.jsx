@@ -2,6 +2,9 @@ import React from 'react';
 import Auth, { SignUp } from 'modules/Auth';
 import { Container, Column, FlexBox } from 'shared/components/LayoutStyled';
 import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
+
+import { withConfig } from 'modules/Config';
+
 import WelcomeHero from './components/WelcomeHero';
 
 class WelcomePage extends React.Component {
@@ -18,23 +21,28 @@ class WelcomePage extends React.Component {
     const {
       handleToggleMode,
       state: { isSignInShown },
+      props: { config },
     } = this;
+
+    const signupEnabled = config.mentorSignupEnabled || config.teacherSignupEnabled;
 
     return (
       <React.Fragment>
         <WelcomeHero />
         <Container container alignItems="center" marginCenter justify="space-between">
           <Column item xs={12} md={5}>
-            {isSignInShown && (
+            {(isSignInShown || !signupEnabled) && (
               <FlexBox margin="0 0 50px 0" align="center" justify="center">
                 <Auth />
-                <HeadingSm variant="subheading" link>
-                  Ще не реєструвався? —
-                  <span onClick={handleToggleMode}>Реєструйся</span>
-                </HeadingSm>
+                {signupEnabled && (
+                  <HeadingSm variant="subheading" link>
+                    Ще не реєструвався? —
+                    <span onClick={handleToggleMode}>Реєструйся</span>
+                  </HeadingSm>
+                )}
               </FlexBox>
             )}
-            {!isSignInShown && (
+            {!isSignInShown && signupEnabled && (
               <FlexBox margin="0 0 50px 0" align="center" justify="center">
                 <SignUp />
                 <HeadingSm variant="subheading" link>
@@ -74,4 +82,4 @@ class WelcomePage extends React.Component {
   }
 }
 
-export default WelcomePage;
+export default withConfig(WelcomePage);
