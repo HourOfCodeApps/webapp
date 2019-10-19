@@ -21,6 +21,9 @@ import {
 function* fetchConfig() {
   try {
     const remoteConfig = firebase.remoteConfig();
+    remoteConfig.settings = {
+      minimumFetchIntervalMillis: 600000,
+    };
     yield remoteConfig.fetchAndActivate();
 
     const config = {

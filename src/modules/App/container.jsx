@@ -9,27 +9,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
-
-import Page404 from 'modules/ErrorPage/Page404';
-import Dashboard from 'modules/Dashboard';
-import Schools, { School, SchoolCreate, SchoolEdit } from 'modules/Schools';
-// import { Teachers } from 'modules/Users';
-import Schedule from 'modules/Schedule';
-import MentorSchedule, { MentorScheduleApply } from 'modules/MentorSchedule';
-import Profile from 'modules/Profile';
-import {
-  Mentor as AdminMentor,
-  Mentors as AdminMentors,
-  Teachers as AdminTeachers,
-  Timeslots as AdminTimeslots,
-} from 'modules/Admin';
-
-import {
   selectAuth,
   selectStateInitLoaded,
   selectUser,
@@ -41,8 +20,10 @@ import {
 
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
-import WelcomePage from './containers/WelcomePage';
-import AppWrapper from './containers/AppWrapper';
+import AppLoader from './containers/AppLoader';
+
+import Public from './containers/Public';
+import Private from './containers/Private';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 import AppLoading from './components/AppLoading';
@@ -55,45 +36,6 @@ const theme = createMuiTheme({
     },
   },
 });
-
-const Public = () => (
-  <Router>
-    <Switch>
-      <Route path="/" exact component={WelcomePage} />
-      {/* <Route component={Page404} /> */}
-      <Redirect to="/" />
-    </Switch>
-  </Router>
-);
-
-const Private = ({ user }) => (
-  <Router>
-    <AppWrapper>
-      <Switch>
-        {user.admin && [
-          <Route path="/" exact component={Dashboard} />,
-          <Route path="/schools" exact component={Schools} />,
-          <Route path="/school/new" exact component={SchoolCreate} />,
-          <Route path="/school/:id" exact component={School} />,
-          <Route path="/school/:id/edit" exact component={SchoolEdit} />,
-          <Route path="/teachers" exact component={AdminTeachers} />,
-          <Route path="/timeslots" exact component={AdminTimeslots} />,
-          <Route path="/mentors" exact component={AdminMentors} />,
-          <Route path="/mentor/:id" exact component={AdminMentor} />,
-        ]}
-        {user.teacher && (
-          <Route path="/" exact component={Schedule} />
-        )}
-        {user.mentor && [
-          <Route path="/" exact component={MentorSchedule} />,
-          <Route path="/apply" exact component={MentorScheduleApply} />,
-        ]}
-        <Route path="/me" exact component={Profile} />
-        <Route component={Page404} />
-      </Switch>
-    </AppWrapper>
-  </Router>
-);
 
 class App extends React.Component {
   static propTypes = {
@@ -165,8 +107,10 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        <ToastContainer />
-        {renderContent()}
+        {/* <AppLoader> */}
+          <ToastContainer />
+          {renderContent()}
+        {/* </AppLoader> */}
       </MuiThemeProvider>
     );
   }
