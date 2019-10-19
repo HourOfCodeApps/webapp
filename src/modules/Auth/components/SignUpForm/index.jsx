@@ -19,83 +19,96 @@ const SignupForm = (
     pristine,
     role,
     formError,
+    mentorSignupEnabled,
+    teacherSignupEnabled,
   },
-) => (
-  <form onSubmit={handleSubmit}>
-    <Heading fontSize="24px" bolder halfLine margin="0 0 15px 0">Реєстрація</Heading>
-    <Field
-      component={RadioGroupField}
-      label="Я хочу бути:"
-      name="role"
-      options={[
-        { value: 'mentor', label: 'Ментором' },
-        // { value: 'teacher', label: 'Представником школи' },
-      ]}
-      horizontal
-      color="primary"
-    />
-    {role === 'mentor' && (
+) => {
+  const roleOptions = [];
+
+  if (mentorSignupEnabled) {
+    roleOptions.push({ value: 'mentor', label: 'Ментором' });
+  }
+
+  if (teacherSignupEnabled) {
+    roleOptions.push({ value: 'teacher', label: 'Представником школи' });
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Heading fontSize="24px" bolder halfLine margin="0 0 15px 0">Реєстрація</Heading>
+      <Field
+        component={RadioGroupField}
+        label="Я хочу бути:"
+        name="role"
+        options={roleOptions}
+        horizontal
+        color="primary"
+      />
+      {role === 'mentor' && (
+        <Field
+          component={CheckBoxField}
+          label="Я вже був ментором раніше"
+          name="wasMentorBefore"
+          required
+          color="primary"
+        />
+      )}
+      <Field
+        component={TextField}
+        label="Поштова скринька"
+        name="email"
+        required
+      />
+      <Field
+        component={TextField}
+        label="Пароль"
+        name="password"
+        required
+        type="password"
+      />
+
       <Field
         component={CheckBoxField}
-        label="Я вже був ментором раніше"
-        name="wasMentorBefore"
+        label={(
+          <p>
+            Реєструючись на сайті Ви погоджуєтеся з його&nbsp;
+            <a href="https://docs.google.com/document/d/19r8X00ld8fIJCXf9LNDaywiXSZM97UAQX93sodZCJCs">Правилами користування</a>
+            &nbsp;та&nbsp;
+            <a href="https://docs.google.com/document/d/1uBtF7_TPH9KZBxMbFtFKKGORXCDkG0wQF2bBDm9Mbak">Політикою приватності</a>
+          </p>
+        )}
+        name="policyAgreed"
         required
         color="primary"
       />
-    )}
-    <Field
-      component={TextField}
-      label="Поштова скринька"
-      name="email"
-      required
-    />
-    <Field
-      component={TextField}
-      label="Пароль"
-      name="password"
-      required
-      type="password"
-    />
 
-    <Field
-      component={CheckBoxField}
-      label={(
-        <p>
-          Реєструючись на сайті Ви погоджуєтеся з його&nbsp;
-          <a href="https://docs.google.com/document/d/19r8X00ld8fIJCXf9LNDaywiXSZM97UAQX93sodZCJCs">Правилами користування</a>
-          &nbsp;та&nbsp;
-          <a href="https://docs.google.com/document/d/1uBtF7_TPH9KZBxMbFtFKKGORXCDkG0wQF2bBDm9Mbak">Політикою приватності</a>
-        </p>
+      {formError && (
+        <FlexBox margin="10px 0 10px 0">
+          <HeadingSm error fontSize="14px">{formError.message}</HeadingSm>
+        </FlexBox>
       )}
-      name="policyAgreed"
-      required
-      color="primary"
-    />
-
-    {formError && (
-      <FlexBox margin="10px 0 10px 0">
-        <HeadingSm error fontSize="14px">{formError.message}</HeadingSm>
+      <FlexBox margin="10px 0 20px 0">
+        <Button
+          fullWidth
+          type="submit"
+          disabled={pristine}
+          variant="contained"
+          color="primary"
+        >
+          Створити аккаунт
+        </Button>
       </FlexBox>
-    )}
-    <FlexBox margin="10px 0 20px 0">
-      <Button
-        fullWidth
-        type="submit"
-        disabled={pristine}
-        variant="contained"
-        color="primary"
-      >
-        Створити аккаунт
-      </Button>
-    </FlexBox>
-  </form>
-);
+    </form>
+  );
+};
 
 SignupForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   role: PropTypes.string.isRequired,
   formError: PropTypes.instanceOf(Object),
+  mentorSignupEnabled: PropTypes.bool.isRequired,
+  teacherSignupEnabled: PropTypes.bool.isRequired,
 };
 
 SignupForm.defaultProps = {

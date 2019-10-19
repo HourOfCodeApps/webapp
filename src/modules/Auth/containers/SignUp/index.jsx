@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { FlexBox } from 'shared/components/LayoutStyled';
+
+import { withConfig } from 'modules/Config';
+
 import SignUpForm from '../../components/SignUpForm';
 
 import {
@@ -38,7 +41,7 @@ class SignUp extends React.Component {
   render() {
     const {
       handleSubmit,
-      props: { signingUp, signingUpError },
+      props: { signingUp, signingUpError, config },
     } = this;
 
     return (
@@ -47,6 +50,8 @@ class SignUp extends React.Component {
           disabled={signingUp}
           onSubmit={handleSubmit}
           formError={signingUpError}
+          mentorSignupEnabled={config.mentorSignupEnabled}
+          teacherSignupEnabled={config.teacherSignupEnabled}
         />
       </FlexBox>
     );
@@ -69,4 +74,4 @@ const mapDispatchToProps = {
   onSignUp: signUp,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(withConfig(SignUp));
