@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import firebase from 'firebase/app';
-import 'firebase/firestore';
 import { DateTime, Settings } from 'luxon';
 
 import config from 'config';
@@ -14,8 +13,6 @@ import store from './store';
 
 Settings.defaultLocale = DateTime.local().resolvedLocaleOpts().locale;
 firebase.initializeApp(config.firebase);
-const firestore = firebase.firestore();
-firestore.settings({ timestampsInSnapshots: true });
 
 ReactDOM.render(
   <Provider store={store}>
