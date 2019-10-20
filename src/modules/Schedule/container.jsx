@@ -38,6 +38,7 @@ import {
 } from './selectors';
 
 import Timeslots from './components/Timeslots';
+import CreateTimeslotForm from './components/CreateTimeslotForm';
 
 class Schedule extends React.Component {
   constructor(props) {
@@ -174,12 +175,10 @@ class Schedule extends React.Component {
             />
           )}
         </Paper>
-        {/* {!timeslotsFetching && !timeslotsFetchingError && (
-            <CreateTimeslotForm onSubmit={handleSubmit} />
-          )} */}
-        {config.timeslotCreationEnabled ? (
-          <Paper>Hello</Paper>
-        ) : (
+        {config.timeslotCreationEnabled && !timeslotsFetching && !timeslotsFetchingError && (
+          <CreateTimeslotForm onSubmit={handleSubmit} />
+        )}
+        {!config.timeslotCreationEnabled && (
           <Paper
             style={{
               marginTop: 20,
