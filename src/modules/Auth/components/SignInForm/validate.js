@@ -4,7 +4,7 @@ const validate = (values) => {
   const errors = {};
 
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = 'Обов\'язково';
   }
 
   if (values.email && !isEmail(values.email)) {
@@ -12,7 +12,7 @@ const validate = (values) => {
   }
 
   if (!values.password) {
-    errors.password = 'Required';
+    errors.password = 'Обов\'язково';
   }
 
   return errors;
