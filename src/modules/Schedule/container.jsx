@@ -133,6 +133,7 @@ class Schedule extends React.Component {
       props: {
         config,
         schoolsMap,
+        timeslotCreating,
         timeslots,
         timeslotsFetching,
         timeslotsFetchingError,
@@ -176,7 +177,7 @@ class Schedule extends React.Component {
           )}
         </Paper>
         {config.timeslotCreationEnabled && !timeslotsFetching && !timeslotsFetchingError && (
-          <CreateTimeslotForm onSubmit={handleSubmit} />
+          <CreateTimeslotForm onSubmit={handleSubmit} timeslotCreating={timeslotCreating} />
         )}
         {!config.timeslotCreationEnabled && (
           <Paper

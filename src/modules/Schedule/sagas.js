@@ -104,7 +104,7 @@ function* fetchTimeslots({ payload: { schoolId } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeEvery, CREATE_TIMESLOT, createTimeslot);
+  yield fork(takeLatest, CREATE_TIMESLOT, createTimeslot);
   yield fork(takeEvery, DELETE_TIMESLOT, deleteTimeslot);
   yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
 }
