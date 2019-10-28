@@ -14,6 +14,7 @@ import validate from './validate';
 const CreateTimeslotForm = ({
   handleSubmit,
   pristine,
+  timeslotCreating,
 }) => (
   <form onSubmit={handleSubmit}>
     <Grid container spacing={40}>
@@ -67,7 +68,7 @@ const CreateTimeslotForm = ({
             type="submit"
             variant="contained"
             color="primary"
-            disabled={pristine}
+            disabled={pristine || timeslotCreating}
             size="large"
           >
             Створити
@@ -81,6 +82,7 @@ const CreateTimeslotForm = ({
 CreateTimeslotForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  timeslotCreating: PropTypes.bool.isRequired,
 };
 
 CreateTimeslotForm.defaultProps = {
