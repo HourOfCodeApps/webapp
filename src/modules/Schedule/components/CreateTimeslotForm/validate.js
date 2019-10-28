@@ -2,17 +2,17 @@ const validate = (values) => {
   const errors = {};
 
   if (!values.startTime) {
-    errors.startTime = 'Required';
+    errors.startTime = 'Обов\'язково';
   }
 
   if (!values.class) {
-    errors.class = 'Required';
+    errors.class = 'Обов\'язково';
   }
 
   if (!values.pupilsCount) {
-    errors.pupilsCount = 'Required';
+    errors.pupilsCount = 'Обов\'язково';
   } else if (!/^\d+$/.test(values.pupilsCount)) {
-    errors.pupilsCount = 'Should be a number';
+    errors.pupilsCount = 'Має бути число';
   }
 
   return errors;
