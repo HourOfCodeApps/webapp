@@ -13,35 +13,35 @@ const validate = (values) => {
   };
 
   if (!values.role) {
-    errors.role = 'Required';
+    errors.role = 'Обов\'язково';
   }
 
   if (!get(values, 'profile.firstName')) {
-    errors.profile.firstName = 'Required';
+    errors.profile.firstName = 'Обов\'язково';
   } else if (!namePattern.test(values.profile.firstName)) {
     errors.profile.firstName = 'Invalid first name';
   }
 
   if (!get(values, 'profile.lastName')) {
-    errors.lastName = 'Required';
+    errors.lastName = 'Обов\'язково';
   } else if (!namePattern.test(values.lastName)) {
     errors.lastName = 'Invalid last name';
   }
 
   if (!get(values, 'profile.email')) {
-    errors.profile.email = 'Required';
+    errors.profile.email = 'Обов\'язково';
   } else if (!isEmail(values.profile.email)) {
     errors.profile.email = 'Invalid email address';
   }
 
   if (!get(values, 'profile.phone')) {
-    errors.profile.phone = 'Required';
+    errors.profile.phone = 'Обов\'язково';
   } else if (!isValidPhoneNumber(values.profile.phone)) {
     errors.profile.phone = 'Invalid phone number';
   }
 
   if (!get(values, 'teacher.school')) {
-    errors.teacher.school = 'Required';
+    errors.teacher.school = 'Обов\'язково';
   }
 
   return errors;
