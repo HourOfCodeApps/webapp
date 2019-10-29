@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions';
 import mailgun from 'mailgun-js';
 
-const { domain, api_key: apiKey } = functions.config().mailgun;
-const mg = mailgun({ apiKey, domain });
+const { domain, api_key: apiKey, host } = functions.config().mailgun;
+const mg = mailgun({ apiKey, domain, host });
 
 const { from: defaultFrom, reply_to: defaultReplyTo } = functions.config().email;
 

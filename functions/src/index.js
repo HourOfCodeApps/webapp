@@ -141,7 +141,7 @@ const emailTeacherNeedsApprove = functions.firestore.document('teachers/{uid}')
     );
 
     const adminEmails = admins.map(userRecord => userRecord.email);
-
+    console.log('sending email');
     await sendEmail({
       bcc: adminEmails.filter(v => v).join(),
       subject: 'Новий вчитель потребує підтвердження',
