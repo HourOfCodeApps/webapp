@@ -1,28 +1,28 @@
 import * as functions from 'firebase-functions';
-import nodemailer from 'nodemailer';
+import mailgun from 'mailgun-js';
 
-const gmailEmail = functions.config().gmail.email;
-const gmailPassword = functions.config().gmail.password;
-const emailSettings = functions.config().email;
-const mailTransport = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: gmailEmail,
-    pass: gmailPassword,
-  },
-});
+const { domain, api_key: apiKey } = functions.config().mailgun;
+const mg = mailgun({ apiKey, domain });
+
+const { from: defaultFrom, reply_to: defaultReplyTo } = functions.config().email;
 
 /**
  *
- * @param {{ from, to, subject, text }} options
+ * @param {{ from, to, subject, text, html, replyTo }} options
  */
-const sendEmail = (options) => {
-  const mailOptions = {
-    from: emailSettings.from,
-    ...options,
+const sendEmail = async ({ from, to, subject, text, html, replyTo }) => {
+  const data = {
+    from: from || defaultFrom,
+    to,
+    subject,
+    text,
+    html,
+    'h:Reply-To': replyTo || defaultReplyTo,
   };
 
-  return mailTransport.sendMail(mailOptions);
+  const result = await mg.messages().send(data);
+
+  console.log('Email sending result', result);
 }
 
 export default sendEmail;
