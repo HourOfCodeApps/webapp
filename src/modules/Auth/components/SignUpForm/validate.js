@@ -9,11 +9,11 @@ const validate = (values) => {
   }
 
   if (!values.firstName) {
-    errors.firstName = 'Required';
+    errors.firstName = 'Обов\'язково';
   }
 
   if (!values.lastName) {
-    errors.lastName = 'Required';
+    errors.lastName = 'Обов\'язково';
   }
 
   if (!values.email) {
@@ -29,7 +29,7 @@ const validate = (values) => {
   }
 
   if (!values.phone) {
-    errors.phone = 'Required';
+    errors.phone = 'Обов\'язково';
   }
 
   if (values.phone && !isPhoneNumber(values.phone)) {
@@ -37,7 +37,7 @@ const validate = (values) => {
   }
 
   if (!values.school) {
-    errors.school = 'Required';
+    errors.school = 'Обов\'язково';
   }
 
   if (!values.policyAgreed) {
