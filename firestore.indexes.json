@@ -1,50 +1,123 @@
 {
   "indexes": [
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "date", "mode": "ASCENDING" },
-        { "fieldPath": "mentorId", "mode": "ASCENDING" },
-        { "fieldPath": "status", "mode": "ASCENDING" },
-        { "fieldPath": "geo", "mode": "ASCENDING" },
-        { "fieldPath": "startTime", "mode": "ASCENDING" }
+        {
+          "fieldPath": "date",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "mentorId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "geo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "mentorId", "mode": "ASCENDING" },
-        { "fieldPath": "startTime", "mode": "ASCENDING" },
-        { "fieldPath": "schoolId", "mode": "ASCENDING" }
+        {
+          "fieldPath": "date",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "date", "mode": "ASCENDING" },
-        { "fieldPath": "startTime", "mode": "ASCENDING" }
+        {
+          "fieldPath": "mentorId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "schoolId",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "mode": "ASCENDING" },
-        { "fieldPath": "schoolId", "mode": "ASCENDING" }
+        {
+          "fieldPath": "schoolId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "schoolId", "mode": "ASCENDING" },
-        { "fieldPath": "startTime", "mode": "ASCENDING" }
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "schoolId",
+          "order": "ASCENDING"
+        }
       ]
     },
     {
-      "collectionId": "timeslots",
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "mode": "ASCENDING" },
-        { "fieldPath": "startTime", "mode": "ASCENDING" }
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "timeslots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "startTime",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "schoolId",
+          "order": "ASCENDING"
+        }
       ]
     }
-  ]
+  ],
+  "fieldOverrides": []
 }
