@@ -22,12 +22,13 @@ function* fetchConfig() {
   try {
     const remoteConfig = firebase.remoteConfig();
     remoteConfig.settings = {
-      minimumFetchIntervalMillis: 600000,
+      minimumFetchIntervalMillis: 30000,
     };
     yield remoteConfig.fetchAndActivate();
 
     const config = {
       days: JSON.parse(remoteConfig.getString('days')),
+      mentorTimeslotsEnabled: remoteConfig.getBoolean('mentorTimeslotsEnabled'),
       timeslotCreationEnabled: remoteConfig.getBoolean('timeslotCreationEnabled'),
       mentorSignupEnabled: remoteConfig.getBoolean('mentorSignupEnabled'),
       teacherSignupEnabled: remoteConfig.getBoolean('teacherSignupEnabled'),

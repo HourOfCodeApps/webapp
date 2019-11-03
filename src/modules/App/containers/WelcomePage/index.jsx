@@ -83,3 +83,4 @@ class WelcomePage extends React.Component {
 }
 
 export default withConfig(WelcomePage);
+export { WelcomePage as WelcomePageComponent };

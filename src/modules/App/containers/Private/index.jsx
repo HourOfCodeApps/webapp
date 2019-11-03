@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter as Router,
   Route,
@@ -18,10 +19,12 @@ import {
   Teachers as AdminTeachers,
   Timeslots as AdminTimeslots,
 } from 'modules/Admin';
+import { withConfig } from 'modules/Config';
 
 import AppWrapper from '../AppWrapper';
+import MentorTimeslotsDisabled from '../../components/MentorTimeslotsDisabled';
 
-const Private = ({ user }) => (
+const Private = ({ user, config: { mentorTimeslotsEnabled } }) => (
   <Router>
     <AppWrapper>
       <Switch>
@@ -39,10 +42,14 @@ const Private = ({ user }) => (
         {user.teacher && (
           <Route path="/" exact component={Schedule} />
         )}
-        {user.mentor && [
-          <Route path="/" exact component={MentorSchedule} />,
-          <Route path="/apply" exact component={MentorScheduleApply} />,
-        ]}
+        {user.mentor && (
+          mentorTimeslotsEnabled
+            ? [
+              <Route path="/" exact component={MentorSchedule} />,
+              <Route path="/apply" exact component={MentorScheduleApply} />,
+            ]
+            : <Route path="/" exact component={MentorTimeslotsDisabled} />
+        )}
         <Route path="/me" exact component={Profile} />
         <Route component={Page404} />
       </Switch>
@@ -50,4 +57,11 @@ const Private = ({ user }) => (
   </Router>
 );
 
-export default Private;
+Private.propTypes = {
+  config: PropTypes.shape({
+    mentorTimeslotsEnabled: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+export default withConfig(Private);
+export { Private as PrivateComponent };
