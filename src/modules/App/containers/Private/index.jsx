@@ -48,7 +48,7 @@ const Private = ({ user, config: { mentorTimeslotsEnabled } }) => (
               <Route path="/" exact component={MentorSchedule} />,
               <Route path="/apply" exact component={MentorScheduleApply} />,
             ]
-            : <MentorTimeslotsDisabled />
+            : <Route path="/" exact component={MentorTimeslotsDisabled} />
         )}
         <Route path="/me" exact component={Profile} />
         <Route component={Page404} />
