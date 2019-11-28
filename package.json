@@ -14,7 +14,8 @@
     "start": "webpack-dev-server --config ./internals/webpack.config.js --mode development",
     "start:prod": "NODE_ENV=production webpack-dev-server --config ./internals/webpack.config.js --mode production",
     "test": "jest",
-    "codacy": "cat ./coverage/lcov.info | codacy-coverage"
+    "codacy": "cat ./coverage/lcov.info | codacy-coverage",
+    "format": "yarn prettier-eslint src/**/*.js --write"
   },
   "jest": {
     "collectCoverage": true,
@@ -79,20 +80,33 @@
     "enzyme": "^3.5.0",
     "enzyme-adapter-react-16": "^1.3.1",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-import-resolver-webpack": "^0.10.1",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.22.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.5",
     "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.11.1",
     "file-loader": "^2.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^3.1.0",
     "jest": "^23.5.0",
     "mini-css-extract-plugin": "^0.4.2",
+    "prettier": "^1.19.1",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0",
+    "pretty-quick": "^2.0.1",
     "react-test-renderer": "^16.4.2",
     "regenerator-runtime": "^0.12.1",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --bail"
+    }
   }
 }
