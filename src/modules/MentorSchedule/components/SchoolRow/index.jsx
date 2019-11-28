@@ -22,6 +22,24 @@ const styles = theme => ({
 });
 
 class SchoolRow extends React.Component {
+  static propTypes = {
+    classes: PropTypes.shape({
+      root: PropTypes.string.isRequired,
+    }).isRequired,
+    date: PropTypes.string.isRequired,
+    school: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      teacher: PropTypes.shape({
+        phone: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    timeslots: PropTypes.instanceOf(Array).isRequired,
+    onCancelTimeslot: PropTypes.func.isRequired,
+  };
+
   shouldComponentUpdate() {
     return true;
   }
@@ -84,10 +102,5 @@ class SchoolRow extends React.Component {
     );
   }
 }
-
-SchoolRow.propTypes = {
-  timeslots: PropTypes.instanceOf(Array).isRequired,
-  onCancelTimeslot: PropTypes.func.isRequired,
-};
 
 export default withStyles(styles)(SchoolRow);

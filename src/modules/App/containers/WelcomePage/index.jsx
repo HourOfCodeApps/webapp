@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Auth, { SignUp } from 'modules/Auth';
 import { Container, Column, FlexBox } from 'shared/components/LayoutStyled';
 import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
@@ -8,10 +9,16 @@ import { withConfig } from 'modules/Config';
 import WelcomeHero from './components/WelcomeHero';
 
 class WelcomePage extends React.Component {
+  static propTypes = {
+    config: PropTypes.shape({
+      mentorTimeslotsEnabled: PropTypes.bool.isRequired,
+      teacherSignupEnabled: PropTypes.bool.isRequired,
+    }).isRequired,
+  };
+
   state = {
     isSignInShown: false,
   };
-
 
   handleToggleMode = () => {
     this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));

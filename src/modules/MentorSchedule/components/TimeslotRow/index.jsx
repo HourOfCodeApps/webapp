@@ -37,10 +37,6 @@ const renderStatus = (timeslot) => {
     return <span style={{ color: 'red' }}>Відхилено</span>;
   }
 
-  // if (timeslot.mentorId && timeslot.mentor) {
-  //   return <span style={{ color: 'blue' }}>Ментор: {timeslot.mentor.firstName} {timeslot.mentor.lastName} ({timeslot.mentor.phone})</span>;
-  // }
-
   return <span style={{ color: 'red' }}>Очікує підтвердження</span>;
 };
 

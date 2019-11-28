@@ -63,6 +63,11 @@ Private.propTypes = {
   config: PropTypes.shape({
     mentorTimeslotsEnabled: PropTypes.bool.isRequired,
   }).isRequired,
+  user: PropTypes.shape({
+    admin: PropTypes.bool,
+    mentor: PropTypes.bool,
+    teacher: PropTypes.bool,
+  }).isRequired,
 };
 
 export default withConfig(Private);

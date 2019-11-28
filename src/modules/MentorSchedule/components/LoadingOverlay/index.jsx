@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from '@material-ui/core/Modal';
 
@@ -35,5 +35,11 @@ const LoadingOverlay = ({ classes }) => (
     </div>
   </Modal>
 );
+
+LoadingOverlay.propTypes = {
+  classes: PropTypes.shape({
+    paper: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default withStyles(styles)(LoadingOverlay);

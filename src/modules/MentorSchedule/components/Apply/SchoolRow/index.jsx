@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -27,8 +25,12 @@ const styles = {
 
 class School extends React.Component {
   static propTypes = {
+    classes: PropTypes.shape({
+      selected: PropTypes.string.isRequired,
+    }).isRequired,
     selected: PropTypes.bool,
     school: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
     timeslots: PropTypes.instanceOf(Array).isRequired,
