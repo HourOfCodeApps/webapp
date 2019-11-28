@@ -19,16 +19,24 @@ import Timeslots,
   sagas as timeslotsSagas,
 } from './Timeslots';
 
+import Reports,
+{
+  reducer as reportsReducer,
+  sagas as reportsSagas,
+} from './Reports';
+
 export const reducer = combineReducers({
   mentors: mentorsReducer,
   teachers: teachersReducer,
   timeslots: timeslotsReducer,
+  reports: reportsReducer,
 });
 
 export const sagas = [
   ...mentorsSagas,
   ...teachersSagas,
   ...timeslotsSagas,
+  ...reportsSagas,
 ];
 
 export {
@@ -36,4 +44,5 @@ export {
   Mentors,
   Teachers,
   Timeslots,
+  Reports,
 };
