@@ -88,6 +88,11 @@ service cloud.firestore {
       allow delete: if false;
       allow list: if isAdmin(request.auth.uid);
     }
+
+    match /reports/{reportId} {
+      allow write: if false;
+      allow read: if isAdmin(request.auth.uid);
+    }
   }
 }
 

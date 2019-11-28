@@ -14,8 +14,6 @@ import store from './store';
 
 Settings.defaultLocale = DateTime.local().resolvedLocaleOpts().locale;
 firebase.initializeApp(config.firebase);
-const firestore = firebase.firestore();
-firestore.settings({ timestampsInSnapshots: true });
 
 ReactDOM.render(
   <Provider store={store}>

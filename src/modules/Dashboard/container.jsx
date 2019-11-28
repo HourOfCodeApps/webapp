@@ -1,28 +1,73 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import SimpleTable from './SimpleTable';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import SchoolIcon from '@material-ui/icons/AccountBalance';
+import TeachersIcon from '@material-ui/icons/Group';
+import MentorsIcon from '@material-ui/icons/GroupOutlined';
+import TimeslotsIcon from '@material-ui/icons/Event';
+import ReportsIcon from '@material-ui/icons/PieChart';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
-const styles = {
-  tableContainer: {
-    height: 320,
+const links = [
+  {
+    title: 'Школи',
+    url: '/schools',
+    icon: <SchoolIcon fontSize="inherit" />,
   },
-};
+  {
+    title: 'Вчителі',
+    url: '/teachers',
+    icon: <TeachersIcon fontSize="inherit" />,
+  },
+  {
+    title: 'Ментори',
+    url: '/mentors',
+    icon: <MentorsIcon fontSize="inherit" />,
+  },
+  {
+    title: 'Уроки',
+    url: '/timeslots',
+    icon: <TimeslotsIcon fontSize="inherit" />,
+  },
+  {
+    title: 'Звіти',
+    url: '/reports',
+    icon: <ReportsIcon fontSize="inherit" />,
+  },
+];
 
-const Dashboard = ({ classes }) => (
+const Dashboard = () => (
   <React.Fragment>
-    <Typography variant="display1" gutterBottom>
-      Schools
-    </Typography>
-    <div className={classes.tableContainer}>
-      <SimpleTable />
-    </div>
+    <Grid container spacing={16}>
+      {links.map(link => (
+        <Grid item lg={2} md={3} sm={4} xs={6}>
+          <ButtonBase
+            focusRipple
+            key={link.url}
+            component={props => <Link to={link.url} {...props} />}
+            style={{
+              display: 'block',
+            }}
+          >
+            <Paper style={{ padding: 20 }}>
+              <Typography align="center" variant="display1" style={{ fontSize: 96, lineHeight: 0.8 }}>
+                {link.icon}
+              </Typography>
+              <Typography align="center" variant="display1">
+                {link.title}
+              </Typography>
+            </Paper>
+          </ButtonBase>
+        </Grid>
+      ))}
+    </Grid>
   </React.Fragment>
 );
 
-Dashboard.propTypes = {
-  classes: PropTypes.shape(PropTypes.object).isRequired,
-};
+// Dashboard.propTypes = {
+//   classes: PropTypes.shape(PropTypes.object).isRequired,
+// };
 
-export default withStyles(styles)(Dashboard);
+export default Dashboard;

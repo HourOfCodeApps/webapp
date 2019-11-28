@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "core-js": "^3.3.5",
+    "exceljs": "^3.4.0",
     "firebase-admin": "^8.6.1",
     "firebase-functions": "^3.3.0",
     "luxon": "^1.4.4",
