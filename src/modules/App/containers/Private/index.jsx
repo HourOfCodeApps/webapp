@@ -18,6 +18,7 @@ import {
   Mentors as AdminMentors,
   Teachers as AdminTeachers,
   Timeslots as AdminTimeslots,
+  Reports as AdminReports,
 } from 'modules/Admin';
 import { withConfig } from 'modules/Config';
 
@@ -30,6 +31,7 @@ const Private = ({ user, config: { mentorTimeslotsEnabled } }) => (
       <Switch>
         {user.admin && [
           <Route path="/" exact component={Dashboard} />,
+          <Route path="/reports" exact component={AdminReports} />,
           <Route path="/schools" exact component={Schools} />,
           <Route path="/school/new" exact component={SchoolCreate} />,
           <Route path="/school/:id" exact component={School} />,

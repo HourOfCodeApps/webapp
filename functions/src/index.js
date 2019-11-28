@@ -12,6 +12,8 @@ import admin from './lib/firebase';
 import loadUserInfo, { loadUserProfile } from './lib/loadUserInfo';
 import { sendEmailToAdmins } from './admin';
 
+import reportSchoolStats from './reports/report-school-stats';
+
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
   TIMESLOT_STATUS_APPROVED,
@@ -833,6 +835,15 @@ const sendTimeslotReminders = functions.pubsub.topic('sendTimeslotReminders').on
   return true;
 });
 
+const generateReport = functions.https.onCall(async ({ reportId }, context) => {
+  switch (reportId) {
+    case 'school-stats':
+      return reportSchoolStats();
+    default:
+      throw new Error('Wrong Report');
+  }
+});
+
 export {
   applyTimeslot,
   emailTeacherApproved,
@@ -846,4 +857,6 @@ export {
   updateMentorTimeslotsCount,
   // sendTimeslotReminders,
   sendTimeslotReminders,
+
+  generateReport,
 };
