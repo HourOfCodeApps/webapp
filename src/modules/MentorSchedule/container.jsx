@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import { withUser } from 'modules/Auth';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
-import EmptyState from 'shared/components/EmptyState';
 import Loading from 'shared/components/Loading';
 
 import { withSchools } from 'modules/Schools';
@@ -85,9 +84,7 @@ class Schedule extends React.Component {
         cancelConfirmationDialogShown,
       },
       props: {
-        schoolsMap,
         myTimeslotsGrouped,
-        myTimeslotsBySchool,
         myTimeslotsFetching,
         myTimeslotsFetchingError,
         timeslotCanceling,
@@ -129,14 +126,6 @@ class Schedule extends React.Component {
         {myTimeslotsFetching && <Loading />}
 
         {myTimeslotsFetchingError && <div>{myTimeslotsFetchingError.message}</div>}
-
-        {/* {!myTimeslotsFetching && !myTimeslotsFetchingError && Object.keys(myTimeslotsBySchool).map(schoolId => (
-          <SchoolRow
-            school={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].school) || {}}
-            timeslots={(myTimeslotsBySchool[schoolId] && myTimeslotsBySchool[schoolId].timeslots) || []}
-            onCancelTimeslot={handleCancelClick}
-          />
-        ))} */}
 
         {!myTimeslotsFetching && !myTimeslotsFetchingError && myTimeslotsGrouped.map(group => (
           <SchoolRow

@@ -92,7 +92,6 @@ class Schedule extends React.Component {
       timeRangeValue: [0, 16],
       marks: pick(defaultMarks, [0, 16]),
       selectedDay: todayISO < days[0] ? days[0] : todayISO,
-      isMapShown: false,
       zoom: 15,
       autoZoomFinished: false,
       selectedSchoolId: null,
@@ -193,9 +192,7 @@ class Schedule extends React.Component {
       handleBoundsChanged,
       handleTimeRangeChange,
       handleChangeDay,
-      handleMapToggle,
       state: {
-        isMapShown,
         selectedDay,
         timeRangeValue,
         marks,
@@ -322,13 +319,15 @@ class Schedule extends React.Component {
 
         {timeslotApplying && <LoadingOverlay />}
 
-        {/* {!timeslotsFetching && !timeslotsFetchingError && Object.keys(timeslotsBySchool).map(schoolId => (
-          <SchoolRow
-            school={schoolsMap[schoolId] || {}}
-            timeslots={timeslotsBySchool[schoolId] || []}
-            onApply={handleApply}
-          />
-        ))} */}
+        {/* {!timeslotsFetching && !timeslotsFetchingError && Object.keys(timeslotsBySchool)
+          .map(schoolId => (
+            <SchoolRow
+              school={schoolsMap[schoolId] || {}}
+              timeslots={timeslotsBySchool[schoolId] || []}
+              onApply={handleApply}
+            />
+          ))
+        } */}
       </React.Fragment>
     );
   }

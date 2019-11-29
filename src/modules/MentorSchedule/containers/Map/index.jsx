@@ -170,11 +170,15 @@ class Schedule extends React.Component {
                   key={school.id}
                   position={{ lat: school.latitude, lng: school.longitude }}
                   onMouseOver={handleMouseOver(school.id)}
+                  onFocus={handleMouseOver(school.id)}
                   onMouseOut={handleMouseOver(null)}
+                  onBlur={handleMouseOver(null)}
                   label={timeslotsBySchool[school.id].length.toString()}
                   icon={{
                     labelOrigin: { x: 13.75, y: 15 },
-                    url: (hoveredPin === school.id || highlightedPin === school.id) ? GreenPin : RedPin,
+                    url: (hoveredPin === school.id || highlightedPin === school.id)
+                      ? GreenPin
+                      : RedPin,
                   }}
                 >
                   {/* {this.state.hoveredPin === school.id && ( */}
@@ -224,10 +228,12 @@ Schedule.propTypes = {
   onBoundsChanged: PropTypes.func,
   userLocation: PropTypes.instanceOf(Object),
   userLocationFetching: PropTypes.bool.isRequired,
-  userLocationFetchingError: PropTypes.instanceOf(Object),
+  // userLocationFetchingError: PropTypes.instanceOf(Object),
   schoolIds: PropTypes.instanceOf(Array),
   schoolsMap: PropTypes.instanceOf(Object),
   timeslotsBySchool: PropTypes.instanceOf(Object),
+  zoom: PropTypes.number.isRequired,
+  hoveredPin: PropTypes.string,
 };
 
 Schedule.defaultProps = {
@@ -236,7 +242,8 @@ Schedule.defaultProps = {
   schoolsMap: {},
   timeslotsBySchool: {},
   userLocation: null,
-  userLocationFetchingError: null,
+  // userLocationFetchingError: null,
+  hoveredPin: null,
 };
 
 const mapStateToProps = createSelector(
