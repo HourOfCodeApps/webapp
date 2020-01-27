@@ -63,8 +63,8 @@ function* fetchTeachers() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_TEACHERS, fetchTeachers);
-  yield fork(takeEvery, APPROVE_TEACHERS, approveTeachers);
+  yield takeLatest(FETCH_TEACHERS, fetchTeachers);
+  yield takeEvery(APPROVE_TEACHERS, approveTeachers);
 }
 
 export default [

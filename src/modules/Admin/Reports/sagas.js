@@ -86,8 +86,8 @@ function* genereateReport({ payload: { reportId } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, SUBSCRIBE_REPORTS, subscribeReports);
-  yield fork(takeLatest, GENERATE_REPORT, genereateReport);
+  yield takeLatest(SUBSCRIBE_REPORTS, subscribeReports);
+  yield takeLatest(GENERATE_REPORT, genereateReport);
 }
 
 export default [rootSaga];

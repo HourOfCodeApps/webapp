@@ -47,7 +47,7 @@ function* fetchMentors() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_MENTORS, fetchMentors);
+  yield takeLatest(FETCH_MENTORS, fetchMentors);
 }
 
 export default [

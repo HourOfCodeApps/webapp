@@ -29,7 +29,7 @@ function* fetchUsers() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_USERS, fetchUsers);
+  yield takeLatest(FETCH_USERS, fetchUsers);
 }
 
 export default [

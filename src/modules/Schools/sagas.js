@@ -138,12 +138,12 @@ function* updateSchool({ payload: { id, data } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeEvery, CREATE_SCHOOL, createSchool);
-  yield fork(takeEvery, DELETE_SCHOOL, deleteSchool);
-  yield fork(takeLatest, FETCH_SCHOOL, fetchSchool);
-  yield fork(takeLatest, FETCH_SCHOOLS, fetchSchools);
-  yield fork(takeEvery, UPDATE_SCHOOL, updateSchool);
-  yield fork(takeLatest, FETCH_SCHOOL_TIMESLOTS, fetchSchoolTimeslots);
+  yield takeEvery(CREATE_SCHOOL, createSchool);
+  yield takeEvery(DELETE_SCHOOL, deleteSchool);
+  yield takeLatest(FETCH_SCHOOL, fetchSchool);
+  yield takeLatest(FETCH_SCHOOLS, fetchSchools);
+  yield takeEvery(UPDATE_SCHOOL, updateSchool);
+  yield takeLatest(FETCH_SCHOOL_TIMESLOTS, fetchSchoolTimeslots);
 }
 
 export default [

@@ -193,11 +193,11 @@ function* getUserGeolocation() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeEvery, APPLY_TIMESLOT, applyTimeslot);
-  yield fork(takeEvery, CANCEL_TIMESLOT, cancelTimeslot);
-  yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
-  yield fork(takeLatest, FETCH_MY_TIMESLOTS, fetchMyTimeslots);
-  yield fork(takeLatest, GET_USER_GEOLOCATION, getUserGeolocation);
+  yield takeEvery(APPLY_TIMESLOT, applyTimeslot);
+  yield takeEvery(CANCEL_TIMESLOT, cancelTimeslot);
+  yield takeLatest(FETCH_TIMESLOTS, fetchTimeslots);
+  yield takeLatest(FETCH_MY_TIMESLOTS, fetchMyTimeslots);
+  yield takeLatest(GET_USER_GEOLOCATION, getUserGeolocation);
 }
 
 export default [

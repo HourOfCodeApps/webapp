@@ -82,8 +82,8 @@ function* updateMe({ payload: { userData } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_ME, fetchMe);
-  yield fork(takeEvery, UPDATE_ME, updateMe);
+  yield takeLatest(FETCH_ME, fetchMe);
+  yield takeEvery(UPDATE_ME, updateMe);
 }
 
 // All sagas to be loaded by configureStore()

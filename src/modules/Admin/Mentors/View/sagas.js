@@ -61,8 +61,8 @@ function* fetchMentorTimeslots({ payload: { id } }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_MENTOR, fetchMentor);
-  yield fork(takeLatest, FETCH_MENTOR_TIMESLOTS, fetchMentorTimeslots);
+  yield takeLatest(FETCH_MENTOR, fetchMentor);
+  yield takeLatest(FETCH_MENTOR_TIMESLOTS, fetchMentorTimeslots);
 }
 
 export default [

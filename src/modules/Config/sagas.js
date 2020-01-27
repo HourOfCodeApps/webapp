@@ -44,7 +44,7 @@ function* fetchConfig() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_CONFIG, fetchConfig);
+  yield takeLatest(FETCH_CONFIG, fetchConfig);
 }
 
 export default [

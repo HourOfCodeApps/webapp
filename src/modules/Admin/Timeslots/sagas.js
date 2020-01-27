@@ -112,9 +112,9 @@ function* fetchTimeslots() {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, FETCH_TIMESLOTS, fetchTimeslots);
-  yield fork(takeEvery, APPROVE_TIMESLOTS, approveTimeslot);
-  yield fork(takeEvery, DELETE_TIMESLOT, deleteTimeslot);
+  yield takeLatest(FETCH_TIMESLOTS, fetchTimeslots);
+  yield takeEvery(APPROVE_TIMESLOTS, approveTimeslot);
+  yield takeEvery(DELETE_TIMESLOT, deleteTimeslot);
 }
 
 export default [
