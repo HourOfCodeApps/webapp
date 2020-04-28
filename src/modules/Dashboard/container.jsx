@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +9,7 @@ import MentorsIcon from '@material-ui/icons/GroupOutlined';
 import TimeslotsIcon from '@material-ui/icons/Event';
 import ReportsIcon from '@material-ui/icons/PieChart';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Container from '@material-ui/core/Container';
 
 const links = [
   {
@@ -39,23 +40,22 @@ const links = [
 ];
 
 const Dashboard = () => (
-  <React.Fragment>
-    <Grid container spacing={16}>
+  <Container>
+    <Grid container spacing={2}>
       {links.map(link => (
         <Grid item lg={2} md={3} sm={4} xs={6}>
           <ButtonBase
             focusRipple
             key={link.url}
-            component={props => <Link to={link.url} {...props} />}
-            style={{
-              display: 'block',
-            }}
+            component={RouterLink}
+            to={link.url}
+            style={{ display: 'block' }}
           >
             <Paper style={{ padding: 20 }}>
-              <Typography align="center" variant="display1" style={{ fontSize: 96, lineHeight: 0.8 }}>
+              <Typography align="center" variant="h2">
                 {link.icon}
               </Typography>
-              <Typography align="center" variant="display1">
+              <Typography align="center" variant="h5">
                 {link.title}
               </Typography>
             </Paper>
@@ -63,7 +63,7 @@ const Dashboard = () => (
         </Grid>
       ))}
     </Grid>
-  </React.Fragment>
+  </Container>
 );
 
 // Dashboard.propTypes = {

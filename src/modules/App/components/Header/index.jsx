@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 // import IconButton from '@material-ui/core/IconButton';
 // import Badge from '@material-ui/core/Badge';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -26,9 +27,6 @@ const styles = theme => ({
   title: {
     textDecoration: 'none',
   },
-  toolbarButton: {
-    color: 'white',
-  },
   logo: theme.palette.common.white,
 });
 
@@ -37,52 +35,46 @@ const Header = ({ classes, onSignOut, user }) => (
     position="absolute"
     className={classes.appBar}
   >
+    <Container>
     <Toolbar className={classes.toolbar}>
-      <Typography variant="title" color="inherit" className={classes.title} component={props => <Link to="/" {...props} />}>
+      <Typography variant="title" color="inherit" className={classes.title} component={RouterLink} to="/">
         <FlexBox margin="10px 0px" align="center">
           <Logo width="60px" height="60px" />
           <Heading bolder color={classes.logo}>Lviv</Heading>
         </FlexBox>
       </Typography>
       <FlexBox>
-        {/* <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton> */}
-        {/* {user.mentor && (<Button className={classes.toolbarButton}>Mentor Tools</Button>)} */}
-        {/* {user.teacher && (<Button className={classes.toolbarButton}>Teacher Tools</Button>)} */}
-        {/* {user.admin && (
-          <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/me" {...props} />}
-          >
-            Мої дані
-          </Button>
-        )} */}
         {user.admin && (
           <React.Fragment>
             <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/schools" {...props} />}
+              color="inherit"
+              size="large"
+              component={RouterLink}
+              to="/schools"
             >
               Школи
             </Button>
             <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/teachers" {...props} />}
+              color="inherit"
+              size="large"
+              component={RouterLink}
+              to="/teachers"
             >
               Вчителі
             </Button>
             <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/mentors" {...props} />}
+              color="inherit"
+              size="large"
+              component={RouterLink}
+              to="/mentors"
             >
               Ментори
             </Button>
             <Button
-              className={classes.toolbarButton}
-              component={props => <Link to="/timeslots" {...props} />}
+              color="inherit"
+              size="large"
+              component={RouterLink}
+              to="/timeslots"
             >
               Уроки
             </Button>
@@ -90,26 +82,32 @@ const Header = ({ classes, onSignOut, user }) => (
         )}
         {user.teacher && (
           <Button
-            className={classes.toolbarButton}
-            component={props => <Link to="/" {...props} />}
+            color="inherit"
+            size="large"
+            component={RouterLink}
+            to="/"
           >
             Розклад
           </Button>
         )}
         <Button
-          className={classes.toolbarButton}
-          component={props => <Link to="/me" {...props} />}
+          color="inherit"
+          size="large"
+          component={RouterLink}
+          to="/me"
         >
           Мої дані
         </Button>
         <Button
-          className={classes.toolbarButton}
+          color="inherit"
+          size="large"
           onClick={onSignOut}
         >
           Вихід
         </Button>
       </FlexBox>
     </Toolbar>
+    </Container>
   </AppBar>
 );
 
