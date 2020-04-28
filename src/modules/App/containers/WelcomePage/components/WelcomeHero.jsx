@@ -33,4 +33,4 @@ WelcomeHero.propTypes = {
   theme: PropTypes.shape({ palette: PropTypes.object.isRequired }).isRequired,
 };
 
-export default withTheme()(WelcomeHero);
+export default withTheme(WelcomeHero);

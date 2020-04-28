@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { withTheme } from '@material-ui/core/styles';
+import withTheme from '@material-ui/core/styles/withTheme';
 import Typography from '@material-ui/core/Typography';
 
 // Application
@@ -138,4 +138,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme()(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SignIn));

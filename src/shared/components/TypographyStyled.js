@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import withTheme from '@material-ui/core/styles/withTheme';
 
-export const Heading = withTheme()(styled.div`
+export const Heading = withTheme(styled.div`
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     margin: ${props => (props.margin ? props.margin : 0)};
     font-size: ${props => (props.fontSize ? props.fontSize : '24px')};
@@ -41,7 +41,7 @@ export const Heading = withTheme()(styled.div`
     `)};
 `);
 
-export const HeadingSm = withTheme()(styled(Heading)`
+export const HeadingSm = withTheme(styled(Heading)`
     font-size: ${props => (props.fontSize ? props.fontSize : '16px')};
     color: ${props => props.error && props.theme.palette.error.main};
 `);
