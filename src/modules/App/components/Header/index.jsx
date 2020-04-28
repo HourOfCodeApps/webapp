@@ -7,25 +7,31 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-// import IconButton from '@material-ui/core/IconButton';
-// import Badge from '@material-ui/core/Badge';
-// import NotificationsIcon from '@material-ui/icons/Notifications';
-// import Menu from '@material-ui/core/Menu';
-// import MenuItem from '@material-ui/core/MenuItem';
 import { FlexBox } from 'shared/components/LayoutStyled';
 import { Heading } from 'shared/components/TypographyStyled';
 import { Logo } from 'shared/components/WelcomePageStyled';
 
 const styles = theme => ({
   toolbar: {
-    paddingRight: 24,
-    justifyContent: 'space-between',
+    '& > *': {
+      margin: theme.spacing(0, 1),
+      '&:first-child': {
+        marginLeft: 0,
+      },
+      '&:last-child': {
+        marginRight: 0,
+      },
+    },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   title: {
+    flexGrow: 1,
     textDecoration: 'none',
+    '& > img': {
+      display: 'block',
+    },
   },
   logo: theme.palette.common.white,
 });
@@ -36,14 +42,16 @@ const Header = ({ classes, onSignOut, user }) => (
     className={classes.appBar}
   >
     <Container>
-    <Toolbar className={classes.toolbar}>
-      <Typography variant="title" color="inherit" className={classes.title} component={RouterLink} to="/">
-        <FlexBox margin="10px 0px" align="center">
-          <Logo width="60px" height="60px" />
-          <Heading bolder color={classes.logo}>Lviv</Heading>
-        </FlexBox>
-      </Typography>
-      <FlexBox>
+      <Toolbar className={classes.toolbar} disableGutters>
+        <div className={classes.title}>
+          <Typography variant="h6" color="inherit" className={classes.title} component={RouterLink} to="/">
+            <FlexBox margin="10px 0px" align="center">
+              <Logo width="60px" height="60px" />
+              <Heading bolder color={classes.logo}>Lviv</Heading>
+            </FlexBox>
+          </Typography>
+        </div>
+
         {user.admin && (
           <React.Fragment>
             <Button
@@ -105,8 +113,7 @@ const Header = ({ classes, onSignOut, user }) => (
         >
           Вихід
         </Button>
-      </FlexBox>
-    </Toolbar>
+      </Toolbar>
     </Container>
   </AppBar>
 );
