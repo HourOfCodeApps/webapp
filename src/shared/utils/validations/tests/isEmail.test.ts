@@ -13,6 +13,5 @@ describe('isEmail', () => {
     expect(isEmail('john-doe@.com')).toEqual(false);
     expect(isEmail('john-doe@gmail')).toEqual(false);
     expect(isEmail('john doe@gmail.com')).toEqual(false);
-    expect(isEmail(1380)).toEqual(false);
   });
 });

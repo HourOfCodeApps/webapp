@@ -1,5 +1,4 @@
-
-const getInputHelperText = (error, required) => {
+const getInputHelperText = (error: string, required?: boolean): string => {
   if (error) {
     return error;
   }
