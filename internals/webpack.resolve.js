@@ -4,7 +4,7 @@ const dirs = require('./dirs');
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     modules: [dirs.src, 'node_modules'],
   },
 };
