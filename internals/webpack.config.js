@@ -25,12 +25,22 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /(\.js|\.jsx)$/,
+        test: /\.(j|t)s(x?)$/,
+        include: dirs.src,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: [
+          {
+            loader: "ts-loader"
+          }
+        ]
       },
+//      {
+//        test: /(\.js|\.jsx)$/,
+//        exclude: /node_modules/,
+//        use: {
+//          loader: 'babel-loader',
+//        },
+//      },
       {
         test: /\.html$/,
         use: [
