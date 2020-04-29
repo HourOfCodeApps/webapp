@@ -79,7 +79,7 @@ class SignIn extends React.Component {
     } = this;
 
     return (
-      <React.Fragment>
+      <>
         <FlexBox column align="center" justify="center">
           {signingInError && (
             <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{signingInError.message}</Typography>
@@ -116,7 +116,7 @@ class SignIn extends React.Component {
             onClose={handleForgotPasswordCancel}
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

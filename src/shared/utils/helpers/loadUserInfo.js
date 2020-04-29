@@ -49,7 +49,4 @@ const loadUserInfo = async (uid) => {
 };
 
 export default loadUserInfo;
-export {
-  loadUserProfile,
-  loadUserSection,
-};
+export { loadUserProfile, loadUserSection };

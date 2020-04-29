@@ -90,7 +90,7 @@ class ConfirmationDialog extends React.Component {
         >
           <DialogTitle id="confirmation-dialog-title" classes={{ root: classes.title }}>{title}</DialogTitle>
           {!loading && (
-            <React.Fragment>
+            <>
               {(!!description || !!question) && (
                 <DialogContent classes={{ root: classes.content }}>
                   {!!description && (
@@ -99,7 +99,7 @@ class ConfirmationDialog extends React.Component {
                     </DialogContentText>
                   )}
                   {!!question && (
-                    <React.Fragment>
+                    <>
                       <DialogContentText>
                         {question}
                       </DialogContentText>
@@ -114,7 +114,7 @@ class ConfirmationDialog extends React.Component {
                         value={answer}
                         autoFocus
                       />
-                    </React.Fragment>
+                    </>
                   )}
                 </DialogContent>
               )}
@@ -131,7 +131,7 @@ class ConfirmationDialog extends React.Component {
                   {confirmLabel}
                 </Button>
               </DialogActions>
-            </React.Fragment>
+            </>
           )}
           {loading && (
             <DialogContent>

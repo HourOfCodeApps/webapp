@@ -83,7 +83,7 @@ class School extends React.Component {
     } = this;
 
     return (
-      <React.Fragment>
+      <>
         <Paper>
           <Grid container spacing={40}>
             <Grid item xs={12} md={6}>
@@ -94,7 +94,7 @@ class School extends React.Component {
             </Grid>
           </Grid>
         </Paper>
-      </React.Fragment>
+      </>
     );
   }
 }

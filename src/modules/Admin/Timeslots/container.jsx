@@ -107,7 +107,7 @@ class Timeslots extends React.Component {
     } = this;
 
     return (
-      <React.Fragment>
+      <>
         <Grid container justify="space-between" alignItems="flex-end">
           <Grid item xs={12} md={6}>
             <Typography variant="display1" gutterBottom>
@@ -180,7 +180,7 @@ class Timeslots extends React.Component {
             danger
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

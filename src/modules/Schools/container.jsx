@@ -130,7 +130,7 @@ class Schools extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <Paper>
           <Table>
             <TableHead>
@@ -171,7 +171,7 @@ class Schools extends React.Component {
             title="Ви впевнені, що хочете видалити цю школу?"
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

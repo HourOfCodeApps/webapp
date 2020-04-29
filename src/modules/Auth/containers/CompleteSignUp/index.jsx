@@ -96,10 +96,10 @@ class CompleteSignUp extends React.Component {
           </Typography>
           <Typography variant="subheading" align="center">
             {initialValues.role && (
-              <React.Fragment>
+              <>
                 {initialValues.role === 'mentor' ? 'Ментор' : 'Представник школи'}
                 , будь
-              </React.Fragment>
+              </>
             )}
             {!initialValues.role && 'Будь'}
             &nbsp;ласка, введіть вірні дані

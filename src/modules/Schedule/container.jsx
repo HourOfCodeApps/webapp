@@ -145,7 +145,7 @@ class Schedule extends React.Component {
     const school = schoolsMap[user.teacher.schoolId] || {};
 
     return (
-      <React.Fragment>
+      <>
         <Typography variant="title" gutterBottom>{school.name}</Typography>
         <Typography variant="body2" gutterBottom>
           Створи уроки, ментори долучаться. Адміністратор Години Коду підтверджує всі уроки та заявки менторів, статус у відповідній колонці.
@@ -204,7 +204,7 @@ class Schedule extends React.Component {
             danger
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -88,7 +88,7 @@ class Mentor extends React.Component {
     const { profile } = mentor;
 
     return (
-      <React.Fragment>
+      <>
         <Paper>
           <Grid container spacing={40}>
             <Grid item xs={12} md={6}>
@@ -118,7 +118,7 @@ class Mentor extends React.Component {
           )}
         </Paper>
 
-      </React.Fragment>
+      </>
     );
   }
 }

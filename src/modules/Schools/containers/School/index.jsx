@@ -136,7 +136,7 @@ class School extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <Paper>
           <Grid container spacing={40}>
             <Grid item xs={12} md={6}>
@@ -214,7 +214,7 @@ class School extends React.Component {
             title="Ви впевнені, що хочете видалити цю школу?"
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

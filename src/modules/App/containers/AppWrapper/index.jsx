@@ -34,7 +34,7 @@ const AppWrapper = ({
   onSignOut,
   user,
 }) => (
-  <React.Fragment>
+  <>
     <div className={classes.root}>
       <Header
         onSignOut={onSignOut}
@@ -45,7 +45,7 @@ const AppWrapper = ({
         {children}
       </main>
     </div>
-  </React.Fragment>
+  </>
 );
 
 AppWrapper.propTypes = {

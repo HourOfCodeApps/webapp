@@ -219,7 +219,7 @@ class Schedule extends React.Component {
     // const daySchools = timeslotsByDays[selectedDay] || {};
 
     return (
-      <React.Fragment>
+      <>
         <Grid container>
           <Grid item xs={12} md={9}>
             <Typography variant="display1" gutterBottom>
@@ -300,7 +300,7 @@ class Schedule extends React.Component {
         {timeslotsFetchingError && <div>{timeslotsFetchingError.message}</div>}
 
         {!timeslotsFetching && !timeslotsFetchingError && (
-          <React.Fragment>
+          <>
             {Object.keys(timeslotsBySchool).map(schoolId => (
               <SchoolRow
                 school={schoolsMap[schoolId] || {}}
@@ -317,7 +317,7 @@ class Schedule extends React.Component {
               </Typography>
             )}
 
-          </React.Fragment>
+          </>
         )}
 
         {timeslotApplying && <LoadingOverlay />}
@@ -329,7 +329,7 @@ class Schedule extends React.Component {
             onApply={handleApply}
           />
         ))} */}
-      </React.Fragment>
+      </>
     );
   }
 }

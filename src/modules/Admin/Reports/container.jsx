@@ -46,7 +46,7 @@ class Reports extends React.Component {
     } = this;
 
     return (
-      <React.Fragment>
+      <>
         <Typography variant="display1" gutterBottom>
           Звіти
         </Typography>
@@ -77,7 +77,7 @@ class Reports extends React.Component {
             </Table>
           </Paper>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

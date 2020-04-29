@@ -1,20 +1,27 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose,
-  combineReducers,
-} from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import { reducer as formReducer } from 'redux-form';
 
 import { reducer as configReducer, sagas as configSagas } from 'modules/Config';
 import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
-import { reducer as mentorScheduleReducer, sagas as mentorScheduleSagas } from 'modules/MentorSchedule';
+import {
+  reducer as mentorScheduleReducer,
+  sagas as mentorScheduleSagas,
+} from 'modules/MentorSchedule';
 // import { reducer as usersReducer, sagas as usersSagas } from 'modules/Users';
-import { reducer as schoolsReducer, sagas as schoolsSagas } from 'modules/Schools';
-import { reducer as scheduleReducer, sagas as scheduleSagas } from 'modules/Schedule';
-import { reducer as profileReducer, sagas as profileSagas } from 'modules/Profile';
+import {
+  reducer as schoolsReducer,
+  sagas as schoolsSagas,
+} from 'modules/Schools';
+import {
+  reducer as scheduleReducer,
+  sagas as scheduleSagas,
+} from 'modules/Schedule';
+import {
+  reducer as profileReducer,
+  sagas as profileSagas,
+} from 'modules/Profile';
 import { reducer as adminReducer, sagas as adminSagas } from 'modules/Admin';
 
 const reducer = combineReducers({
@@ -39,9 +46,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducer,
-  composeEnhancers(
-    applyMiddleware(sagaMiddleware),
-  ),
+  composeEnhancers(applyMiddleware(sagaMiddleware)),
 );
 
 [

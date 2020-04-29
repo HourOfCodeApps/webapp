@@ -27,7 +27,7 @@ class WelcomePage extends React.Component {
     const signupEnabled = config.mentorSignupEnabled || config.teacherSignupEnabled;
 
     return (
-      <React.Fragment>
+      <>
         <WelcomeHero />
         <Container container alignItems="center" marginCenter justify="space-between">
           <Column item xs={12} md={5}>
@@ -77,7 +77,7 @@ class WelcomePage extends React.Component {
             </FlexBox>
           </Column>
         </Container>
-      </React.Fragment>
+      </>
     );
   }
 }

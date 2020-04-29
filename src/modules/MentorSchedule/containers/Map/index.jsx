@@ -82,7 +82,7 @@ class Schedule extends React.Component {
     // const daySchools = timeslotsByDays[selectedDay] || {};
 
     return (
-      <React.Fragment>
+      <>
         <div style={{ height: 300 }}>
           {userLocationFetching && <Loading />}
           {!userLocationFetching && (
@@ -214,7 +214,7 @@ class Schedule extends React.Component {
             </Map>
           )}
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }

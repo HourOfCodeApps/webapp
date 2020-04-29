@@ -100,7 +100,7 @@ class Schedule extends React.Component {
       : 'Обрати урок';
 
     return (
-      <React.Fragment>
+      <>
         <Grid container>
           <Grid item xs={12} md={8}>
             <Typography variant="display1" gutterBottom>
@@ -159,7 +159,7 @@ class Schedule extends React.Component {
             danger
           />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

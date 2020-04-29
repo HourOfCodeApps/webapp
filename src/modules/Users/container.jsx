@@ -29,7 +29,7 @@ class Users extends React.Component {
   render() {
     const { users, usersFetching, usersFetchingError } = this.props;
     return (
-      <React.Fragment>
+      <>
         <Typography variant="display1" gutterBottom>
           Users
         </Typography>
@@ -39,7 +39,7 @@ class Users extends React.Component {
         {!usersFetching && !usersFetchingError && (
           <UsersTable users={users} />
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

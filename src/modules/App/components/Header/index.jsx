@@ -53,7 +53,7 @@ const Header = ({ classes, onSignOut, user }) => (
         </div>
 
         {user.admin && (
-          <React.Fragment>
+          <>
             <Button
               color="inherit"
               size="large"
@@ -86,7 +86,7 @@ const Header = ({ classes, onSignOut, user }) => (
             >
               Уроки
             </Button>
-          </React.Fragment>
+          </>
         )}
         {user.teacher && (
           <Button
