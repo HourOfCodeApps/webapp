@@ -183,7 +183,8 @@ const reducer = (state = initialState, action) => {
 
       const myTimeslotsBySchool = action.payload.timeslots.slice()
         .reduce((acc, curr) => {
-          const schoolTimeslots = ((acc[curr.schoolId] && acc[curr.schoolId].timeslots) || []).concat(curr);
+          const schoolTimeslots = ((acc[curr.schoolId] && acc[curr.schoolId].timeslots) || [])
+            .concat(curr);
 
           // const dayValues = (acc[day] || []).concat(curr);
           // return { ...acc, [curr.schoolId]: schoolTimeslots };

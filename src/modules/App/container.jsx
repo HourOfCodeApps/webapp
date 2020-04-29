@@ -20,8 +20,6 @@ import {
 
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
-import AppLoader from './containers/AppLoader';
-
 import Public from './containers/Public';
 import Private from './containers/Private';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
@@ -107,10 +105,8 @@ class App extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        {/* <AppLoader> */}
-          <ToastContainer />
-          {renderContent()}
-        {/* </AppLoader> */}
+        <ToastContainer />
+        {renderContent()}
       </MuiThemeProvider>
     );
   }

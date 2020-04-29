@@ -148,7 +148,9 @@ class Schedule extends React.Component {
       <React.Fragment>
         <Typography variant="title" gutterBottom>{school.name}</Typography>
         <Typography variant="body2" gutterBottom>
-          Створи уроки, ментори долучаться. Адміністратор Години Коду підтверджує всі уроки та заявки менторів, статус у відповідній колонці.
+          Створи уроки, ментори долучаться.
+          Адміністратор Години Коду підтверджує всі уроки
+          та заявки менторів, статус у відповідній колонці.
         </Typography>
 
         <Paper>

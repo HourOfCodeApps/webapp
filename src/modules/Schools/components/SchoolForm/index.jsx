@@ -21,7 +21,7 @@ const renderPhones = ({ fields, meta: { error } }) => (
       </IconButton>
     </Typography>
     {fields.map((phone, index) => (
-      <div key={index}>
+      <div key={phone}>
         <Field
           compact
           name={phone}
@@ -45,6 +45,17 @@ const renderPhones = ({ fields, meta: { error } }) => (
     )}
   </div>
 );
+
+renderPhones.propTypes = {
+  fields: PropTypes.instanceOf(Array),
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+  }).isRequired,
+};
+
+renderPhones.defaultProps = {
+  fields: [],
+};
 
 const SchoolForm = (
   {

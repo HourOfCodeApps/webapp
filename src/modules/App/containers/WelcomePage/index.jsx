@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Auth, { SignUp } from 'modules/Auth';
 import { Container, Column, FlexBox } from 'shared/components/LayoutStyled';
 import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
@@ -8,10 +9,16 @@ import { withConfig } from 'modules/Config';
 import WelcomeHero from './components/WelcomeHero';
 
 class WelcomePage extends React.Component {
+  static propTypes = {
+    config: PropTypes.shape({
+      mentorTimeslotsEnabled: PropTypes.bool.isRequired,
+      teacherSignupEnabled: PropTypes.bool.isRequired,
+    }).isRequired,
+  };
+
   state = {
     isSignInShown: false,
   };
-
 
   handleToggleMode = () => {
     this.setState(({ isSignInShown }) => ({ isSignInShown: !isSignInShown }));
@@ -57,7 +64,8 @@ class WelcomePage extends React.Component {
               <Heading bolder margin="0 0 5px 0">Ментор</Heading>
               <HeadingSm>
                 представник сфери ІТ, охочий розповісти школярам про свою професію та обовязки:
-                бізнес-аналітики, програмісти, тестувальники, проектні менеджери, HR, рекрутери та інші.
+                бізнес-аналітики, програмісти, тестувальники,
+                проектні менеджери, HR, рекрутери та інші.
                 <br />
                 Стань ментором і ти!
               </HeadingSm>
@@ -65,7 +73,8 @@ class WelcomePage extends React.Component {
             <FlexBox column margin="0 0 20px 0">
               <Heading bolder margin="0 0 5px 0">Представник школи</Heading>
               <HeadingSm>
-                контактна особа школи, котра відповідає за проведення Години коду у конкретній школі (наприклад, вчитель інформатики).
+                контактна особа школи, котра відповідає за проведення
+                Години коду у конкретній школі (наприклад, вчитель інформатики).
               </HeadingSm>
             </FlexBox>
             <FlexBox column>

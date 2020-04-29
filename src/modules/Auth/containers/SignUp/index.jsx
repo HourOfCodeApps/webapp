@@ -20,6 +20,10 @@ import {
 
 class SignUp extends React.Component {
   static propTypes = {
+    config: PropTypes.shape({
+      mentorTimeslotsEnabled: PropTypes.bool.isRequired,
+      teacherSignupEnabled: PropTypes.bool.isRequired,
+    }).isRequired,
     onSignUp: PropTypes.func.isRequired,
     signingUp: PropTypes.bool.isRequired,
     signingUpError: PropTypes.instanceOf(Object),

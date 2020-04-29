@@ -185,4 +185,6 @@ const mapDispatchToProps = {
   onForgotPassword: forgotPassword,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ForgotPasswordDialog));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(ForgotPasswordDialog),
+);

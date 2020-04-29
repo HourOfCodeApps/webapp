@@ -43,7 +43,8 @@ const styles = theme => ({
 
 class CompleteSignUp extends React.Component {
   static propTypes = {
-    auth: PropTypes.shape(PropTypes.object).isRequired,
+    schools: PropTypes.instanceOf(Array).isRequired,
+    schoolsFetching: PropTypes.bool.isRequired,
     classes: PropTypes.shape(PropTypes.object).isRequired,
     onCompleteSignUp: PropTypes.func.isRequired,
     user: PropTypes.shape(PropTypes.object).isRequired,
@@ -67,7 +68,6 @@ class CompleteSignUp extends React.Component {
         schools,
         schoolsFetching,
         user: {
-          uid,
           profile,
           mentor,
         },

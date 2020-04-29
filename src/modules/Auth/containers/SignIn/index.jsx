@@ -10,10 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { FlexBox } from 'shared/components/LayoutStyled';
 import { HeadingSm } from 'shared/components/TypographyStyled';
 
-import {
-  forgotPassword,
-  signIn,
-} from '../../actions';
+import { signIn } from '../../actions';
 
 import {
   selectUser,
@@ -21,17 +18,13 @@ import {
   selectSigningInError,
 } from '../../selectors';
 
-import {
-  SIGNIN_EMAILPASSWORD_PROVIDER,
-  SIGNIN_GOOGLE_PROVIDER,
-} from '../../constants';
+import { SIGNIN_EMAILPASSWORD_PROVIDER } from '../../constants';
 
 import SigninForm from '../../components/SignInForm';
 import ForgotPasswordDialog from '../ForgotPasswordDialog';
 
 class SignIn extends React.Component {
   static propTypes = {
-    onForgotPassword: PropTypes.func.isRequired,
     onSignIn: PropTypes.func.isRequired,
     signingIn: PropTypes.bool.isRequired,
     signingInError: PropTypes.instanceOf(Object),
@@ -46,11 +39,6 @@ class SignIn extends React.Component {
     showForgotPasswordDialog: false,
   }
 
-  handleGoogleLogin = () => {
-    const { onSignIn } = this.props;
-    onSignIn(SIGNIN_GOOGLE_PROVIDER);
-  };
-
   handleEmailPasswordLogin = (formData) => {
     const { onSignIn } = this.props;
     onSignIn(SIGNIN_EMAILPASSWORD_PROVIDER, {
@@ -59,9 +47,7 @@ class SignIn extends React.Component {
     });
   }
 
-  handleSignUp = () => {
-
-  };
+  handleSignUp = () => {};
 
   handleForgotPassword = () => this.setState({ showForgotPasswordDialog: true });
 
@@ -72,7 +58,6 @@ class SignIn extends React.Component {
       handleEmailPasswordLogin,
       handleForgotPassword,
       handleForgotPasswordCancel,
-      handleGoogleLogin,
       handleSignUp,
       props: { signingIn, signingInError, theme },
       state: { showForgotPasswordDialog },
@@ -133,7 +118,6 @@ const mapStateToProps = createSelector(
 );
 
 const mapDispatchToProps = {
-  onForgotPassword: forgotPassword,
   onSignIn: signIn,
 };
 
