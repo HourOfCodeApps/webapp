@@ -13,15 +13,19 @@
     "eslint:recommended",
     "airbnb",
     "plugin:jest/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
     "prettier/@typescript-eslint",
     "plugin:import/typescript"
   ],
   // "rules": {
   //   "react/destructuring-assignment": 0
   // },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }]
+  },
   "globals": {
     "window": true
   },
