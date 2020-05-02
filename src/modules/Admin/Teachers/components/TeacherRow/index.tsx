@@ -1,12 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import ApproveIcon from '@material-ui/icons/Done';
 
-class Teacher extends React.Component {
+import ActionTableCell from 'shared/components/Table/ActionTableCell';
+
+type TeacherRowProps = {
+  onApprove: (id: string) => void;
+  school: {
+    id: string;
+    name: string;
+  };
+  teacher: {
+    uid: string;
+    profile: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    };
+    teacher: {
+      isApproved: boolean;
+    }
+  };
+}
+
+class TeacherRow extends React.Component<TeacherRowProps> {
   handleApprove = () => {
     const { teacher, onApprove } = this.props;
     onApprove(teacher.uid);
@@ -20,15 +41,13 @@ class Teacher extends React.Component {
 
     return (
       <TableRow style={{ background: teacher.teacher.isApproved ? 'transparent' : 'yellow' }}>
-        <TableCell component="th" scope="row">
-          {teacher.id}
+        <TableCell>
           {teacher.profile.firstName}
           &nbsp;
           {teacher.profile.lastName}
         </TableCell>
         <TableCell>
-          {/* {teacher.teacher.schoolId} */}
-          {school.name}
+          {school.name} // ToDo: make a link
         </TableCell>
         <TableCell>
           {teacher.profile.email}
@@ -36,7 +55,7 @@ class Teacher extends React.Component {
         <TableCell>
           {teacher.profile.phone}
         </TableCell>
-        <TableCell numeric>
+        <ActionTableCell>
           {!teacher.teacher.isApproved && (
             <IconButton
               onClick={handleApprove}
@@ -45,16 +64,10 @@ class Teacher extends React.Component {
               <ApproveIcon />
             </IconButton>
           )}
-        </TableCell>
+        </ActionTableCell>
       </TableRow>
     );
   }
 }
 
-Teacher.propTypes = {
-  school: PropTypes.shape(PropTypes.object).isRequired,
-  teacher: PropTypes.shape(PropTypes.object).isRequired,
-  onApprove: PropTypes.func.isRequired,
-};
-
-export default Teacher;
+export default TeacherRow;

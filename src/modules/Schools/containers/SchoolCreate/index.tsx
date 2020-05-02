@@ -1,12 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import pick from 'lodash/pick';
 
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import { toast } from 'react-toastify';
+
+import Container from 'shared/components/Container';
 
 
 import {
@@ -20,32 +22,21 @@ import {
 } from '../../selectors';
 import SchoolForm from '../../components/SchoolForm';
 
-class School extends React.Component {
-  static propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      search: PropTypes.string.isRequired,
-    }).isRequired,
-    match: PropTypes.shape({
-      params: {
-        id: PropTypes.string.isRequired,
-      },
-    }).isRequired,
-    onCreateSchool: PropTypes.func.isRequired,
-    school: PropTypes.instanceOf(Array),
-    schoolCreating: PropTypes.bool.isRequired,
-    schoolCreatingError: PropTypes.instanceOf(Object),
-  }
+type SchoolCreateProps = {
+  onCreateSchool: (data: Object) => void;
+  school: Object | null,
+  schoolCreating: boolean;
+  schoolCreatingError: Error | null;
+  history: {
+    push: (url: string) => void;
+  };
+  match: {
+    params: { id: string; };
+  };
+};
 
-  static defaultProps = {
-    school: null,
-    schoolCreatingError: null,
-  }
-
-  componentDidUpdate(prevProps) {
+class School extends React.Component<SchoolCreateProps> {
+  componentDidUpdate(prevProps: SchoolCreateProps) {
     if (prevProps.schoolCreating && !this.props.schoolCreating) {
       if (this.props.schoolCreatingError) {
         toast.error(this.props.schoolCreatingError.message);
@@ -58,7 +49,7 @@ class School extends React.Component {
 
   isNew = () => !this.props.match.params.id;
 
-  handleSubmit = (formData) => {
+  handleSubmit = (formData: Object) => {
     const { onCreateSchool } = this.props;
 
     const normalizedFormData = {
@@ -83,18 +74,20 @@ class School extends React.Component {
     } = this;
 
     return (
-      <>
-        <Paper>
-          <Grid container spacing={40}>
-            <Grid item xs={12} md={6}>
-              <SchoolForm
-                onSubmit={handleSubmit}
-                disabled={schoolCreating}
-              />
+      <Container>
+        <Card variant="outlined">
+          <CardContent>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <SchoolForm
+                  onSubmit={handleSubmit}
+                  disabled={schoolCreating}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-      </>
+          </CardContent>
+        </Card>
+      </Container>
     );
   }
 }

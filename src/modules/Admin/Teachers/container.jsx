@@ -12,8 +12,11 @@ import Paper from '@material-ui/core/Paper';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 
+import TableContainer from '@material-ui/core/TableContainer';
+
 import { withSchools } from 'modules/Schools';
 import Loading from 'shared/components/Loading';
+import Container from 'shared/components/Container';
 
 import {
   approveTeachers,
@@ -89,30 +92,32 @@ class Teachers extends React.Component {
     }
 
     return (
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>{'Ім\'я'}</TableCell>
-              <TableCell>Школа</TableCell>
-              <TableCell>Пошта</TableCell>
-              <TableCell>Телефон</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {teachers.map(t => (
-              <TeacherRow
-                key={t.uid}
-                teacher={t}
-                onApprove={handleApproveTeacherClick}
-                school={(t.teacher.schoolId && schoolsMap[t.teacher.schoolId]) || {}}
-                // onDelete={handleDeleteClick}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+      <Container>
+        <TableContainer component={Paper} variant="outlined">
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>{'Ім\'я'}</TableCell>
+                <TableCell>Школа</TableCell>
+                <TableCell>Пошта</TableCell>
+                <TableCell>Телефон</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {teachers.map(t => (
+                <TeacherRow
+                  key={t.uid}
+                  teacher={t}
+                  onApprove={handleApproveTeacherClick}
+                  school={(t.teacher.schoolId && schoolsMap[t.teacher.schoolId]) || {}}
+                  // onDelete={handleDeleteClick}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
     );
   }
 }

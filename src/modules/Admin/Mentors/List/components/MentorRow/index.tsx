@@ -8,7 +8,23 @@ import yellow from '@material-ui/core/colors/yellow';
 
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 
-const MentorRow = ({ mentor }) => (
+type MentorRowProps = {
+  mentor: {
+    uid: string;
+    profile: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    };
+    mentor: {
+      approvedTimeslotsCount?: number;
+      timeslotsCount?: number;
+    }
+  }
+}
+
+const MentorRow: React.FunctionComponent<MentorRowProps> = ({ mentor }) => (
   <TableRow
     style={{
       backgroundColor: isEnoughUserData(mentor) ? 'transparent' : yellow[500],
@@ -34,9 +50,5 @@ const MentorRow = ({ mentor }) => (
     </TableCell>
   </TableRow>
 );
-
-MentorRow.propTypes = {
-  mentor: PropTypes.shape(PropTypes.object).isRequired,
-};
 
 export default MentorRow;

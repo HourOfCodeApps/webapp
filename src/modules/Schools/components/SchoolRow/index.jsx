@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ViewIcon from '@material-ui/icons/Visibility';
 // import EditIcon from 'material-ui-icons/Edit';
 
+import ActionTableCell from 'shared/components/Table/ActionTableCell';
 
 class School extends React.Component {
   handleDelete = () => {
@@ -34,7 +35,7 @@ class School extends React.Component {
           {school.addressBuilding}
         </TableCell>
         <TableCell>{(school.phones || []).join(', ')}</TableCell>
-        <TableCell>
+        <ActionTableCell>
           <IconButton
             component={Link}
             to={`/school/${school.id}`}
@@ -55,8 +56,7 @@ class School extends React.Component {
           >
             <DeleteIcon />
           </IconButton>
-
-        </TableCell>
+        </ActionTableCell>
       </TableRow>
     );
   }

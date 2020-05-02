@@ -8,21 +8,16 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { signOut, withUser } from 'modules/Auth';
 
-// import Drawer from '../../components/Drawer';
 import Header from '../../components/Header';
 
 const styles = theme => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
   },
-  title: {
-    flexGrow: 1,
-  },
-  appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    height: '100vh',
     overflowX: 'auto',
     overflowY: 'scroll',
   },
@@ -41,7 +36,6 @@ const AppWrapper = ({
         user={user}
       />
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
         {children}
       </main>
     </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import Table from '@material-ui/core/Table';
@@ -10,8 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import TableContainer from '@material-ui/core/TableContainer';
 
+import Container from 'shared/components/Container';
 import Loading from 'shared/components/Loading';
+
 import { fetchMentors } from './actions';
 
 import {
@@ -23,7 +25,16 @@ import {
 
 import MentorRow from './components/MentorRow';
 
-class Mentors extends React.Component {
+type MentorsContainerProps = {
+  onFetchMentors: () => void;
+
+  allTimeslotsCount: boolean;
+  mentors: Object[];
+  mentorsFetching: boolean;
+  mentorsFetchingError?: Error;
+}
+
+class Mentors extends React.Component<MentorsContainerProps> {
   componentDidMount() {
     this.props.onFetchMentors();
   }
@@ -39,7 +50,7 @@ class Mentors extends React.Component {
     } = this;
 
     return (
-      <>
+      <Container>
         <Grid container justify="space-between" alignItems="flex-end">
           <Grid item xs={12} md={6}>
             <Typography variant="display1" gutterBottom>
@@ -61,10 +72,12 @@ class Mentors extends React.Component {
         {mentorsFetchingError && <div>{mentorsFetchingError.message}</div>}
 
         {!mentorsFetching && !mentorsFetchingError && (
-          <Paper>
+          <TableContainer component={Paper} variant="outlined">
+            {/* <Table size="small"> */}
+          
             <Table>
               <TableHead>
-                <TableRow selected>
+                <TableRow>
                   <TableCell>Ім&apos;я</TableCell>
                   <TableCell>Пошта</TableCell>
                   <TableCell>Телефон</TableCell>
@@ -84,25 +97,12 @@ class Mentors extends React.Component {
                 ))}
               </TableBody>
             </Table>
-          </Paper>
+          </TableContainer>
         )}
-      </>
+      </Container>
     );
   }
 }
-
-Mentors.propTypes = {
-  allTimeslotsCount: PropTypes.number.isRequired,
-  onFetchMentors: PropTypes.func.isRequired,
-  mentors: PropTypes.instanceOf(Array),
-  mentorsFetching: PropTypes.bool.isRequired,
-  mentorsFetchingError: PropTypes.instanceOf(Object),
-};
-
-Mentors.defaultProps = {
-  mentors: [],
-  mentorsFetchingError: null,
-};
 
 const mapStateToProps = createSelector(
   selectAllTimeslotsCount(),

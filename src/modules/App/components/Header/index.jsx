@@ -38,7 +38,7 @@ const styles = theme => ({
 
 const Header = ({ classes, onSignOut, user }) => (
   <AppBar
-    position="absolute"
+    position="sticky"
     className={classes.appBar}
   >
     <Container>
