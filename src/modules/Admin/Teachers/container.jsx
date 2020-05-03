@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { compose } from 'redux';
 
 import TableContainer from '@material-ui/core/TableContainer';
+import Typography from '@material-ui/core/Typography';
 
 import { withSchools } from 'modules/Schools';
 import Loading from 'shared/components/Loading';
@@ -93,6 +94,7 @@ class Teachers extends React.Component {
 
     return (
       <Container>
+        <Typography variant="h4">Вчителі</Typography>
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">
             <TableHead>
