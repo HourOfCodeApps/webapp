@@ -6,6 +6,12 @@ import { createSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
 import { toast } from 'react-toastify';
 
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
+import Container from 'shared/components/Container';
+
 import {
   selectMe,
   selectMeFetching,
@@ -53,39 +59,39 @@ class Profile extends React.Component {
     } = this;
 
     return (
-      <div>
-        <Typography
-          variant="display1"
-          gutterBottom
-        >
-          Мої дані
-        </Typography>
-        {meFetching && (
-          <Typography variant="caption" gutterBottom>Завантаження</Typography>
-        )}
+      <Container>
+        <Typography variant="h4">Мої дані</Typography>
 
-        {meUpdating && (
-          <Typography variant="caption" gutterBottom>Оновлення</Typography>
-        )}
+        <Card variant="outlined">
+          <CardContent>
+            {meFetching && (
+              <Typography variant="caption" gutterBottom>Завантаження</Typography>
+            )}
 
-        {meFetchingError && (
-          <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meFetchingError.message}</Typography>
-        )}
+            {meUpdating && (
+              <Typography variant="caption" gutterBottom>Оновлення</Typography>
+            )}
 
-        {meUpdatingError && (
-          <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meUpdatingError.message}</Typography>
-        )}
+            {meFetchingError && (
+              <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meFetchingError.message}</Typography>
+            )}
 
-        {!meFetching && !meFetchingError && me && (
-          <div style={{ maxWidth: 600 }}>
-            <ProfileForm
-              initialValues={me}
-              disabled={meUpdating}
-              onSubmit={handleSubmit}
-            />
-          </div>
-        )}
-      </div>
+            {meUpdatingError && (
+              <Typography variant="caption" gutterBottom style={{ color: 'red' }}>{meUpdatingError.message}</Typography>
+            )}
+
+            {!meFetching && !meFetchingError && me && (
+              <div style={{ maxWidth: 600 }}>
+                <ProfileForm
+                  initialValues={me}
+                  disabled={meUpdating}
+                  onSubmit={handleSubmit}
+                />
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </Container>
     );
   }
 }
