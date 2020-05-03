@@ -53,7 +53,7 @@ class Mentors extends React.Component<MentorsContainerProps> {
       <Container>
         <Grid container justify="space-between" alignItems="flex-end">
           <Grid item xs={12} md={6}>
-            <Typography variant="display1" gutterBottom>
+            <Typography variant="h4">
               Ментори
             </Typography>
           </Grid>
