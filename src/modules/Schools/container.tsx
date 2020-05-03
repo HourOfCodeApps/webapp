@@ -19,6 +19,8 @@ import Container from 'shared/components/Container';
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
 import ActionBar from 'shared/components/ActionBar';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import {
   deleteSchool,
@@ -128,17 +130,24 @@ class Schools extends React.Component<SchoolsListContainerProps> {
     return (
       <>
         <Container>
-          <ActionBar>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddIcon />}
-              component={RouterLink}
-              to="/schools/new"
-            >
-              Додати школу
-            </Button>
-          </ActionBar>
+          <Box display="flex">
+            <Box flexGrow={1}>
+              <Typography variant="h4">Школи</Typography>
+            </Box>
+            <Box flexGrow={1}>
+              <ActionBar>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  component={RouterLink}
+                  to="/schools/new"
+                >
+                  Додати школу
+                </Button>
+              </ActionBar>
+            </Box>
+          </Box>
           <TableContainer component={Paper} variant="outlined">
             <Table size="small">
               <TableHead>
