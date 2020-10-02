@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Modal from '@material-ui/core/Modal';
+import withStyles from '@material-ui-v3/core/styles/withStyles';
+import Modal from '@material-ui-v3/core/Modal';
 
 import Loading from 'shared/components/Loading';
 

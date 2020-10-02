@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import red from '@material-ui/core/colors/red';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import withStyles from '@material-ui/core/styles/withStyles';
-import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui-v3/core/Button';
+import Dialog from '@material-ui-v3/core/Dialog';
+import DialogActions from '@material-ui-v3/core/DialogActions';
+import DialogContent from '@material-ui-v3/core/DialogContent';
+import DialogContentText from '@material-ui-v3/core/DialogContentText';
+import DialogTitle from '@material-ui-v3/core/DialogTitle';
+import red from '@material-ui-v3/core/colors/red';
+import MuiThemeProvider from '@material-ui-v3/core/styles/MuiThemeProvider';
+import withStyles from '@material-ui-v3/core/styles/withStyles';
+import TextField from '@material-ui-v3/core/TextField';
 
 import Loading from 'shared/components/Loading';
 

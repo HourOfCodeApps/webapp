@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui-v3/core/styles';
 
 import { signOut, withUser } from 'modules/Auth';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withTheme from '@material-ui/core/styles/withTheme';
+import withTheme from '@material-ui-v3/core/styles/withTheme';
 import { Container, FlexBox } from 'shared/components/LayoutStyled';
 import { Heading, HeadingSm } from 'shared/components/TypographyStyled';
 

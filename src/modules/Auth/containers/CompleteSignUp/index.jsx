@@ -5,9 +5,9 @@ import { compose } from 'redux';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
 
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui-v3/core/styles';
+import Paper from '@material-ui-v3/core/Paper';
+import Typography from '@material-ui-v3/core/Typography';
 
 import { withSchools } from 'modules/Schools';
 

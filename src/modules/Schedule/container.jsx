@@ -4,13 +4,13 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui-v3/core/Typography';
+import AppBar from '@material-ui-v3/core/AppBar';
+import Tabs from '@material-ui-v3/core/Tabs';
+import Tab from '@material-ui-v3/core/Tab';
+import Paper from '@material-ui-v3/core/Paper';
 import { DateTime } from 'luxon';
-import red from '@material-ui/core/colors/red';
+import red from '@material-ui-v3/core/colors/red';
 
 import { toast } from 'react-toastify';
 
