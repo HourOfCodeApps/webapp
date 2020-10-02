@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui-v3/core/Grid';
+import Button from '@material-ui-v3/core/Button';
+import Typography from '@material-ui-v3/core/Typography';
 import { Link } from 'react-router-dom';
 
 import { toast } from 'react-toastify';

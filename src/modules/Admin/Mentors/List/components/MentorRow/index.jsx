@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import yellow from '@material-ui/core/colors/yellow';
+import TableCell from '@material-ui-v3/core/TableCell';
+import TableRow from '@material-ui-v3/core/TableRow';
+import yellow from '@material-ui-v3/core/colors/yellow';
 
 import isEnoughUserData from 'shared/utils/helpers/isEnoughUserData';
 

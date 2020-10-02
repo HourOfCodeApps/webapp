@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@material-ui-v3/core/Table';
+import TableBody from '@material-ui-v3/core/TableBody';
+import TableCell from '@material-ui-v3/core/TableCell';
+import TableHead from '@material-ui-v3/core/TableHead';
+import TableRow from '@material-ui-v3/core/TableRow';
 
 import TimeslotRow from '../TimeslotRow';
 

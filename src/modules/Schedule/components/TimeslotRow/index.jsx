@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import TableCell from '@material-ui-v3/core/TableCell';
+import TableRow from '@material-ui-v3/core/TableRow';
+import IconButton from '@material-ui-v3/core/IconButton';
+import DeleteIcon from '@material-ui-v3/icons/Delete';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,

@@ -1,7 +1,7 @@
 // Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiTextField from '@material-ui/core/TextField';
+import MuiTextField from '@material-ui-v3/core/TextField';
 
 // Application
 import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
