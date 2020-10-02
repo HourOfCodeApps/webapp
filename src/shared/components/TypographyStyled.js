@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import withTheme from '@material-ui/core/styles/withTheme';
+import withTheme from '@material-ui-v3/core/styles/withTheme';
 
 export const Heading = withTheme()(styled.div`
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;

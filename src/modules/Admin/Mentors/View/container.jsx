@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui-v3/core/Paper';
+import Grid from '@material-ui-v3/core/Grid';
+import Typography from '@material-ui-v3/core/Typography';
 import isEqual from 'lodash/isEqual';
 
 import Loading from 'shared/components/Loading/index';

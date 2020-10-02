@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import LuxonUtils from 'material-ui-pickers/utils/luxon-utils';
-import { DateTimePicker as MuiDateTimePicker } from 'material-ui-pickers';
+import LuxonUtils from '@date-io/luxon';
+
+import {
+  DateTimePicker as MuiDateTimePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const DateTimePicker = ({ value, ...props }) => (
   <MuiPickersUtilsProvider utils={LuxonUtils}>

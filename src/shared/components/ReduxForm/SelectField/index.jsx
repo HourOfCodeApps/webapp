@@ -1,8 +1,8 @@
 // Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui-v3/core/FormControl';
+import FormHelperText from '@material-ui-v3/core/FormHelperText';
 
 // Application
 import Select from 'shared/components/Select';
