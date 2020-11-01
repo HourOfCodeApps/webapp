@@ -85,7 +85,7 @@ class School extends React.Component {
     return (
       <React.Fragment>
         <Paper>
-          <Grid container spacing={40}>
+          <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <SchoolForm
                 onSubmit={handleSubmit}

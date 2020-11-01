@@ -4,7 +4,7 @@ import withTheme from '@material-ui/core/styles/withTheme';
 import LogoImage from 'assets/img/hoc-logo.png';
 import HomeBg from 'assets/img/home-bg.jpg';
 
-export const WelcomeHeroWrapper = withTheme()(styled.div`
+export const WelcomeHeroWrapper = withTheme(styled.div`
     padding-bottom: 40px;
     position: relative;
     margin-bottom: 50px;

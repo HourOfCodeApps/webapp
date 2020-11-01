@@ -138,4 +138,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme()(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SignIn));

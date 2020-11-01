@@ -36,7 +36,7 @@ class Teacher extends React.Component {
         <TableCell>
           {teacher.profile.phone}
         </TableCell>
-        <TableCell numeric>
+        <TableCell>
           {!teacher.teacher.isApproved && (
             <IconButton
               onClick={handleApprove}

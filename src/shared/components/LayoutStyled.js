@@ -10,7 +10,7 @@ export const Container = styled(Grid)` // inherits m-ui props
   ${props => props.marginCenter && 'margin: 0 auto'};  // centering without flex wrapper;
 `;
 
-export const Column = withTheme()(styled(Grid)` // inherits m-ui props
+export const Column = withTheme(styled(Grid)` // inherits m-ui props
   position: relative;
 
   ${props => props.withBar && `

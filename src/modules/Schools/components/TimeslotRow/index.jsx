@@ -68,7 +68,7 @@ class Timeslot extends React.Component {
         <TableCell>{timeslot.pupilsCount}</TableCell>
         <TableCell>{timeslot.notes}</TableCell>
         <TableCell>{renderStatus(timeslot)}</TableCell>
-        <TableCell numeric>
+        <TableCell>
           {/* <IconButton
             onClick={handleDelete}
             aria-label="Delete"

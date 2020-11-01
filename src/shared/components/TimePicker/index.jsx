@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import LuxonUtils from 'material-ui-pickers/utils/luxon-utils';
-import { TimePicker as MuiTimePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import LuxonUtils from '@date-io/luxon';
 
+import { TimePicker as MuiTimePicker } from '@material-ui/pickers';
 
 const TimePicker = ({
   value, ...props
@@ -11,10 +11,11 @@ const TimePicker = ({
   <MuiPickersUtilsProvider utils={LuxonUtils}>
     <MuiTimePicker
       ampm={false}
-      variant="outlined"
+      inputVariant="outlined"
       value={value || null}
       cancelLabel="Відміна"
       okLabel="Підтвердити"
+      minDate="09:00"
       {...props}
     />
   </MuiPickersUtilsProvider>

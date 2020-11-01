@@ -152,13 +152,17 @@ function createAuthStateChannel() {
 }
 
 function* stateInit() {
-  const authStateChannel = yield call(createAuthStateChannel);
-  yield put({ type: STATE_INIT_SUCCESS });
+  try {
+    const authStateChannel = yield call(createAuthStateChannel);
+    yield put({ type: STATE_INIT_SUCCESS });
 
-  while (true) {
-    const authState = yield take(authStateChannel);
-    yield put(stateChanged(authState || null));
-    yield put(loadUserAction());
+    while (true) {
+      const authState = yield take(authStateChannel);
+      yield put(stateChanged(authState || null));
+      yield put(loadUserAction());
+    }
+  } catch (err) {
+    console.error(err);
   }
 }
 

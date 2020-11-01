@@ -31,4 +31,4 @@ Range.propTypes = {
   theme: PropTypes.shape({ pallette: PropTypes.object.isRequired }).isRequired,
 };
 
-export default withTheme()(Range);
+export default withTheme(Range);

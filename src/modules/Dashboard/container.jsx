@@ -40,7 +40,7 @@ const links = [
 
 const Dashboard = () => (
   <React.Fragment>
-    <Grid container spacing={16}>
+    <Grid container spacing={2}>
       {links.map(link => (
         <Grid item lg={2} md={3} sm={4} xs={6}>
           <ButtonBase
@@ -52,10 +52,10 @@ const Dashboard = () => (
             }}
           >
             <Paper style={{ padding: 20 }}>
-              <Typography align="center" variant="display1" style={{ fontSize: 96, lineHeight: 0.8 }}>
+              <Typography align="center" variant="h2">
                 {link.icon}
               </Typography>
-              <Typography align="center" variant="display1">
+              <Typography align="center" variant="h5">
                 {link.title}
               </Typography>
             </Paper>

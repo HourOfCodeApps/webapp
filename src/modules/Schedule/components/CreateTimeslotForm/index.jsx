@@ -17,7 +17,7 @@ const CreateTimeslotForm = ({
   timeslotCreating,
 }) => (
   <form onSubmit={handleSubmit}>
-    <Grid container spacing={40}>
+    <Grid container spacing={2}>
       <Grid item sm={2}>
         {/* <Field
           component={DateTimePickerField}
