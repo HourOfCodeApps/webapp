@@ -802,7 +802,9 @@ const applyTimeslot = functions
 const sendTimeslotReminders = functions
   .region('europe-west1')
   .pubsub
-  .topic('sendTimeslotReminders').onPublish(async (message) => {
+  .schedule('*/5 * * * *')
+  .timeZone('Europe/Kiev')
+  .onRun(async (context) => {
     const time = DateTime.utc();
     const timeFrom = time.set({ seconds: 0, milliseconds: 0 }).plus({ days: 1 });
     const timeTo = timeFrom.plus({ minutes: 5 });
