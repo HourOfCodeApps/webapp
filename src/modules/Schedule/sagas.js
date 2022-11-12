@@ -9,6 +9,7 @@ import {
 import pick from 'lodash/pick';
 
 // Application
+import config from 'config';
 import { selectUser } from 'modules/Auth';
 import { loadUserProfile } from 'shared/utils/helpers/loadUserInfo';
 
@@ -57,7 +58,7 @@ function* createTimeslot({ payload: { data } }) {
 
 function* deleteTimeslot({ payload: { id, reason } }) {
   try {
-    const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
+    const deleteTimeslotsCallable = firebase.app().functions(config.firebaseFunctionsRegion).httpsCallable('deleteTimeslot');
     yield deleteTimeslotsCallable({ timeslotId: id, reason });
 
     yield put(deleteTimeslotSuccess());

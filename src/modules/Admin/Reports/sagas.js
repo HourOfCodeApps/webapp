@@ -15,6 +15,7 @@ import {
 } from 'redux-saga/effects';
 
 // Application
+import config from 'config';
 import { SUBSCRIBE_REPORTS, UNSUBSCRIBE_REPORTS, GENERATE_REPORT } from './constants';
 
 import {
@@ -73,7 +74,7 @@ function* subscribeReports() {
 
 function* genereateReport({ payload: { reportId } }) {
   try {
-    const generateReportCallable = firebase.functions().httpsCallable('generateReport');
+    const generateReportCallable = firebase.app().functions(config.firebaseFunctionsRegion).httpsCallable('generateReport');
     yield generateReportCallable({ reportId });
 
     yield put(generateReportSuccess());

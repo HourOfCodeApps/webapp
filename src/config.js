@@ -8,6 +8,7 @@ const config = {
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.FIREBASE_APP_ID,
   },
+  firebaseFunctionsRegion: process.env.FIREBASE_FUNCTIONS_REGION,
   map: {
     key: process.env.GOOGLE_MAPS_KEY,
   },
