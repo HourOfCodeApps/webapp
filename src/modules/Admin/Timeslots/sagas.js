@@ -8,6 +8,7 @@ import {
 } from 'redux-saga/effects';
 
 // Application
+import config from 'config';
 import { loadUserProfile } from 'shared/utils/helpers/loadUserInfo';
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
@@ -65,7 +66,7 @@ function* approveTimeslot({ payload: { timeslotId } }) {
 
 function* deleteTimeslot({ payload: { timeslotId, reason } }) {
   try {
-    const deleteTimeslotsCallable = firebase.functions().httpsCallable('deleteTimeslot');
+    const deleteTimeslotsCallable = firebase.app().functions(config.firebaseFunctionsRegion).httpsCallable('deleteTimeslot');
     yield deleteTimeslotsCallable({ timeslotId, reason });
 
     yield put(deleteTimeslotSuccess());

@@ -9,6 +9,7 @@ import pick from 'lodash/pick';
 import { DateTime } from 'luxon';
 
 // Application
+import config from 'config';
 import { selectUser } from 'modules/Auth';
 
 import {
@@ -41,7 +42,7 @@ import {
 
 function* applyTimeslot({ payload: { timeslotId } }) {
   try {
-    const applyTimeslotCallable = firebase.functions().httpsCallable('applyTimeslot');
+    const applyTimeslotCallable = firebase.app().functions(config.firebaseFunctionsRegion).httpsCallable('applyTimeslot');
     yield applyTimeslotCallable(timeslotId);
 
     const firestore = firebase.firestore();
@@ -58,7 +59,7 @@ function* applyTimeslot({ payload: { timeslotId } }) {
 
 function* cancelTimeslot({ payload: { id, reason } }) {
   try {
-    const deleteTimeslotsCallable = firebase.functions().httpsCallable('discardTimeslot');
+    const deleteTimeslotsCallable = firebase.app().functions(config.firebaseFunctionsRegion).httpsCallable('discardTimeslot');
     yield deleteTimeslotsCallable({ timeslotId: id, reason });
 
     yield put(cancelTimeslotSuccess());
