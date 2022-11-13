@@ -14,8 +14,8 @@
   "dependencies": {
     "core-js": "^3.3.5",
     "exceljs": "^3.4.0",
-    "firebase-admin": "^8.6.1",
-    "firebase-functions": "^3.3.0",
+    "firebase-admin": "^11.2.1",
+    "firebase-functions": "^4.0.2",
     "luxon": "^1.4.4",
     "mailgun-js": "^0.22.0",
     "pug": "^2.0.3",
@@ -23,7 +23,7 @@
     "request-promise": "^4.2.2"
   },
   "engines": {
-    "node": "10"
+    "node": "16"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
