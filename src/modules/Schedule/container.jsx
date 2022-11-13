@@ -20,6 +20,7 @@ import { withSchools } from 'modules/Schools';
 
 import ConfirmationDialog from 'shared/components/ConfirmationDialog';
 import Loading from 'shared/components/Loading';
+import DaySelectorToolbar from 'shared/components/DaySelectorToolbar';
 
 import {
   createTimeslot,
@@ -153,16 +154,12 @@ class Schedule extends React.Component {
 
         <Paper>
           <AppBar position="static">
-            <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
-              {config.days.map(day => (
-                <Tab
-                  value={day}
-                  label={`${day} (${(timeslots[day] || []).length})`}
-                  // label={day}
-                  key={day}
-                />
-              ))}
-            </Tabs>
+            <DaySelectorToolbar
+              days={config.days}
+              onChange={handleChangeDay}
+              value={selectedDay}
+              labelBuilder={day => `${DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })} (${(timeslots[day] || []).length})`}
+            />
           </AppBar>
 
           {timeslotsFetching && <Loading />}

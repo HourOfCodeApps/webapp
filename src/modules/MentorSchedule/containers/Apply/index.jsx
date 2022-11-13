@@ -24,6 +24,7 @@ import { withSchools } from 'modules/Schools';
 
 import Range from 'shared/components/Range';
 import Loading from 'shared/components/Loading';
+import DaySelectorToolbar from 'shared/components/DaySelectorToolbar';
 
 import LoadingOverlay from '../../components/LoadingOverlay';
 
@@ -278,17 +279,13 @@ class Schedule extends React.Component {
         />
 
         <AppBar position="static">
-          <Tabs value={selectedDay} onChange={handleChangeDay} fullWidth>
-            {config.days.map(day => (
-              <Tab
-                value={day}
-                // label={dayLabels[day]}
-                label={day}
-                key={day}
-                disabled={day < todayISO}
-              />
-            ))}
-          </Tabs>
+          <DaySelectorToolbar
+            days={config.days}
+            onChange={handleChangeDay}
+            value={selectedDay}
+            labelBuilder={day => `${DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })} (${(timeslots[day] || []).length})`}
+            pastDaysDisabled
+          />
         </AppBar>
 
         {timeslotsFetching && (
