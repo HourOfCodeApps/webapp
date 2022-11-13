@@ -13,7 +13,6 @@ import App from 'modules/App';
 import store from './store';
 
 Settings.defaultLocale = 'uk-UA';//DateTime.local().resolvedLocaleOpts().locale;
-// console.log(DateTime.local().resolvedLocaleOpts().locale);
 firebase.initializeApp(config.firebase);
 
 ReactDOM.render(

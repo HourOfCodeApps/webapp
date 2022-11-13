@@ -19,21 +19,14 @@ const CreateTimeslotForm = ({
   <form onSubmit={handleSubmit}>
     <Grid container spacing={40}>
       <Grid item sm={2}>
-        {/* <Field
-          component={DateTimePickerField}
-          label="Час початку"
-          name="startTime"
-          required
-          minDate="2018-12-03"
-          maxDate="2018-12-08"
-        /> */}
         <Field
           component={TimePickerField}
           label="Час початку"
           name="startTime"
           required
-          minDate="2018-12-03"
-          maxDate="2018-12-08"
+          // minDate="2018-12-03"
+          // maxDate="2018-12-08"
+          minutesStep={5}
         />
       </Grid>
       <Grid item sm={2}>

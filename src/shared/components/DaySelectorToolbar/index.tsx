@@ -39,7 +39,7 @@ const DaySelectorToolbar = ({
     <>
       {weeks.map((week) => (
         <Tabs
-          value={value}
+          value={week.includes(value) ? value : null}
           onChange={onChange}
           fullWidth
           key={JSON.stringify(week)}
