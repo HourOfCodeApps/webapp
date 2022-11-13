@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LuxonUtils from '@date-io/luxon';
+import { DateTime } from 'luxon';
 
 import {
   TimePicker as MuiTimePicker,
@@ -13,7 +14,7 @@ const TimePicker = ({
   <MuiPickersUtilsProvider utils={LuxonUtils}>
     <MuiTimePicker
       ampm={false}
-      variant="outlined"
+      inputVariant="outlined"
       value={value || null}
       cancelLabel="Відміна"
       okLabel="Підтвердити"
@@ -23,8 +24,9 @@ const TimePicker = ({
 );
 
 TimePicker.propTypes = {
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.instanceOf(DateTime),
   clearable: PropTypes.bool,
+  minutesStep: PropTypes.number,
 };
 
 TimePicker.defaultProps = {
