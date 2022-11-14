@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import ApproveIcon from '@material-ui/icons/Done';
-import DeleteIcon from '@material-ui/icons/Delete';
+import ApproveIcon from '@mui/icons-material/Done';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,

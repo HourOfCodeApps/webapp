@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import ApproveIcon from '@material-ui/icons/Done';
+import ApproveIcon from '@mui/icons-material/Done';
 
 class Teacher extends React.Component {
   handleApprove = () => {

@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {
   TIMESLOT_STATUS_NEEDS_APPROVE,
