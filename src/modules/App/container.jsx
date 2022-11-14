@@ -5,8 +5,6 @@ import { createSelector } from 'reselect';
 import createMuiThemeV3 from '@material-ui-v3/core/styles/createMuiTheme';
 import MuiThemeProviderV3 from '@material-ui-v3/core/styles/MuiThemeProvider';
 
-import { ThemeProvider as MuiThemeProviderV4 } from '@material-ui/core/styles';
-import { createTheme as createThemeV4 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui-v3/core/CssBaseline';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -43,16 +41,14 @@ const themeV3 = createMuiThemeV3({
   },
 });
 
-const themeV4 = createThemeV4({
-  palette: {
-    // type: 'dark',
-    primary: {
-      main: 'rgb(22, 150, 160)',
+const theme = createTheme({
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: 'outlined',
+      },
     },
   },
-});
-
-const theme = createTheme({
   palette: {
     primary: {
       main: 'rgb(22, 150, 160)',
@@ -130,13 +126,11 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <MuiThemeProviderV3 theme={themeV3}>
-          <MuiThemeProviderV4 theme={themeV4}>
-            <CssBaseline />
-            {/* <AppLoader> */}
-              <ToastContainer />
-              {renderContent()}
-            {/* </AppLoader> */}
-          </MuiThemeProviderV4>
+          <CssBaseline />
+          {/* <AppLoader> */}
+            <ToastContainer />
+            {renderContent()}
+          {/* </AppLoader> */}
         </MuiThemeProviderV3>
       </ThemeProvider>
     );
