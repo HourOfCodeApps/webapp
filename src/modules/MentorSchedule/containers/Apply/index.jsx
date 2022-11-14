@@ -217,8 +217,6 @@ class Schedule extends React.Component {
       },
     } = this;
 
-    // const daySchools = timeslotsByDays[selectedDay] || {};
-
     return (
       <React.Fragment>
         <Grid container>
@@ -283,7 +281,7 @@ class Schedule extends React.Component {
             days={config.days}
             onChange={handleChangeDay}
             value={selectedDay}
-            labelBuilder={day => `${DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })} (${(timeslots[day] || []).length})`}
+            labelBuilder={day => DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })}
             pastDaysDisabled
           />
         </AppBar>
