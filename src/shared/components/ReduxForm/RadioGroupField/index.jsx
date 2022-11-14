@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Radio from '@material-ui-v3/core/Radio';
-import RadioGroup from '@material-ui-v3/core/RadioGroup';
-import FormControlLabel from '@material-ui-v3/core/FormControlLabel';
-import FormControl from '@material-ui-v3/core/FormControl';
-import FormHelperText from '@material-ui-v3/core/FormHelperText';
-import FormLabel from '@material-ui-v3/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const RadioGroupField = ({
   color, disabled, input, label, labelKey, options, valueKey, meta: { error, touched }, horizontal,

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form/dist/redux-form';
-import Button from '@material-ui-v3/core/Button';
+import Button from '@material-ui/core/Button';
 
 import TextField from 'shared/components/ReduxForm/TextField';
-import FormControl from '@material-ui-v3/core/FormControl';
+import FormControl from '@material-ui/core/FormControl';
 
 import { SIGNIN_FORM_ID } from '../../constants';
 import validate from './validate';

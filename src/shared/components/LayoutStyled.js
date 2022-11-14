@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import withTheme from '@material-ui-v3/core/styles/withTheme';
-import Grid from '@material-ui-v3/core/Grid';
+import withTheme from '@material-ui/core/styles/withTheme';
+import Grid from '@material-ui/core/Grid';
 
 export const Container = styled(Grid)` // inherits m-ui props
   max-width: 940px;

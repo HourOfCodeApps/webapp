@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FieldArray, reduxForm } from 'redux-form/dist/redux-form';
-import Button from '@material-ui-v3/core/Button';
+import Button from '@material-ui/core/Button';
 
-import IconButton from '@material-ui-v3/core/IconButton';
-import DeleteIcon from '@material-ui-v3/icons/Delete';
-import AddIcon from '@material-ui-v3/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import TextField from 'shared/components/ReduxForm/TextField';
-import Typography from '@material-ui-v3/core/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import { SCHOOL_FORM_ID } from '../../constants';
 import validate from './validate';

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form/dist/redux-form';
-import Button from '@material-ui-v3/core/Button';
-import Grid from '@material-ui-v3/core/Grid';
-import FormControl from '@material-ui-v3/core/FormControl';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
 
 import TextField from 'shared/components/ReduxForm/TextField';
 import TimePickerField from 'shared/components/ReduxForm/TimePickerField';

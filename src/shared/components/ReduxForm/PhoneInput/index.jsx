@@ -1,6 +1,6 @@
 // Vendor
 import React from 'react';
-import MuiTextField from '@material-ui-v3/core/TextField';
+import MuiTextField from '@material-ui/core/TextField';
 import PhoneInput from 'react-phone-number-input';
 
 // Application

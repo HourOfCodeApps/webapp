@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, formValueSelector, reduxForm } from 'redux-form/dist/redux-form';
-import Button from '@material-ui-v3/core/Button';
+import Button from '@material-ui/core/Button';
 
 import RadioGroupField from 'shared/components/ReduxForm/RadioGroupField';
 import CheckBoxField from 'shared/components/ReduxForm/CheckBoxField';
