@@ -1,16 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import LuxonUtils from '@date-io/luxon';
 import { DateTime } from 'luxon';
 
 import {
   TimePicker as MuiTimePicker,
+  TimePickerProps,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 
-const TimePicker = ({
-  value, ...props
-}) => (
+type Props = TimePickerProps & {
+  value?: DateTime;
+  clearable?: boolean;
+  minutesStep?: number;
+};
+
+const TimePicker = ({ value, ...props }: Props) => (
   <MuiPickersUtilsProvider utils={LuxonUtils}>
     <MuiTimePicker
       ampm={false}
@@ -22,16 +25,5 @@ const TimePicker = ({
     />
   </MuiPickersUtilsProvider>
 );
-
-TimePicker.propTypes = {
-  value: PropTypes.instanceOf(DateTime),
-  clearable: PropTypes.bool,
-  minutesStep: PropTypes.number,
-};
-
-TimePicker.defaultProps = {
-  value: null,
-  clearable: false,
-};
 
 export default TimePicker;
