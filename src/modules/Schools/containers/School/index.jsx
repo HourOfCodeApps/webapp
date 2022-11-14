@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import Paper from '@material-ui-v3/core/Paper';
-import Grid from '@material-ui-v3/core/Grid';
-import Typography from '@material-ui-v3/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui-v3/core/IconButton';
-import EditIcon from '@material-ui-v3/icons/Edit';
-import DeleteIcon from '@material-ui-v3/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { toast } from 'react-toastify';
 
 import Map, { Marker } from 'shared/components/Map';

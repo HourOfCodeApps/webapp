@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { withStyles } from '@material-ui-v3/core/styles';
-import Button from '@material-ui-v3/core/Button';
-import Typography from '@material-ui-v3/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 // Application
 import {

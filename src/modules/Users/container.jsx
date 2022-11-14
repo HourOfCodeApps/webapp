@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import Typography from '@material-ui-v3/core/Typography';
+import Typography from '@material-ui/core/Typography';
 
 import { fetchUsers } from './actions';
 import {

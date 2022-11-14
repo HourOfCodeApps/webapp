@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Typography from '@material-ui-v3/core/Typography';
-import Paper from '@material-ui-v3/core/Paper';
-import Grid from '@material-ui-v3/core/Grid';
-import SchoolIcon from '@material-ui-v3/icons/AccountBalance';
-import TeachersIcon from '@material-ui-v3/icons/Group';
-import MentorsIcon from '@material-ui-v3/icons/GroupOutlined';
-import TimeslotsIcon from '@material-ui-v3/icons/Event';
-import ReportsIcon from '@material-ui-v3/icons/PieChart';
-import ButtonBase from '@material-ui-v3/core/ButtonBase';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import SchoolIcon from '@material-ui/icons/AccountBalance';
+import TeachersIcon from '@material-ui/icons/Group';
+import MentorsIcon from '@material-ui/icons/GroupOutlined';
+import TimeslotsIcon from '@material-ui/icons/Event';
+import ReportsIcon from '@material-ui/icons/PieChart';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 const links = [
   {

@@ -4,10 +4,10 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
-import Typography from '@material-ui-v3/core/Typography';
-import Paper from '@material-ui-v3/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import { DateTime } from 'luxon';
-import red from '@material-ui-v3/core/colors/red';
+import red from '@material-ui/core/colors/red';
 
 import { toast } from 'react-toastify';
 
