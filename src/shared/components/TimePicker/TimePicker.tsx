@@ -12,7 +12,7 @@ type Props = {
   minTime?: Dayjs;
   maxTime?: Dayjs;
   onChange: (newValue: Dayjs | null) => void;
-  value: Dayjs;
+  value: Dayjs | undefined;
   minutesStep?: number;
   fullWidth?: boolean;
   error?: boolean;
@@ -29,17 +29,14 @@ const TimePicker = ({ onChange, error, helperText, ...props }: Props) => (
   >
     <MobileTimePicker
       ampm={false}
-      renderInput={(params) => {
-        console.log(params);
-        return (
-          <TextField
-            margin="normal"
-            {...params}
-            error={error}
-            helperText={helperText}
-          />
-        );
-      }}
+      renderInput={(params) => (
+        <TextField
+          margin="normal"
+          {...params}
+          error={error}
+          helperText={helperText}
+        />
+      )}
       onChange={(newValue) => onChange(newValue ? newValue : null)}
       {...props}
     />
