@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import SchoolIcon from '@material-ui/icons/AccountBalance';
-import TeachersIcon from '@material-ui/icons/Group';
-import MentorsIcon from '@material-ui/icons/GroupOutlined';
-import TimeslotsIcon from '@material-ui/icons/Event';
-import ReportsIcon from '@material-ui/icons/PieChart';
+import SchoolIcon from '@mui/icons-material/AccountBalance';
+import TeachersIcon from '@mui/icons-material/Group';
+import MentorsIcon from '@mui/icons-material/GroupOutlined';
+import TimeslotsIcon from '@mui/icons-material/Event';
+import ReportsIcon from '@mui/icons-material/PieChart';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
 const links = [

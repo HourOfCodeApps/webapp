@@ -4,8 +4,8 @@ import { Field, FieldArray, reduxForm } from 'redux-form/dist/redux-form';
 import Button from '@material-ui/core/Button';
 
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import TextField from 'shared/components/ReduxForm/TextField';
 import Typography from '@material-ui/core/Typography';
 

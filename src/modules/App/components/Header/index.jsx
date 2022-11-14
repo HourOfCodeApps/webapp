@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 // import IconButton from '@material-ui/core/IconButton';
 // import Badge from '@material-ui/core/Badge';
-// import NotificationsIcon from '@material-ui/icons/Notifications';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
 import { FlexBox } from 'shared/components/LayoutStyled';
