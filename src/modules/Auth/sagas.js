@@ -232,13 +232,13 @@ function* updateUser({ payload }) {
  * Root saga manages watcher lifecycle
  */
 function* rootSaga() {
-  yield fork(takeLatest, SIGNIN, signIn);
-  yield fork(takeLatest, SIGNOUT, signOut);
-  yield fork(takeLatest, STATE_INIT, stateInit);
-  yield fork(takeLatest, LOAD_USER, loadUser);
-  yield fork(takeLatest, SIGNUP, signUp);
-  yield fork(takeEvery, UPDATE_USER, updateUser);
-  yield fork(takeLatest, FORGOT_PASSWORD, forgotPassword);
+  yield takeLatest(SIGNIN, signIn);
+  yield takeLatest(SIGNOUT, signOut);
+  yield takeLatest(STATE_INIT, stateInit);
+  yield takeLatest(LOAD_USER, loadUser);
+  yield takeLatest(SIGNUP, signUp);
+  yield takeEvery(UPDATE_USER, updateUser);
+  yield takeLatest(FORGOT_PASSWORD, forgotPassword);
 }
 
 // All sagas to be loaded by configureStore()

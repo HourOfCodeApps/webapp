@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, FieldArray, reduxForm } from 'redux-form/dist/redux-form';
 import Button from '@material-ui-v3/core/Button';
 
 import IconButton from '@material-ui-v3/core/IconButton';

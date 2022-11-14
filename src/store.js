@@ -5,8 +5,9 @@ import {
   combineReducers,
 } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
 
-import { reducer as formReducer } from 'redux-form';
+import { reducer as formReducer } from 'redux-form/dist/redux-form';
 
 import { reducer as configReducer, sagas as configSagas } from 'modules/Config';
 import { reducer as authReducer, sagas as authSagas } from 'modules/Auth';
@@ -37,12 +38,11 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 
 const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
+const store = configureStore({
   reducer,
-  composeEnhancers(
-    applyMiddleware(sagaMiddleware),
-  ),
-);
+  middleware: [sagaMiddleware],
+  devTools: true,
+});
 
 [
   ...configSagas,

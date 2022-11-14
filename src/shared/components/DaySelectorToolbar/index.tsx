@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 
 type Props = {
   value: string;
-  onChange: (event: React.ChangeEvent, value: string) => void;
+  onChange: (event: React.ChangeEvent<{}>, value: any) => void;
   days: string[];
   labelBuilder?: (value: string) => string;
   pastDaysDisabled?: boolean;

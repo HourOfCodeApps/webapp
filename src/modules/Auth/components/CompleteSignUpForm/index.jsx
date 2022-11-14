@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, formValueSelector, reduxForm } from 'redux-form';
+import { Field, formValueSelector, reduxForm } from 'redux-form/dist/redux-form';
 import Button from '@material-ui-v3/core/Button';
 
 
