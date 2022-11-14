@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Typography from '@material-ui-v3/core/Typography';
-import AppBar from '@material-ui-v3/core/AppBar';
-import Tabs from '@material-ui-v3/core/Tabs';
-import Tab from '@material-ui-v3/core/Tab';
 import Paper from '@material-ui-v3/core/Paper';
 import { DateTime } from 'luxon';
 import red from '@material-ui-v3/core/colors/red';
@@ -153,14 +150,12 @@ class Schedule extends React.Component {
         </Typography>
 
         <Paper>
-          <AppBar position="static">
-            <DaySelectorToolbar
-              days={config.days}
-              onChange={handleChangeDay}
-              value={selectedDay}
-              labelBuilder={day => `${DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })} (${(timeslots[day] || []).length})`}
-            />
-          </AppBar>
+          <DaySelectorToolbar
+            days={config.days}
+            onChange={handleChangeDay}
+            value={selectedDay}
+            labelBuilder={day => `${DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })} (${(timeslots[day] || []).length})`}
+          />
 
           {timeslotsFetching && <Loading />}
 

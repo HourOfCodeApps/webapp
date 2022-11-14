@@ -5,16 +5,12 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import pick from 'lodash/pick';
 import Grid from '@material-ui-v3/core/Grid';
-import AppBar from '@material-ui-v3/core/AppBar';
 import Button from '@material-ui-v3/core/Button';
 import Typography from '@material-ui-v3/core/Typography';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
-
-import Tabs from '@material-ui-v3/core/Tabs';
-import Tab from '@material-ui-v3/core/Tab';
 
 import { toast } from 'react-toastify';
 
@@ -276,15 +272,13 @@ class Schedule extends React.Component {
           onHover={this.handleSelectSchool}
         />
 
-        <AppBar position="static">
-          <DaySelectorToolbar
-            days={config.days}
-            onChange={handleChangeDay}
-            value={selectedDay}
-            labelBuilder={day => DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })}
-            pastDaysDisabled
-          />
-        </AppBar>
+        <DaySelectorToolbar
+          days={config.days}
+          onChange={handleChangeDay}
+          value={selectedDay}
+          labelBuilder={day => DateTime.fromISO(day).toLocaleString({month: 'numeric', day: 'numeric', weekday: 'long' })}
+          pastDaysDisabled
+        />
 
         {timeslotsFetching && (
           <div style={{ height: 150 }}>

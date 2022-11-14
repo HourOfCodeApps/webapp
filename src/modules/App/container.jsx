@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createMuiTheme from '@material-ui-v3/core/styles/createMuiTheme';
-import MuiThemeProvider from '@material-ui-v3/core/styles/MuiThemeProvider';
+import createMuiThemeV3 from '@material-ui-v3/core/styles/createMuiTheme';
+import MuiThemeProviderV3 from '@material-ui-v3/core/styles/MuiThemeProvider';
 
-import {
-  createMuiTheme as createMuiThemeV4,
-  ThemeProvider as MuiThemeProviderV4,
-} from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProviderV4 } from '@material-ui/core/styles';
+import { createTheme as createThemeV4 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui-v3/core/CssBaseline';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -33,7 +34,7 @@ import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 import AppLoading from './components/AppLoading';
 
-const theme = createMuiTheme({
+const themeV3 = createMuiThemeV3({
   palette: {
     // type: 'dark',
     primary: {
@@ -42,9 +43,17 @@ const theme = createMuiTheme({
   },
 });
 
-const themeV4 = createMuiThemeV4({
+const themeV4 = createThemeV4({
   palette: {
     // type: 'dark',
+    primary: {
+      main: 'rgb(22, 150, 160)',
+    },
+  },
+});
+
+const theme = createTheme({
+  palette: {
     primary: {
       main: 'rgb(22, 150, 160)',
     },
@@ -119,15 +128,17 @@ class App extends React.Component {
   render() {
     const { renderContent } = this;
     return (
-      <MuiThemeProvider theme={theme}>
-        <MuiThemeProviderV4 theme={themeV4}>
-          <CssBaseline />
-          {/* <AppLoader> */}
-            <ToastContainer />
-            {renderContent()}
-          {/* </AppLoader> */}
-        </MuiThemeProviderV4>
-      </MuiThemeProvider>
+      <ThemeProvider theme={theme}>
+        <MuiThemeProviderV3 theme={themeV3}>
+          <MuiThemeProviderV4 theme={themeV4}>
+            <CssBaseline />
+            {/* <AppLoader> */}
+              <ToastContainer />
+              {renderContent()}
+            {/* </AppLoader> */}
+          </MuiThemeProviderV4>
+        </MuiThemeProviderV3>
+      </ThemeProvider>
     );
   }
 }
