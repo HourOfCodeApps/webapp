@@ -53,6 +53,13 @@ const themeV4 = createThemeV4({
 });
 
 const theme = createTheme({
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: 'outlined',
+      },
+    },
+  },
   palette: {
     primary: {
       main: 'rgb(22, 150, 160)',

@@ -1,12 +1,10 @@
 // Vendor
-import React from 'react';
 import PropTypes from 'prop-types';
-import { DateTime } from 'luxon';
 
 // Application
 import TimePicker from 'shared/components/TimePicker';
 import getInputHelperText from 'shared/utils/helpers/getInputHelperText';
-
+import dayjs from 'dayjs';
 
 const TimePickerField = ({
   compact,
@@ -17,41 +15,22 @@ const TimePickerField = ({
   meta: { touched, error },
   placeholder,
   minutesStep,
+  minTime,
+  maxTime,
 }) => (
-  // <FormControl
-  //   fullWidth
-  //   margin="normal"
-  // >
   <TimePicker
     disabled={disabled}
     label={label}
-    // value={input.value}
-    value={input.value ? DateTime.fromFormat(input.value, 'HH:mm') : null}
-    // onChange={input.onChange}
-    // onChange={console.log}
-    onChange={date => input.onChange(date.toFormat('HH:mm'))}
-    margin="normal"
+    minTime={minTime && dayjs(minTime, 'HH:mm')}
+    maxTime={maxTime && dayjs(maxTime, 'HH:mm')}
+    value={input.value ? dayjs(input.value, 'HH:mm') : null}
+    onChange={value => input.onChange(value ? value.format('HH:mm') : null)}
     fullWidth={!compact}
     error={touched && error}
     helperText={getInputHelperText(touched && error, required)}
     placeholder={placeholder}
     minutesStep={minutesStep}
   />
-  // <MuiTextField
-  //   // required={required}
-  //   fullWidth={!compact}
-  //   error={touched && error}
-  //   disabled={disabled}
-  //   label={label}
-  //   value={input.value}
-  //   onChange={input.onChange}
-  //   name={input.name}
-  //   margin="normal"
-  //   helperText={(touched && error) ? error : (!required ? 'Optional' : '')}
-  //   variant="outlined"
-  //   type={type}
-  //   placeholder={placeholder}
-  // />
 );
 
 TimePickerField.propTypes = {
@@ -66,6 +45,8 @@ TimePickerField.propTypes = {
   compact: PropTypes.bool,
   placeholder: PropTypes.string,
   minutesStep: PropTypes.number,
+  minTime: PropTypes.string,
+  maxTime: PropTypes.string,
 };
 
 TimePickerField.defaultProps = {

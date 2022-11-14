@@ -1,29 +1,49 @@
-import LuxonUtils from '@date-io/luxon';
-import { DateTime } from 'luxon';
+import { Dayjs } from 'dayjs';
 
-import {
-  TimePicker as MuiTimePicker,
-  TimePickerProps,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 
-type Props = TimePickerProps & {
-  value?: DateTime;
-  clearable?: boolean;
+type Props = {
+  label: string;
+  placeholder?: string;
+  disabled?: boolean;
+  minTime?: Dayjs;
+  maxTime?: Dayjs;
+  onChange: (newValue: Dayjs | null) => void;
+  value: Dayjs;
   minutesStep?: number;
+  fullWidth?: boolean;
+  error?: boolean;
+  helperText?: string;
 };
 
-const TimePicker = ({ value, ...props }: Props) => (
-  <MuiPickersUtilsProvider utils={LuxonUtils}>
-    <MuiTimePicker
+const TimePicker = ({ onChange, error, helperText, ...props }: Props) => (
+  <LocalizationProvider
+    dateAdapter={AdapterDayjs}
+    localeText={{
+      cancelButtonLabel: 'Скасувати',
+      okButtonLabel: 'Підтвердити',
+    }}
+  >
+    <MobileTimePicker
       ampm={false}
-      inputVariant="outlined"
-      value={value || null}
-      cancelLabel="Відміна"
-      okLabel="Підтвердити"
+      renderInput={(params) => {
+        console.log(params);
+        return (
+          <TextField
+            margin="normal"
+            {...params}
+            error={error}
+            helperText={helperText}
+          />
+        );
+      }}
+      onChange={(newValue) => onChange(newValue ? newValue : null)}
       {...props}
     />
-  </MuiPickersUtilsProvider>
+  </LocalizationProvider>
 );
 
 export default TimePicker;
