@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -31,6 +31,7 @@ import Private from './containers/Private';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 import AppLoading from './components/AppLoading';
+import { ConfigContext, useFetchConfig } from 'modules/Config';
 
 const themeV3 = createMuiThemeV3({
   palette: {
@@ -56,43 +57,47 @@ const theme = createTheme({
   },
 });
 
-class App extends React.Component {
-  static propTypes = {
-    auth: PropTypes.instanceOf(Object),
-    authStateLoaded: PropTypes.bool.isRequired,
-    onAuthStateInit: PropTypes.func.isRequired,
-    user: PropTypes.instanceOf(Object),
-    userLoading: PropTypes.bool.isRequired,
-    signingUp: PropTypes.bool.isRequired,
-  }
+type Props = {
+  auth?: {
+    emailVerified: boolean;
+    email: string;
+  };
+  authStateLoaded: boolean;
+  onAuthStateInit: VoidFunction;
+  user?: {
+    teacher?: {
+      isApproved: boolean;
+    };
+  };
+  userLoading: boolean;
+  signingUp: boolean;
+};
 
-  static defaultProps = {
-    auth: null,
-    user: null,
-  }
+const App = ({
+  auth,
+  user,
+  userLoading,
+  authStateLoaded,
+  signingUp,
+  onAuthStateInit,
+}: Props) => {
+  const {
+    config,
+    isFetched: isConfigFetched,
+    error: configFetchingError,
+  } = useFetchConfig();
 
-  componentDidMount() {
-    const { onAuthStateInit } = this.props;
+  useEffect(() => {
     onAuthStateInit();
-  }
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.auth && !this.props.auth) {
-      window.location.href = '/';
-    }
-  }
+  // useEffect(() => {
+  //   if (!auth) {
+  //     window.location.href = '/'; // TODO: rewrite to router
+  //   }
+  // }, [Boolean(auth)]);
 
-  renderContent = () => {
-    const {
-      props: {
-        auth,
-        user,
-        userLoading,
-        authStateLoaded,
-        signingUp,
-      },
-    } = this;
-
+  const renderContent = () => {
     if (!authStateLoaded || userLoading || signingUp) {
       return <AppLoading />;
     }
@@ -121,22 +126,23 @@ class App extends React.Component {
     return <AppLoading />;
   };
 
-  render() {
-    const { renderContent } = this;
-    return (
-      <ThemeProvider theme={theme}>
-        <MuiThemeProviderV3 theme={themeV3}>
-          <CssBaseline />
-          {/* <AppLoader> */}
-            <ToastContainer />
-            {renderContent()}
-          {/* </AppLoader> */}
-        </MuiThemeProviderV3>
-      </ThemeProvider>
-    );
-  }
-}
+  return (
+    <ThemeProvider theme={theme}>
+      <MuiThemeProviderV3 theme={themeV3}>
+        <CssBaseline />
+        <ToastContainer />
 
+        {!isConfigFetched ? (
+          <AppLoading />
+        ) : (
+          <ConfigContext.Provider value={config!}>
+            {renderContent()}
+          </ConfigContext.Provider>
+        )}
+      </MuiThemeProviderV3>
+    </ThemeProvider>
+  );
+};
 
 const mapStateToProps = createSelector(
   selectAuth(),
@@ -144,13 +150,7 @@ const mapStateToProps = createSelector(
   selectUserLoading(),
   selectStateInitLoaded(),
   selectSigningUp(),
-  (
-    auth,
-    user,
-    userLoading,
-    authStateLoaded,
-    signingUp,
-  ) => ({
+  (auth, user, userLoading, authStateLoaded, signingUp) => ({
     auth,
     user,
     userLoading,

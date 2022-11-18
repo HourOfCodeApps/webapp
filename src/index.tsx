@@ -1,10 +1,9 @@
-console.log(new XMLHttpRequest());
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { DateTime, Settings } from 'luxon';
 
@@ -20,9 +19,13 @@ firebase.initializeApp(config.firebase);
 
 firebase.auth();
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </QueryClientProvider>,
   document.getElementById('app'),
 );
