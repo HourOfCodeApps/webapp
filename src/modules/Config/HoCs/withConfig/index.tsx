@@ -2,7 +2,7 @@ import useConfig from 'modules/Config/useConfig';
 import { ComponentType } from 'react';
 
 /**
- * @deprecated
+ * @deprecated use `useConfig` hook instead
  */
 const withConfig = (WrappedComponent: ComponentType) => (props: any) => {
   const config = useConfig();

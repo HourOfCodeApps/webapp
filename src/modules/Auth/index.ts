@@ -17,8 +17,12 @@ import {
   selectSigningUpError,
 } from './selectors';
 
-import withAuth from './HoCs/withAuth';
 import withUser from './HoCs/withUser';
+
+export type { User } from './types';
+export { AuthContext } from './types';
+export { default as useAuth } from './useAuth';
+export { default as useInitAuth} from './useInitAuth';
 
 export default SignIn;
 export {
@@ -37,7 +41,6 @@ export {
   selectSigningUpError,
   SignIn,
   SignUp,
-  withAuth,
   withUser,
   loadUserSuccess,
 };
