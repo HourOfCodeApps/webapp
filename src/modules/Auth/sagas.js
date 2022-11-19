@@ -9,17 +9,15 @@ import {
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 
-import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
+import loadUserInfo from './helpers/loadUserInfo';
 
 // Application
 import {
   FORGOT_PASSWORD,
-  LOAD_USER,
   SIGNIN,
   SIGNOUT,
   SIGNUP,
   STATE_INIT,
-  STATE_INIT_SUCCESS,
   SIGNIN_EMAILPASSWORD_PROVIDER,
   SIGNIN_GOOGLE_PROVIDER,
   UPDATE_USER,
@@ -28,9 +26,6 @@ import {
 import {
   forgotPasswordFailure,
   forgotPasswordSuccess,
-  loadUser as loadUserAction,
-  loadUserFailure,
-  loadUserSuccess,
   signInFailure,
   signInSuccess,
   signOutFailure,
@@ -122,7 +117,7 @@ function* signUp({ payload: { userData } }) {
     yield firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
 
     yield put(signUpSuccess(user));
-    yield put(loadUserSuccess(user));
+    // yield put(loadUserSuccess(user));
   } catch (error) {
     yield put(signUpFailure(error));
   }
@@ -153,32 +148,16 @@ function createAuthStateChannel() {
 
 function* stateInit() {
   const authStateChannel = yield call(createAuthStateChannel);
-  yield put({ type: STATE_INIT_SUCCESS });
 
   while (true) {
     const authState = yield take(authStateChannel);
-    yield put(stateChanged(authState || null));
-    yield put(loadUserAction());
+
+    const user = authState ? yield loadUserInfo() : null;
+
+    yield put(stateChanged(authState || null, user));
   }
 }
 
-function* loadUser() {
-  try {
-    const auth = yield select(selectAuth());
-
-    if (!auth || !auth.uid) {
-      yield put(loadUserSuccess(null));
-      return;
-    }
-
-    const { uid } = auth;
-    const user = yield loadUserInfo(uid);
-
-    yield put(loadUserSuccess(user));
-  } catch (error) {
-    yield put(loadUserFailure(error));
-  }
-}
 
 function* updateUser({ payload }) {
   try {
@@ -235,7 +214,7 @@ function* rootSaga() {
   yield takeLatest(SIGNIN, signIn);
   yield takeLatest(SIGNOUT, signOut);
   yield takeLatest(STATE_INIT, stateInit);
-  yield takeLatest(LOAD_USER, loadUser);
+  // yield takeLatest(LOAD_USER, loadUser);
   yield takeLatest(SIGNUP, signUp);
   yield takeEvery(UPDATE_USER, updateUser);
   yield takeLatest(FORGOT_PASSWORD, forgotPassword);

@@ -2,8 +2,6 @@ import {
   FORGOT_PASSWORD,
   FORGOT_PASSWORD_FAILURE,
   FORGOT_PASSWORD_SUCCESS,
-  LOAD_USER,
-  LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
   SIGNIN,
   SIGNIN_FAILURE,
@@ -16,6 +14,7 @@ import {
   SIGNUP_SUCCESS,
   STATE_CHANGED,
   STATE_INIT,
+  STATE_INIT_SUCCESS,
   UPDATE_USER,
   UPDATE_USER_FAILURE,
   UPDATE_USER_SUCCESS,
@@ -23,6 +22,8 @@ import {
 
 
 const authStateInit = () => ({ type: STATE_INIT });
+
+const authStateInitSuccess = () => ({ type: STATE_INIT_SUCCESS });
 
 /**
  * Forgot password action
@@ -53,21 +54,9 @@ const forgotPasswordSuccess = () => ({
 });
 
 
-const stateChanged = auth => ({
+const stateChanged = (auth, user) => ({
   type: STATE_CHANGED,
-  payload: { auth },
-});
-
-const loadUser = () => ({ type: LOAD_USER });
-
-/**
- * Dispatch when loading user caused error
- * @param {Object} error
- * @returns {{ type: String, payload: { error } }}
- */
-const loadUserFailure = error => ({
-  type: LOAD_USER_FAILURE,
-  payload: { error },
+  payload: { auth, user: user || null },
 });
 
 /**
@@ -167,12 +156,11 @@ const updateUserSuccess = user => ({
 
 export {
   authStateInit,
+  authStateInitSuccess,
   forgotPassword,
   forgotPasswordFailure,
   forgotPasswordSuccess,
-  loadUser,
   loadUserSuccess,
-  loadUserFailure,
   signIn,
   signInFailure,
   signInSuccess,

@@ -1,14 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 
-import { signOut, withUser } from 'modules/Auth';
-
-// import Drawer from '../../components/Drawer';
+import { useAuth } from 'modules/Auth';
 import Header from '../../components/Header';
 
 const styles = theme => ({
@@ -31,38 +24,30 @@ const styles = theme => ({
 const AppWrapper = ({
   children,
   classes,
-  onSignOut,
-  user,
-}) => (
-  <React.Fragment>
-    <div className={classes.root}>
-      <Header
-        onSignOut={onSignOut}
-        user={user}
-      />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        {children}
-      </main>
-    </div>
-  </React.Fragment>
-);
+}) => {
+  const { user, signOut } = useAuth();
+
+  return (
+    <>
+      <div className={classes.root}>
+        <Header
+          onSignOut={signOut}
+          user={user}
+        />
+        <main className={classes.content}>
+          <div className={classes.appBarSpacer} />
+          {children}
+        </main>
+      </div>
+    </>
+  );
+}
 
 AppWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
   classes: PropTypes.shape(PropTypes.object).isRequired,
-  onSignOut: PropTypes.func.isRequired,
-  user: PropTypes.shape(PropTypes.object).isRequired,
 };
 
-const mapDispatchToProps = {
-  onSignOut: signOut,
-};
 
-export default compose(
-  withRouter,
-  connect(null, mapDispatchToProps),
-  withStyles(styles),
-  withUser,
-)(AppWrapper);
+export default withStyles(styles)(AppWrapper);
 export { AppWrapper as AppWrapperComponent };

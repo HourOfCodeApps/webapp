@@ -134,6 +134,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         stateInitLoaded: true,
         auth: action.payload.auth,
+        user: action.payload.user,
       };
 
     default:
