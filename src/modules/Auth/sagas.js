@@ -9,7 +9,8 @@ import {
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 
-import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
+// import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
+import loadUserInfo from './helpers/loadUserInfo';
 
 // Application
 import {
