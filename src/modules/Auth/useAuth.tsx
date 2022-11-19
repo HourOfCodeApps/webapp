@@ -6,13 +6,13 @@ import { signOut as signOutAction } from './actions';
 
 const useAuth = (): AuthContextType => {
   const user = useSelector(selectUser()) as User;
-  const authInitialized = Boolean(useSelector(selectStateInitLoaded()));
+  const isInitialized = Boolean(useSelector(selectStateInitLoaded()));
   const dispatch = useDispatch();
 
   const signOut = () => dispatch(signOutAction());
 
   return {
-    authInitialized,
+    isInitialized,
     user,
     signOut,
   };

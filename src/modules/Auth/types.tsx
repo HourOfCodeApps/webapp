@@ -33,12 +33,12 @@ export type User = ProfileData & {
 
 export type AuthContextType = {
   user: User | null;
-  authInitialized: boolean;
+  isInitialized: boolean;
   signOut: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  authInitialized: false,
+  isInitialized: false,
   signOut() {},
 });

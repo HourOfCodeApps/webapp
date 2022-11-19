@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import createMuiThemeV3 from '@material-ui/core/styles/createMuiTheme';
