@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import withTheme from '@material-ui-v3/core/styles/withTheme';
+import withTheme from '@material-ui/core/styles/withTheme';
 
 import LogoImage from 'assets/img/hoc-logo.png';
 import HomeBg from 'assets/img/home-bg.jpg';

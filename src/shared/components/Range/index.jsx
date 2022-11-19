@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withTheme from '@material-ui-v3/core/styles/withTheme';
+import withTheme from '@material-ui/core/styles/withTheme';
 import { Range as VendorRange } from 'rc-slider';
 
 import 'rc-slider/assets/index.css';

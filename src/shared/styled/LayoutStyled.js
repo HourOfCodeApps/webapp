@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Grid from '@material-ui-v3/core/Grid';
+import Grid from '@material-ui/core/Grid';
 import { colors } from './styles';
 
 export const Container = styled(Grid)` // inherits m-ui props

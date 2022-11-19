@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TableCell from '@material-ui-v3/core/TableCell';
-import TableRow from '@material-ui-v3/core/TableRow';
-import RefreshIcon from '@material-ui-v3/icons/Refresh';
-import DownloadIcon from '@material-ui-v3/icons/GetApp';
-import IconButton from '@material-ui-v3/core/IconButton';
-import CircularProgress from '@material-ui-v3/core/CircularProgress';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import DownloadIcon from '@mui/icons-material/GetApp';
+import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ReportRow = ({ onGenerateReport, report }) => (
   <TableRow>

@@ -1,15 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import createMuiTheme from '@material-ui-v3/core/styles/createMuiTheme';
-import MuiThemeProvider from '@material-ui-v3/core/styles/MuiThemeProvider';
+import createMuiThemeV3 from '@material-ui/core/styles/createMuiTheme';
+import MuiThemeProviderV3 from '@material-ui/core/styles/MuiThemeProvider';
 
-import {
-  createMuiTheme as createMuiThemeV4,
-  ThemeProvider as MuiThemeProviderV4,
-} from '@material-ui/core/styles';
-import CssBaseline from '@material-ui-v3/core/CssBaseline';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -32,8 +30,9 @@ import Private from './containers/Private';
 import ConfirmEmailFirst from './components/ConfirmEmailFirst';
 import WaitingForApproval from './components/WaitingForApproval';
 import AppLoading from './components/AppLoading';
+import { ConfigContext, useFetchConfig } from 'modules/Config';
 
-const theme = createMuiTheme({
+const themeV3 = createMuiThemeV3({
   palette: {
     // type: 'dark',
     primary: {
@@ -42,52 +41,62 @@ const theme = createMuiTheme({
   },
 });
 
-const themeV4 = createMuiThemeV4({
-  palette: {
-    // type: 'dark',
-    primary: {
-      main: 'rgb(22, 150, 160)',
-    },
-  },
-});
-
-class App extends React.Component {
-  static propTypes = {
-    auth: PropTypes.instanceOf(Object),
-    authStateLoaded: PropTypes.bool.isRequired,
-    onAuthStateInit: PropTypes.func.isRequired,
-    user: PropTypes.instanceOf(Object),
-    userLoading: PropTypes.bool.isRequired,
-    signingUp: PropTypes.bool.isRequired,
-  }
-
-  static defaultProps = {
-    auth: null,
-    user: null,
-  }
-
-  componentDidMount() {
-    const { onAuthStateInit } = this.props;
-    onAuthStateInit();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.auth && !this.props.auth) {
-      window.location.href = '/';
-    }
-  }
-
-  renderContent = () => {
-    const {
-      props: {
-        auth,
-        user,
-        userLoading,
-        authStateLoaded,
-        signingUp,
+const theme = createTheme({
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: 'outlined',
       },
-    } = this;
+    },
+  },
+  palette: {
+    primary: {
+      main: 'rgb(22, 150, 160)',
+    },
+  },
+});
 
+type Props = {
+  auth?: {
+    emailVerified: boolean;
+    email: string;
+  };
+  authStateLoaded: boolean;
+  onAuthStateInit: VoidFunction;
+  user?: {
+    teacher?: {
+      isApproved: boolean;
+    };
+  };
+  userLoading: boolean;
+  signingUp: boolean;
+};
+
+const App = ({
+  auth,
+  user,
+  userLoading,
+  authStateLoaded,
+  signingUp,
+  onAuthStateInit,
+}: Props) => {
+  const {
+    config,
+    isFetched: isConfigFetched,
+    error: configFetchingError,
+  } = useFetchConfig();
+
+  useEffect(() => {
+    onAuthStateInit();
+  }, []);
+
+  // useEffect(() => {
+  //   if (!auth) {
+  //     window.location.href = '/'; // TODO: rewrite to router
+  //   }
+  // }, [Boolean(auth)]);
+
+  const renderContent = () => {
     if (!authStateLoaded || userLoading || signingUp) {
       return <AppLoading />;
     }
@@ -116,22 +125,23 @@ class App extends React.Component {
     return <AppLoading />;
   };
 
-  render() {
-    const { renderContent } = this;
-    return (
-      <MuiThemeProvider theme={theme}>
-        <MuiThemeProviderV4 theme={themeV4}>
-          <CssBaseline />
-          {/* <AppLoader> */}
-            <ToastContainer />
-            {renderContent()}
-          {/* </AppLoader> */}
-        </MuiThemeProviderV4>
-      </MuiThemeProvider>
-    );
-  }
-}
+  return (
+    <ThemeProvider theme={theme}>
+      <MuiThemeProviderV3 theme={themeV3}>
+        <CssBaseline />
+        <ToastContainer />
 
+        {!isConfigFetched ? (
+          <AppLoading />
+        ) : (
+          <ConfigContext.Provider value={config!}>
+            {renderContent()}
+          </ConfigContext.Provider>
+        )}
+      </MuiThemeProviderV3>
+    </ThemeProvider>
+  );
+};
 
 const mapStateToProps = createSelector(
   selectAuth(),
@@ -139,13 +149,7 @@ const mapStateToProps = createSelector(
   selectUserLoading(),
   selectStateInitLoaded(),
   selectSigningUp(),
-  (
-    auth,
-    user,
-    userLoading,
-    authStateLoaded,
-    signingUp,
-  ) => ({
+  (auth, user, userLoading, authStateLoaded, signingUp) => ({
     auth,
     user,
     userLoading,

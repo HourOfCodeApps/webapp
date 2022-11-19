@@ -6,13 +6,13 @@ import pick from 'lodash/pick';
 import pickBy from 'lodash/pickBy';
 import isEqual from 'lodash/isEqual';
 
-import Paper from '@material-ui-v3/core/Paper';
-import Grid from '@material-ui-v3/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 
-import IconButton from '@material-ui-v3/core/IconButton';
-import DeleteIcon from '@material-ui-v3/icons/Delete';
-import ViewIcon from '@material-ui-v3/icons/Visibility';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ViewIcon from '@mui/icons-material/Visibility';
 import { toast } from 'react-toastify';
 
 import Map, { Marker } from 'shared/components/Map';

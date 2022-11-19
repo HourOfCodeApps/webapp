@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CircularProgress from '@material-ui-v3/core/CircularProgress';
-import { withStyles } from '@material-ui-v3/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   root: {

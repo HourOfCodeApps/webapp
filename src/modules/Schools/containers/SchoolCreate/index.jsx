@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import pick from 'lodash/pick';
 
-import Paper from '@material-ui-v3/core/Paper';
-import Grid from '@material-ui-v3/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { toast } from 'react-toastify';
 
 
