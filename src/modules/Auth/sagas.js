@@ -9,30 +9,23 @@ import {
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 
-// import loadUserInfo from 'shared/utils/helpers/loadUserInfo';
 import loadUserInfo from './helpers/loadUserInfo';
 
 // Application
 import {
   FORGOT_PASSWORD,
-  // LOAD_USER,
   SIGNIN,
   SIGNOUT,
   SIGNUP,
   STATE_INIT,
-  // STATE_INIT_SUCCESS,
   SIGNIN_EMAILPASSWORD_PROVIDER,
   SIGNIN_GOOGLE_PROVIDER,
   UPDATE_USER,
 } from './constants';
 
 import {
-  // authStateInitSuccess,
   forgotPasswordFailure,
   forgotPasswordSuccess,
-  // loadUser as loadUserAction,
-  // loadUserFailure,
-  // loadUserSuccess,
   signInFailure,
   signInSuccess,
   signOutFailure,
@@ -155,7 +148,6 @@ function createAuthStateChannel() {
 
 function* stateInit() {
   const authStateChannel = yield call(createAuthStateChannel);
-  // yield put(authStateInitSuccess());
 
   while (true) {
     const authState = yield take(authStateChannel);
@@ -163,27 +155,9 @@ function* stateInit() {
     const user = authState ? yield loadUserInfo() : null;
 
     yield put(stateChanged(authState || null, user));
-    // yield put(loadUserAction());
   }
 }
 
-// function* loadUser() {
-//   try {
-//     const auth = yield select(selectAuth());
-
-//     if (!auth || !auth.uid) {
-//       yield put(loadUserSuccess(null));
-//       return;
-//     }
-
-//     const { uid } = auth;
-//     const user = yield loadUserInfo(uid);
-
-//     yield put(loadUserSuccess(user));
-//   } catch (error) {
-//     yield put(loadUserFailure(error));
-//   }
-// }
 
 function* updateUser({ payload }) {
   try {

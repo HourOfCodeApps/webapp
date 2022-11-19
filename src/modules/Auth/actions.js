@@ -2,8 +2,6 @@ import {
   FORGOT_PASSWORD,
   FORGOT_PASSWORD_FAILURE,
   FORGOT_PASSWORD_SUCCESS,
-  // LOAD_USER,
-  // LOAD_USER_FAILURE,
   LOAD_USER_SUCCESS,
   SIGNIN,
   SIGNIN_FAILURE,
@@ -60,18 +58,6 @@ const stateChanged = (auth, user) => ({
   type: STATE_CHANGED,
   payload: { auth, user: user || null },
 });
-
-// const loadUser = () => ({ type: LOAD_USER });
-
-// /**
-//  * Dispatch when loading user caused error
-//  * @param {Object} error
-//  * @returns {{ type: String, payload: { error } }}
-//  */
-// const loadUserFailure = error => ({
-//   type: LOAD_USER_FAILURE,
-//   payload: { error },
-// });
 
 /**
  * Dispatch when user data loaded successfully
@@ -174,9 +160,7 @@ export {
   forgotPassword,
   forgotPasswordFailure,
   forgotPasswordSuccess,
-  // loadUser,
   loadUserSuccess,
-  // loadUserFailure,
   signIn,
   signInFailure,
   signInSuccess,
