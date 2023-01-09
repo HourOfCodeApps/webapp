@@ -16,7 +16,7 @@
     "exceljs": "^3.4.0",
     "firebase-admin": "^11.2.1",
     "firebase-functions": "^4.0.2",
-    "luxon": "^1.4.4",
+    "luxon": "^2.5.2",
     "mailgun-js": "^0.22.0",
     "pug": "^2.0.3",
     "request": "^2.88.0",
